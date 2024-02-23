@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
-import { buttonTheme } from './components/button';
+import { buttonTheme } from '../theme/components/button';
+import { iconTheme } from '../theme/iconButton';
 
 interface ThContext {
   isDarkMode: boolean;
@@ -28,9 +29,12 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   };
 
   const theme = extendTheme({
-    colors: isDarkMode ? darkMode : lightMode,
+    colors: isDarkMode
+? darkMode
+: lightMode,
     components: {
       Button: buttonTheme,
+      IconButton: iconTheme,
     },
   });
 

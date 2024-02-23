@@ -1,5 +1,6 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
+import LogOut from '../Navbar_Items/LogOut';
 import NavbarIconList from '../Navbar_Items/NavbarIconList';
 import ThemeSwitcher from '../Navbar_Items/ThemeSwitcher';
 
@@ -15,9 +16,10 @@ const Navbar = () => {
       pr='20px'
     >
       <NavbarIconList />
-      <Box position={'absolute'} right={5} top={3}>
+      <Flex gap={'20px'} position={'absolute'} right={5} top={3}>
         <ThemeSwitcher />
-      </Box>
+        <LogOut />
+      </Flex>
     </Flex>
   );
 };

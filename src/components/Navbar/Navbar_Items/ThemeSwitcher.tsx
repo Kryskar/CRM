@@ -12,7 +12,9 @@ const ThemeSwitcher = () => {
   return (
     <Box>
       <Switch boxSize={10} colorScheme='gray' size='md' onChange={handleChange} />
-      <Icon boxSize={8} as={isDarkMode ? MdDarkMode : MdLightMode} />
+      <Icon boxSize={8} as={isDarkMode
+? MdDarkMode
+: MdLightMode} />
     </Box>
   );
 };

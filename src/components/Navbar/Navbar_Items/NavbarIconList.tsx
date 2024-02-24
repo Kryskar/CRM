@@ -2,14 +2,15 @@ import { CiBadgeDollar, CiCalendarDate, CiCircleCheck, CiHome } from 'react-icon
 import { PiChartLineUpThin, PiFolderSimpleUserThin } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Icon } from '@chakra-ui/react';
+import { ROUTES } from '../../../constrants/routes';
 
 export const NAV_LIST = [
   { name: 'home', icon: CiHome, path: '/' },
-  { name: 'clients', icon: PiFolderSimpleUserThin, path: '/clients' },
-  { name: 'calendar', icon: CiCalendarDate, path: '/calendar' },
-  { name: 'chances', icon: CiCircleCheck, path: '/chances' },
-  { name: 'finalized', icon: CiBadgeDollar, path: '/finalized' },
-  { name: 'analitics', icon: PiChartLineUpThin, path: '/analitics' },
+  { name: 'clients', icon: PiFolderSimpleUserThin, path: ROUTES.clients },
+  { name: 'calendar', icon: CiCalendarDate, path: ROUTES.calendar },
+  { name: 'chances', icon: CiCircleCheck, path: ROUTES.chances },
+  { name: 'finalized', icon: CiBadgeDollar, path: ROUTES.finalized },
+  { name: 'analitics', icon: PiChartLineUpThin, path: ROUTES.analitics },
 ];
 
 const NavbarIconList = () => {

@@ -3,6 +3,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
 import { buttonTheme } from '../theme/components/button';
 import { iconTheme } from '../theme/iconButton';
+import { DARK_MODE, LIGHT_MODE } from '../constrants/theme';
 
 interface ThContext {
   isDarkMode: boolean;
@@ -14,24 +15,8 @@ const ThemeContext = createContext<ThContext | null>(null);
 const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const darkMode = {
-    primaryColor: '#222831',
-    secondaryColor: '#393E46',
-    tertiaryColor: '#00ADB5',
-    fontColor: '#EEEEEE',
-  };
-
-  const lightMode = {
-    primaryColor: '#fafafa',
-    secondaryColor: '#e4e5f1',
-    tertiaryColor: '#d2d3db',
-    fontColor: '#484b6a',
-  };
-
   const theme = extendTheme({
-    colors: isDarkMode
-? darkMode
-: lightMode,
+    colors: isDarkMode ? DARK_MODE : LIGHT_MODE,
     components: {
       Button: buttonTheme,
       IconButton: iconTheme,

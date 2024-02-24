@@ -1,19 +1,20 @@
-import { Box, Flex } from '@chakra-ui/react';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
-
-import { supabase } from '../../database/supabase';
+import { FcGoogle } from 'react-icons/fc';
+import { Button, Flex } from '@chakra-ui/react';
+import { googleSignIn } from '../../hooks/googleSignIn';
 
 const LogIn = () => {
   return (
-    <Flex w="100vw" h="100vh" justifyContent={"center"} alignItems={"center"}>
-    <Box w={'50%'}>
+    <Flex alignItems={'center'} h='100vh' justifyContent={'center'} w='100vw'>
+      {/* <Box w={'50%'}>
       <Auth
         appearance={{ theme: ThemeSupa }}
         providers={['google']}
         supabaseClient={supabase}
       />
-    </Box>
+    </Box> */}
+      <Button onClick={googleSignIn}>
+        <FcGoogle /> Sign In
+      </Button>
     </Flex>
   );
 };

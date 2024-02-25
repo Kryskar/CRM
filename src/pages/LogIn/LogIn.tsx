@@ -1,5 +1,6 @@
 import { FcGoogle } from 'react-icons/fc';
 import { Button, Flex } from '@chakra-ui/react';
+
 import { googleSignIn } from '../../hooks/googleSignIn';
 
 const LogIn = () => {

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import  { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {

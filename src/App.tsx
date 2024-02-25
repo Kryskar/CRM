@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react';
-import { useGetSession } from './hooks/useGetSession';
+
 import { ROUTES } from './constrants/routes';
+import { useGetSession } from './hooks/useGetSession';
 const Home = React.lazy(() => import('./pages/Home/Home'));
 const Clients = React.lazy(() => import('./pages/Clients/Clients'));
 const Calendar = React.lazy(() => import('./pages/Calendar/Calendar'));

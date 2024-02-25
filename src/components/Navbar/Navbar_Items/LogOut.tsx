@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react';
+
 import { supabase } from '../../../database/supabase';
 
 const LogOut = () => {

@@ -22,7 +22,7 @@ const getEvents = async (session: Session | null) => {
 
 export const useGetGoogleCalendarEvents = (session: Session | null) => {
   const { data, error, isLoading } = useQuery<GoogleCalendarEventsList>({
-    queryKey: ['calendar'],
+    queryKey: ['GET_EVENTS'],
     queryFn: () => getEvents(session),
     enabled: !!session,
   });

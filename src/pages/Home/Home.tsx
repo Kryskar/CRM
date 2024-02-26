@@ -10,7 +10,7 @@ const Home = () => {
   const { pathname } = useLocation();
   
   return (
-    <Flex direction={'column'} gap={'10px'} h={'100vh'}>
+    <Flex direction={'column'} gap={'20px'} h={'100vh'}>
       <Box h='60px'>
         <Navbar />
       </Box>

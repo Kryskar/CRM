@@ -1,0 +1,91 @@
+:root {
+  --primary-color: #fafafa;
+  --secondary-color: #e4e5f1;
+  --tertiary-color: #d2d3db;
+  --quaternary-color: #f6f6fa;
+  --font-color: #484b6a;
+}
+
+[data-theme='dark'] {
+  --primary-color: #222831;
+  --secondary-color: #393e46;
+  --tertiary-color: #4c5b74;
+  --quaternary-color: #5b6169;
+  --font-color: #eeeeee;
+}
+
+.rbc-header {
+  background-color: var(--secondary-color);
+  color: var(--font-color);
+}
+
+.rbc-btn-group button {
+  background-color: var(--tertiary-color);
+  color: var(--font-color);
+}
+
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button.rbc-active:focus {
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.325);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.325);
+  background-color: var(--tertiary-color);
+  border-color: #adadad;
+}
+.rbc-toolbar button:active:hover,
+.rbc-toolbar button:active:focus,
+.rbc-toolbar button.rbc-active:hover {
+  color: var(--font-color);
+  background-color: var(--secondary-color);
+  border-color: var(--tertiary-color);
+}
+.rbc-toolbar button:focus {
+  color: var(--font-color);
+  background-color: var(--tertiary-color);
+  border-color: #adadad;
+}
+.rbc-toolbar button:hover {
+  color: var(--font-color);
+  background-color: var(--secondary-color);
+  border-color: #adadad;
+}
+
+.rbc-button-link {
+  color: var(--font-color);
+}
+
+.rbc-day-bg {
+  background-color: var(--quaternary-color);
+}
+
+.rbc-off-range-bg {
+  background-color: var(--tertiary-color);
+}
+
+.rbc-event {
+  background-color: #4289f0;
+  color: white;
+}
+
+.rbc-time-slot {
+  background-color: var(--quaternary-color);
+  border-color: var(--font-color);
+}
+
+.rbc-label {
+  color: var(--font-color);
+}
+
+.rbc-agenda-view {
+  background-color: var(--quaternary-color);
+  color: var(--font-color);
+}
+
+.rbc-time-header-gutter {
+  background-color: var(--secondary-color);
+}
+
+.rbc-day-slot .rbc-time-slot {
+  border-top: 1px solid var(--tertiary-color);
+}

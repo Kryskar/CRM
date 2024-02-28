@@ -1,11 +1,11 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Event } from 'react-big-calendar';
 import { useToast } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 import { useFormik } from 'formik';
 
-import { usePutEventsToGoogleCalendar } from '../../../api/mutations/usePutEventToGoogleCalendar';
 import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/useDeleteEventFromGoogleCalendar';
+import { usePutEventsToGoogleCalendar } from '../../../api/mutations/usePutEventToGoogleCalendar';
 
 export const useEditOrDeleteEvent = (
   session: Session | null,
@@ -62,8 +62,12 @@ export const useEditOrDeleteEvent = (
   useEffect(() => {
     const updateFormValues = () => {
       if (event) {
-        const start = event.start ? parseDateToLocal(event.start) : '';
-        const end = event.end ? parseDateToLocal(event.end) : '';
+        const start = event.start
+? parseDateToLocal(event.start)
+: '';
+        const end = event.end
+? parseDateToLocal(event.end)
+: '';
         const updatedFormValues = {
           title: event.title || '',
           start,

@@ -37,8 +37,8 @@ const ModalEditDelete = ({
       handleSubmit,
       values: { end, start, title },
     },
-    handleEditClick,
     handleDeleteClick,
+    handleEditClick,
   } = useEditOrDeleteEvent(session, event, setMode, onClose);
 
   const handleClose = () => {
@@ -52,7 +52,9 @@ const ModalEditDelete = ({
         <ModalOverlay />
 
         <ModalContent>
-          <ModalHeader>{mode == 'edit' ? 'edit event' : event?.title}</ModalHeader>
+          <ModalHeader>{mode == 'edit'
+? 'edit event'
+: event?.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit}>
@@ -92,7 +94,8 @@ const ModalEditDelete = ({
           </ModalBody>
 
           <ModalFooter gap={'15px'}>
-            {!mode ? (
+            {!mode
+? (
               <>
                 <Button colorScheme='yellow' onClick={handleEditClick}>
                   Edit
@@ -101,14 +104,17 @@ const ModalEditDelete = ({
                   Delete
                 </Button>
               </>
-            ) : mode === 'delete' ? (
+            )
+: mode === 'delete'
+? (
               <>
                 <Text fontSize={'xs'}>are you sure you want to delete event ?</Text>
                 <Button colorScheme='red' onClick={handleDeleteClick}>
                   Confirm Delete
                 </Button>
               </>
-            ) : (
+            )
+: (
               <></>
             )}
           </ModalFooter>

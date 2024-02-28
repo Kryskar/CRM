@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useToast } from '@chakra-ui/react';
 
 import {
   PostEvent,
   usePostEventsToGoogleCalendar,
-} from '../../../api/mutations/usePutEventToGoogleCalendar';
+} from '../../../api/mutations/usePostEventToGoogleCalendar';
 import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendar';
 import { useGetSession } from '../../../hooks/useGetSession';
 
@@ -12,6 +13,7 @@ export const useAddNewEvent = () => {
   const { data, error, isLoading } = useGetGoogleCalendarEvents(session);
   const [newEvent, setNewEvent] = useState<PostEvent | null>(null);
   const { mutate } = usePostEventsToGoogleCalendar(session, newEvent);
+  const toast = useToast();
 
   useEffect(() => {
     if (isLoading) return;
@@ -28,9 +30,16 @@ export const useAddNewEvent = () => {
           summary: title,
         });
         mutate();
+        toast({
+          title: 'Event Posted',
+          description: `success posting event "${title}"`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
       }
     },
-    [mutate],
+    [mutate, toast],
   );
   return { data, handleSelectSlot };
 };

@@ -3,18 +3,14 @@ import { Calendar as BigCalendar, CalendarProps, Event, momentLocalizer } from '
 import { Box, useDisclosure } from '@chakra-ui/react';
 import moment from 'moment';
 
-import 'react-big-calendar/lib/sass/styles.scss?inline'
-
 import { useThemeContext } from '../../../contexts/ThemeProvider';
 import ModalEdit from '../Calendar_Items/ModalEditDelete';
-import { getEvents } from '../hooks/events';
 import { useAddNewEvent } from '../hooks/useAddNewEvent';
 
 import './CalendarStyles.css'
 
 const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
   const { data, handleSelectSlot } = useAddNewEvent();
-  const { events } = getEvents(data);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { isDarkMode } = useThemeContext();
@@ -29,7 +25,7 @@ const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
         {...props}
         popup
         selectable
-        events={events}
+        events={data?.events || []}
         localizer={localizer}
         onSelectSlot={handleSelectSlot}
         onSelectEvent={(e) => {

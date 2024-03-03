@@ -1,46 +1,45 @@
 import { Event } from 'react-big-calendar';
+import { useToast } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-interface DeleteEventResponse {
-  error?: string;
-  success: boolean;
-}
+import { QUERY_KEYS } from '../../constants/query_keys';
+import { GOOGLE_CALENDAR_API_BASE_URL } from '../../constants/urls';
+import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
 
-const deleteEvents = async (session: Session | null, event: Event | null) => {
+const deleteEvent = async (session: Session, event: Event) => {
   try {
-    const url = new URL(
-      `https://www.googleapis.com/calendar/v3/calendars/primary/events/${event?.id}`,
-    );
+    const url = `${GOOGLE_CALENDAR_API_BASE_URL}/${event.id}`;
 
-    const res = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer ' + session?.provider_token,
-      },
-    });
+    const googleCalendarClient = createGoogleCalendarClient(session);
 
-    const NO_CONTENT_STATUS = 204
-
-    if (res.status === NO_CONTENT_STATUS) {
-      console.log('Event deleted successfully'); // eslint-disable-line
-      return { success: true };
-    } else {
-      console.error('Failed to delete event. Status:', res.status); // eslint-disable-line
-      return { success: false, error: `Failed to delete event. Status: ${res.status}` };
-    }
+    const { data } = await googleCalendarClient.delete(url);
+    return data;
   } catch (error) {
     console.error('Error deleting event:', error); // eslint-disable-line
-    return { success: false, error: 'An error occurred while deleting the event' };
+    throw error;
   }
 };
 
-export const useDeleteEventFromGoogleCalendar = (session: Session | null, event: Event | null) => {
+type DeleteProps = {
+  event: Event;
+  session: Session;
+};
+
+export const useDeleteEventFromGoogleCalendar = () => {
   const queryclient = useQueryClient();
-  const { mutate } = useMutation<DeleteEventResponse>({
-    mutationFn: () => deleteEvents(session, event),
+  const toast = useToast();
+  const { mutate } = useMutation({
+    mutationFn: ({ event, session }: DeleteProps) => deleteEvent(session, event),
     onSuccess: () => {
-      queryclient.invalidateQueries({ queryKey: ['GET_EVENTS'] });
+      queryclient.invalidateQueries({ queryKey: [QUERY_KEYS.getEvents] });
+      toast({
+        title: 'Event Deleted',
+        description: `success deleting event`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
     },
   });
   return { mutate };

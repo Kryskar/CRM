@@ -7,9 +7,9 @@ const dateFormat = (date: string | undefined) => {
   return moment(date).toDate();
 };
 
-export const getEvents = (data: GoogleCalendarEventsList|undefined) => {
+export const formatEvents = (data: GoogleCalendarEventsList) => {
   const events: Event[] =
-    data?.items
+    data.items
       .filter((item) => item.start)
       .map((item) => ({
         id: item.id,

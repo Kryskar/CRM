@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react';
 
-import { ROUTES } from './constrants/routes';
+import { ROUTES } from './constants/routes';
 import { useGetSession } from './hooks/useGetSession';
 const Home = React.lazy(() => import('./pages/Home/Home'));
 const Clients = React.lazy(() => import('./pages/Clients/Clients'));
@@ -14,7 +14,7 @@ const LogIn = React.lazy(() => import('./pages/LogIn/LogIn'));
 
 const App = () => {
   const { session } = useGetSession();
-
+  
   if (!session)
     return (
       <Suspense fallback={<Spinner color='red.500' size={'xl'} />}>

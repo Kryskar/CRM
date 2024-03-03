@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
-import { DARK_MODE, LIGHT_MODE } from '../constrants/theme';
+import { DARK_MODE, LIGHT_MODE } from '../constants/theme';
 import { buttonTheme } from '../theme/components/button';
 import { iconTheme } from '../theme/iconButton';
 

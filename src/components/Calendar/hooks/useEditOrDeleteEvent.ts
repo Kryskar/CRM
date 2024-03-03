@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { Event } from 'react-big-calendar';
-import { useToast } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 import { useFormik } from 'formik';
 
 import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/useDeleteEventFromGoogleCalendar';
-import { usePutEventsToGoogleCalendar } from '../../../api/mutations/usePutEventToGoogleCalendar';
+import { PostEvent, usePutEventToGoogleCalendar } from '../../../api/mutations/usePutEventToGoogleCalendar';
 
 export const useEditOrDeleteEvent = (
   session: Session | null,
@@ -13,9 +12,9 @@ export const useEditOrDeleteEvent = (
   setMode: React.Dispatch<React.SetStateAction<string>>,
   onClose: () => void,
 ) => {
-  const toast = useToast();
-  const { mutate: editEvent } = usePutEventsToGoogleCalendar(session, event);
-  const { mutate: deleteEvent } = useDeleteEventFromGoogleCalendar(session, event);
+  
+  const { mutate: editEvent } = usePutEventToGoogleCalendar();
+  const { mutate: deleteEvent } = useDeleteEventFromGoogleCalendar();
 
   const parseDateToLocal = (date: Date) => {
     const WARSAW_TIME_ZONE = 1;
@@ -41,58 +40,49 @@ export const useEditOrDeleteEvent = (
     onSubmit: (values) => {
       const start = parseDateToISO(values.start);
       const end = parseDateToISO(values.end);
-      const putBody = {
+      const editedEvent : PostEvent = {
         start: { dateTime: start },
         end: { dateTime: end },
         summary: values.title,
       };
-      editEvent(putBody);
+      if (session && event){
+      editEvent({session, event, editedEvent});
+      }
       setMode('');
       onClose();
-      toast({
-        title: 'Event Edited',
-        description: `success editing event "${formik.values.title}"`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
     },
   });
 
-  useEffect(() => {
-    const updateFormValues = () => {
-      if (event) {
-        const start = event.start
+  const updateFormValues = () => {
+    if (event) {
+      const start = event.start
 ? parseDateToLocal(event.start)
 : '';
-        const end = event.end
+      const end = event.end
 ? parseDateToLocal(event.end)
 : '';
-        const updatedFormValues = {
-          title: event.title || '',
-          start,
-          end,
-        };
-        formik.setValues(updatedFormValues);
-      }
-    };
+      const updatedFormValues = {
+        title: event.title || '',
+        start,
+        end,
+      };
+      formik.setValues(updatedFormValues);
+    }
+  };
 
+  useEffect(() => {
     updateFormValues();
   }, [event]); // eslint-disable-line
 
   const handleEditClick = () => setMode('edit');
 
   const handleDeleteClick = () => {
-    deleteEvent();
+    if(session && event){
+      deleteEvent({session,event});
+    }
     onClose();
     setMode('');
-    toast({
-      title: 'Event Deleted',
-      description: `success deleting event "${formik.values.title}"`,
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
+    
   };
   return { formik, handleEditClick, handleDeleteClick };
 };

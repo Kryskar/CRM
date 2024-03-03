@@ -52,14 +52,14 @@ const ModalEditDelete = ({
         <ModalOverlay />
 
         <ModalContent>
-          <ModalHeader>{mode == 'edit'
+          <ModalHeader>{mode === 'edit'
 ? 'edit event'
 : event?.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit}>
               <FormControl>
-                {mode == 'edit' && (
+                {mode === 'edit' && (
                   <>
                     <FormLabel>event title:</FormLabel>
                     <Input id='title' value={title} onChange={handleChange} />

@@ -1,5 +1,9 @@
+import { useToast } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '../../constants/query_keys';
+import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
 
 export interface PostEvent {
   end: { dateTime: string };
@@ -7,29 +11,39 @@ export interface PostEvent {
   summary: string;
 }
 
-const postEvents = async (session: Session | null, event: PostEvent | null) => {
-  const url = new URL('https://www.googleapis.com/calendar/v3/calendars/primary/events');
+const postEvents = async (session: Session, event: PostEvent) => {
+  try {
+    const googleCalendarClient = createGoogleCalendarClient(session);
 
-  if (session) {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + session.provider_token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(event),
-    });
-    const data = await res.json();
+    const { data } = await googleCalendarClient.post('', event);
+
     return data;
+  } catch (error) {
+    console.error('Error posting event:', error); // eslint-disable-line
+    throw error;
   }
 };
 
-export const usePostEventsToGoogleCalendar = (session: Session | null, event: PostEvent | null) => {
+type AddEventProps = {
+  event: PostEvent;
+  session: Session;
+};
+
+export const usePostEventsToGoogleCalendar = () => {
   const queryclient = useQueryClient();
-  const { mutate } = useMutation<PostEvent>({
-    mutationFn: () => postEvents(session, event),
+  const toast = useToast();
+
+  const { mutate } = useMutation({
+    mutationFn: ({ event, session }: AddEventProps) => postEvents(session, event),
     onSuccess: () => {
-      queryclient.invalidateQueries({ queryKey: ['GET_EVENTS'] });
+      queryclient.invalidateQueries({ queryKey: [QUERY_KEYS.getEvents] });
+      toast({
+        title: 'Event Posted',
+        description: `success posting event`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
     },
   });
   return { mutate };

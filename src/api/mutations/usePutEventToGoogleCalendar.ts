@@ -1,6 +1,11 @@
 import { Event } from 'react-big-calendar';
+import { useToast } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '../../constants/query_keys';
+import { GOOGLE_CALENDAR_API_BASE_URL } from '../../constants/urls';
+import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
 
 export interface PostEvent {
   end: { dateTime: string };
@@ -8,28 +13,37 @@ export interface PostEvent {
   summary: string;
 }
 
-const putEvents = async (session: Session | null, event: Event | null, editedEvent?:PostEvent) => {
-  const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/primary/events/${event?.id}`);
-  if (session) {
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        Authorization: 'Bearer ' + session.provider_token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(editedEvent),
-    });
-    const data = await res.json();
+const putEvents = async (session: Session, event: Event, editedEvent:PostEvent) => {
+  const url = `${GOOGLE_CALENDAR_API_BASE_URL}/${event?.id}`;
+  const googleCalendarClient = createGoogleCalendarClient(session)
+  try{
+    const {data} = await googleCalendarClient.put(url, editedEvent)
     return data;
+  }catch (error){
+    console.error('Error posting event:', error); // eslint-disable-line
+    throw error;
   }
+  
 };
 
-export const usePutEventsToGoogleCalendar = (session: Session | null, event: Event | null) => {
+type PutEventProps = {
+  editedEvent:PostEvent, event: Event; session: Session;
+}
+
+export const usePutEventToGoogleCalendar = () => {
   const queryclient = useQueryClient();
-  const { mutate } = useMutation<void, unknown, PostEvent>({
-    mutationFn: (editedEvent:PostEvent) => putEvents(session, event, editedEvent),
+  const toast = useToast();
+  const { mutate } = useMutation({
+    mutationFn: ({editedEvent, event, session}:PutEventProps) => putEvents(session, event, editedEvent),
     onSuccess: () => {
-      queryclient.invalidateQueries({ queryKey: ['GET_EVENTS'] });
+      queryclient.invalidateQueries({ queryKey: [QUERY_KEYS.getEvents] });
+      toast({
+        title: 'Event Edited',
+        description: `success editing event`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
     },
   });
   return { mutate };

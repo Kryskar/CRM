@@ -7,6 +7,8 @@ import ThemeProvider from './contexts/ThemeProvider.tsx';
 import ErrorBoundary from './error_handling/ErrorBoundary.tsx';
 import App from './App.tsx';
 
+import "react-big-calendar/lib/css/react-big-calendar.css"
+
 const queryClient = new QueryClient();
 
 const Root = () => {

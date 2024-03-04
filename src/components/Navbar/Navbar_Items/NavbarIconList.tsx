@@ -3,7 +3,7 @@ import { PiChartLineUpThin, PiFolderSimpleUserThin } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Icon } from '@chakra-ui/react';
 
-import { ROUTES } from '../../../constrants/routes';
+import { ROUTES } from '../../../constants/routes';
 
 export const NAV_LIST = [
   { name: 'home', icon: CiHome, path: '/' },

@@ -17,7 +17,6 @@ const deleteEvent = async (session: Session, event: Event) => {
     return data;
   } catch (error) {
     console.error('Error deleting event:', error); // eslint-disable-line
-    throw error;
   }
 };
 

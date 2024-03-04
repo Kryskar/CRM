@@ -11,7 +11,7 @@ export interface PostEvent {
   summary: string;
 }
 
-const postEvents = async (session: Session, event: PostEvent) => {
+const postEvent = async (session: Session, event: PostEvent) => {
   try {
     const googleCalendarClient = createGoogleCalendarClient(session);
 
@@ -20,7 +20,6 @@ const postEvents = async (session: Session, event: PostEvent) => {
     return data;
   } catch (error) {
     console.error('Error posting event:', error); // eslint-disable-line
-    throw error;
   }
 };
 
@@ -29,12 +28,12 @@ type AddEventProps = {
   session: Session;
 };
 
-export const usePostEventsToGoogleCalendar = () => {
+export const usePostEventToGoogleCalendar = () => {
   const queryclient = useQueryClient();
   const toast = useToast();
 
   const { mutate } = useMutation({
-    mutationFn: ({ event, session }: AddEventProps) => postEvents(session, event),
+    mutationFn: ({ event, session }: AddEventProps) => postEvent(session, event),
     onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: [QUERY_KEYS.getEvents] });
       toast({

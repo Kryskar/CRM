@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import {
   PostEvent,
-  usePostEventsToGoogleCalendar,
+  usePostEventToGoogleCalendar,
 } from '../../../api/mutations/usePostEventToGoogleCalendar';
 import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendar';
 import { useGetSession } from '../../../hooks/useGetSession';
@@ -10,7 +10,7 @@ import { useGetSession } from '../../../hooks/useGetSession';
 export const useAddNewEvent = () => {
   const { session } = useGetSession();
   const { data, error, isLoading } = useGetGoogleCalendarEvents(session);
-  const { mutate } = usePostEventsToGoogleCalendar();
+  const { mutate } = usePostEventToGoogleCalendar();
 
   useEffect(() => {
     if (isLoading) return;

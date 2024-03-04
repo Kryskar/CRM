@@ -8,7 +8,7 @@ import { createGoogleCalendarClient } from '../axios_instances/googleCalendarCli
 import { GoogleCalendarEventsList } from '../types/googleCalendarEventsTypes';
 
 const getEvents = async (session: Session | null) => {
- 
+ try {
   if (session) {
   const googleCalendarClient=createGoogleCalendarClient(session)
   const {data} = await googleCalendarClient.get("", {
@@ -18,6 +18,8 @@ const getEvents = async (session: Session | null) => {
     });
     
     return data;
+  }} catch (error){
+    console.error('Error getting events:', error); // eslint-disable-line
   }
 };
 
@@ -34,5 +36,5 @@ export const useGetGoogleCalendarEvents = (session: Session|null) => {
       isLoading
     }
   }
-  return { data, isLoading, error };
+  return { data:null, isLoading, error };
 };

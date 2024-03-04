@@ -13,7 +13,7 @@ export interface PostEvent {
   summary: string;
 }
 
-const putEvents = async (session: Session, event: Event, editedEvent:PostEvent) => {
+const putEvent = async (session: Session, event: Event, editedEvent:PostEvent) => {
   const url = `${GOOGLE_CALENDAR_API_BASE_URL}/${event?.id}`;
   const googleCalendarClient = createGoogleCalendarClient(session)
   try{
@@ -34,7 +34,7 @@ export const usePutEventToGoogleCalendar = () => {
   const queryclient = useQueryClient();
   const toast = useToast();
   const { mutate } = useMutation({
-    mutationFn: ({editedEvent, event, session}:PutEventProps) => putEvents(session, event, editedEvent),
+    mutationFn: ({editedEvent, event, session}:PutEventProps) => putEvent(session, event, editedEvent),
     onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: [QUERY_KEYS.getEvents] });
       toast({

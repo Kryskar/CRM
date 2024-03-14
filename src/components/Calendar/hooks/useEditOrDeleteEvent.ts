@@ -3,8 +3,8 @@ import { Event } from 'react-big-calendar';
 import { Session } from '@supabase/supabase-js';
 import { useFormik } from 'formik';
 
-import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/useDeleteEventFromGoogleCalendar';
-import { PostEvent, usePutEventToGoogleCalendar } from '../../../api/mutations/usePutEventToGoogleCalendar';
+import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/Calendar/useDeleteEventFromGoogleCalendar';
+import { PostEvent, usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
 
 export const useEditOrDeleteEvent = (
   session: Session | null,

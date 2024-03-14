@@ -3,13 +3,14 @@ import { useEffect } from 'react';
 import {
   PostEvent,
   usePostEventToGoogleCalendar,
-} from '../../../api/mutations/usePostEventToGoogleCalendar';
+} from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
 import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendar';
+import { QUERY_KEYS } from '../../../constants/query_keys';
 import { useGetSession } from '../../../hooks/useGetSession';
 
 export const useAddNewEvent = () => {
   const { session } = useGetSession();
-  const { data, error, isLoading } = useGetGoogleCalendarEvents(session);
+  const { data, error, isLoading } = useGetGoogleCalendarEvents(session, QUERY_KEYS.getEvents);
   const { mutate } = usePostEventToGoogleCalendar();
 
   useEffect(() => {

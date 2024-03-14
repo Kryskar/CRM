@@ -2,8 +2,8 @@ import { useToast } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { QUERY_KEYS } from '../../constants/query_keys';
-import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
+import { QUERY_KEYS } from '../../../constants/query_keys';
+import { createGoogleCalendarClient } from '../../axios_instances/googleCalendarClient';
 
 export interface PostEvent {
   end: { dateTime: string };

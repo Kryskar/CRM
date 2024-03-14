@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
 
-const Sidebar = () => {
+const Sidebar = ({w}:{w:string}) => {
   return (
-    <Flex bgColor={'secondaryColor'} color={'fontColor'} h={'100%'} pos={'sticky'} w={'240px'}>
+    <Flex bgColor={'secondaryColor'} color={'fontColor'} h={'100%'} pos={'sticky'} w={w}>
       sidebar
     </Flex>
   );

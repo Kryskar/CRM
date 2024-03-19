@@ -6,12 +6,11 @@ import { UserMetadata } from '../../../api/types/googleDecodedDataTypes';
 import {
   DATE_FORMATS,
   formattedDate,
-  TODAY_BASIC_FORMAT,
-  YESTERDAY_BASIC_FORMAT,
 } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
 import { NewClient } from '../../../pages/Add_Client/AddClient';
-import EventBox from '../BoardBox_Items/EventBox';
+import { getBoardBoxTitle } from '../BoardBox_Items/BoardBox_helpers';
+import { BoardBoxItem } from '../BoardBox_Items/BoardBox_Item';
 
 export interface ParsedEvent {
   client:NewClient;
@@ -57,29 +56,21 @@ const BoardBox = ({ w }: { w: string }) => {
           return (
             <React.Fragment key={date}>
               <Box fontSize={'11px'}>
-                {date === TODAY_BASIC_FORMAT
-                  ? 'Today'
-                  : date === YESTERDAY_BASIC_FORMAT
-                    ? 'Yesterday'
-                    : date}
+                {getBoardBoxTitle(date)}
               </Box>
               {items.map((item) => (
-                <Flex key={item.id} flexDirection={'column'} w={'100%'}>
-                  <EventBox data={item} w={w} />
-                </Flex>
+                <BoardBoxItem key={item.id} item={item} w={w} />
               ))}
             </React.Fragment>
           );
         } else {
           return items.map((item) => (
-            <Flex key={item.id} flexDirection={'column'} w={'100%'}>
-              <EventBox data={item} w={w} />
-            </Flex>
+             <BoardBoxItem key={item.id} item={item} w={w} />
           ));
         }
       })}
     </Flex>
-  );
+  ); 
 };
 
 export default BoardBox;

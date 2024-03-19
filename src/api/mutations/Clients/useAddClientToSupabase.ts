@@ -11,23 +11,22 @@ export const useAddClientToSupabase = () => {
   const toast = useToast();
   const { decodedData } = useGetSession();
   const queryClient = useQueryClient();
-  // const { setClient } = useAddClientContext();
   const { mutate: addClient } = useMutation({
-    mutationFn: async (data: Omit<NewClient, 'id' | 'addedTime' | 'clientStatus'>) => {
-      await supabase
+    mutationFn: async (newClient: Omit<NewClient, 'id' | 'addedTime' | 'clientStatus'>) => {
+      const {data}=await supabase
         .from('clients')
-        .insert(data)
+        .insert(newClient)
         .select()
-        .then((res) => {
-          if (decodedData && res.data) {
+
+       if (decodedData && data) {
             const eventObj = {
               user: JSON.stringify(decodedData.user_metadata),
-              client: JSON.stringify(res.data[INDEX_OF_FIRST_ITEM]),
+              client: JSON.stringify(data[INDEX_OF_FIRST_ITEM]),
               eventName: "added client"
             };
-            supabase.from('events').insert(eventObj).select();
+            await supabase.from('events').insert(eventObj).select();
           }
-        });
+ 
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getClients] });

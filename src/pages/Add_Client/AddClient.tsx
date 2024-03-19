@@ -24,24 +24,36 @@ const AddClient = () => {
     navigate(ROUTES.home);
   };
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      surname: '',
-      phoneNumber: '',
-      address: '',
-      requestedAmount: '',
-    },
-    onSubmit: (values: Omit<NewClient, 'id' | 'addedTime' | 'clientStatus'>) => addClient(values),
-    validationSchema: validationAddClientSchema,
-  });
-  const { errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values } = formik;
+  const { errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values } =
+    useFormik({
+      initialValues: {
+        name: '',
+        surname: '',
+        phoneNumber: '',
+        address: '',
+        requestedAmount: '',
+      },
+      onSubmit: (values: Omit<NewClient, 'id' | 'addedTime' | 'clientStatus'>) => addClient(values),
+      validationSchema: validationAddClientSchema,
+    });
 
-  const firstWordCharToUppercase = (word:string) => {
-  const FIRST_CHAR_INDEX = 0
-  const INDEX_OF_THE_BEGINNING = 1
-  return word.charAt(FIRST_CHAR_INDEX).toUpperCase() + word.slice(INDEX_OF_THE_BEGINNING)
-  }
+  //TODO: move to helpers
+  const firstWordCharToUppercase = (word: string) => {
+    const FIRST_CHAR_INDEX = 0;
+    const INDEX_OF_THE_BEGINNING = 1;
+    return word.charAt(FIRST_CHAR_INDEX).toUpperCase() + word.slice(INDEX_OF_THE_BEGINNING);
+  };
+
+  const getFormLabels = (data: string) => {
+    switch (data) {
+      case 'phoneNumber':
+        return 'Phone number';
+      case 'requestedAmount':
+        return 'Requested loan amount';
+      default:
+        return firstWordCharToUppercase(data);
+    }
+  };
 
   return (
     <Flex alignItems={'center'} h={'100vh'} justifyContent={'center'} w={'100vw'}>
@@ -65,13 +77,7 @@ const AddClient = () => {
               onBlur={handleBlur}
               onChange={handleChange}
             />
-            <FormLabel>
-              {formKey === 'phoneNumber'
-                ? 'Phone number'
-                : formKey === 'requestedAmount'
-                  ? 'Requested loan amount'
-                  : firstWordCharToUppercase(formKey)}
-            </FormLabel>
+            <FormLabel>{getFormLabels(formKey)}</FormLabel>
             <FormErrorMessage>{errors[formKey as keyof typeof errors]}</FormErrorMessage>
           </FormControl>
         ))}

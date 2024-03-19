@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { chakra,Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   flexRender,
   getCoreRowModel,
@@ -69,9 +69,11 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
           <Tr
             key={row.id}
             color={'fontColor'}
-            bgColor={index % 2 === 0 //eslint-disable-line
-? 'secondaryColor'
-: 'tertiaryColor'}
+            bgColor={
+              index % 2 === 0 //eslint-disable-line
+                ? 'secondaryColor'
+                : 'tertiaryColor'
+            }
           >
             {row.getVisibleCells().map((cell) => {
               const meta: any = cell.column.columnDef.meta; //eslint-disable-line

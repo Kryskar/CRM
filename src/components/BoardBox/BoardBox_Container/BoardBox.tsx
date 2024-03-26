@@ -8,7 +8,7 @@ import {
   formattedDate,
 } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
-import { NewClient } from '../../../pages/Add_Client/AddClient';
+import { NewClient } from '../../AddClient/AddClient_Container/AddClient_Contaier';
 import { getBoardBoxTitle } from '../BoardBox_Items/BoardBox_helpers';
 import { BoardBoxItem } from '../BoardBox_Items/BoardBox_Item';
 

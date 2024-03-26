@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
-import { NewClient } from '../pages/Add_Client/AddClient';
+import { NewClient } from '../components/AddClient/AddClient_Container/AddClient_Contaier';
 
 
 interface AddClientContext {

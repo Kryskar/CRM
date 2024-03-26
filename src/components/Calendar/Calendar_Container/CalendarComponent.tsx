@@ -16,7 +16,7 @@ const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
   const { isDarkMode } = useThemeContext();
 
   const localizer = momentLocalizer(moment);
-
+ 
   return (
     <Box h='95%' data-theme={isDarkMode
 ? "dark"

@@ -1,6 +1,6 @@
 import { CiBadgeDollar, CiCalendarDate, CiCircleCheck, CiHome } from 'react-icons/ci';
 import { PiChartLineUpThin, PiFolderSimpleUserThin } from 'react-icons/pi';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Flex, Icon } from '@chakra-ui/react';
 
 import { ROUTES } from '../../../constants/routes';
@@ -15,6 +15,7 @@ export const NAV_LIST = [
 ];
 
 const NavbarIconList = () => {
+  const {pathname} = useLocation();
   const navigate = useNavigate();
   return (
     <Flex gap={'10px'}>
@@ -27,15 +28,17 @@ const NavbarIconList = () => {
           borderRadius={'50%'}
           boxSize={12}
           p={'10px'}
-          _active={{
-            bg: 'secondaryColor',
-            color: 'fontColor',
-          }}
           _hover={{
             color: 'secondaryColor',
             backgroundColor: 'fontColor',
             cursor: 'pointer',
           }}
+          bgColor={item.path === pathname
+? 'fontColor'
+: ''}
+          color={item.path === pathname
+? 'secondaryColor'
+: ''}
           onClick={() => navigate(item.path)}
         />
       ))}

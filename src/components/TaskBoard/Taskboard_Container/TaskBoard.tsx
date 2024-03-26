@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Flex, Spinner } from '@chakra-ui/react';
 
-import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendar';
+import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendarEvents';
 import { END_OF_CURRENT_MONTH, START_OF_CURRENT_MONTH } from '../../../constants/constants';
 import { QUERY_KEYS } from '../../../constants/query_keys';
 import { useGetSession } from '../../../hooks/useGetSession';

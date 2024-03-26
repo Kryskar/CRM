@@ -5,8 +5,10 @@ import { supabase } from "../../database/supabase"
 
 export interface NewEvent {
     client:string;
+    clientId:string;
     dateTime:string;
     eventName:string;
+    googleCalendarEventId: string | null;
     id:string;
     user:string;
 }

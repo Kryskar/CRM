@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Avatar, Box, Button, chakra, Flex, Link } from '@chakra-ui/react';
+import { Avatar, Box, Button, chakra, Flex, Link, useDisclosure } from '@chakra-ui/react';
 
 import { DATE_FORMATS, formattedDate, TODAY_BASIC_FORMAT } from '../../../constants/constants';
 import { NewClient } from '../../../pages/Add_Client/AddClient';
+
+import ChangeStatusModal from './ChangeStatusModal';
+
 
 export interface User {
   avatar_url: string;
@@ -29,6 +32,11 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
+  const { isOpen, onClose, onOpen } = useDisclosure();
+ 
+  const handleClick = () => {
+   onOpen()
+  }
   return (
     <Flex
       bgColor={'tertiaryColor'}
@@ -70,8 +78,9 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
           <chakra.span fontWeight={'600'}>{`Phone number: ${client.phoneNumber}`}</chakra.span>
         </Flex>
         <Box textAlign={'center'}>
-          <Button w={'50%'}>change status</Button>
-        </Box>
+          <Button w={'50%'} onClick={handleClick}>change status</Button>
+          <ChangeStatusModal isOpen={isOpen} onClose={onClose} />
+         </Box>
       </Flex>
     </Flex>
   );

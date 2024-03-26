@@ -13,6 +13,7 @@ const Navbar = () => {
   const handleAddClientClick = () => {
     navigate(ROUTES.addClient)
   }
+  
   return (
     <Flex
       alignItems='center'

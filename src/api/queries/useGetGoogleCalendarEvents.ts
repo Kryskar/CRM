@@ -7,7 +7,7 @@ import {
   CALENDAR_TIME_MIN,
 } from '../../constants/constants';
 import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
-import { GoogleCalendarEventsList } from '../types/googleCalendarEventsTypes';
+import { Item } from '../types/googleCalendarEventsTypes';
 
 const getEvents = async (
   session: Session | null,
@@ -17,13 +17,27 @@ const getEvents = async (
   try {
     if (session) {
       const googleCalendarClient = createGoogleCalendarClient(session);
-      const { data } = await googleCalendarClient.get('', {
-        params: {
-          timeMin: timeMin,
-          timeMax: timeMax,
-        },
-      });
-      return data;
+      const allEvents:Item[] = [];
+
+     
+      const fetchEvents = async (pageToken?: string) => {
+        const { data } = await googleCalendarClient.get('', {
+          params: {
+            timeMin: timeMin,
+            timeMax: timeMax,
+            pageToken: pageToken
+          },
+        });
+
+        allEvents.push(...data.items);
+
+        if (data.nextPageToken) {
+          await fetchEvents(data.nextPageToken);
+        }
+      };
+
+      await fetchEvents();
+      return allEvents;
     }
   } catch (error) {
     console.error('Error getting events:', error); // eslint-disable-line
@@ -38,12 +52,12 @@ export const useGetGoogleCalendarEvents = (
   
 ) => {
  
-  const { data, error, isLoading } = useQuery<GoogleCalendarEventsList>({
+  const { data, error, isLoading } = useQuery({
     queryKey: [queryKey],
     queryFn: () => getEvents(session, timeMin, timeMax),
     enabled: !!session,
   });
-  
+
   if (data) {
     return {
       data: formatEvents(data),

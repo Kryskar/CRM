@@ -45,3 +45,26 @@ export const formattedDate = (date: string, dateFormat:string) => format(new Dat
 // export const formatForTask = (date: string) => format(new Date(date), 'dd MMM (hh:mm aa)');
 // export const formatMonthName = (date: string) => format(new Date(date), 'MMMM');
 // export const formattedDateForQueryKeys = (date: string) => format(new Date(date), 'MM/yy');
+export const convertLocalToISODate = (date:string) => new Date(date).toISOString()
+export const startOfProvidedDay = (date:string) => startOfDay(new Date(date)).toISOString()
+export const endOfProvidedDay = (date:string) => endOfDay(new Date(date)).toISOString()
+
+export const STATUSES = {
+    chance: "chance",
+    notDoable: "not doable",
+    notAnswering: "not answering phone call",
+    callClient: "call to client",
+    clientConsidering: "client is considering the offer",
+    waitingForDocuments: "waiting for documents",
+    recievedDocuments: "recieved documents",
+    loanAppSubmittedInBank: "loan application submitted in bank",
+    loanAppAcceptedInBank: "loan application accepted in bank",
+    loanAppRejectedInBank: "loan application rejected in bank",
+    loanFinalized: "success",
+    loanRejectedbyClient: "rejected by client"
+}
+
+export const STATUSES_ARR = Object.entries(STATUSES).map(([_,value]) => ({value:value, label:value})) //eslint-disable-line
+
+export const FILTERED_STATUSES_ARR = STATUSES_ARR.filter(({label,value}) => (label!==STATUSES.callClient && label!==STATUSES.notDoable) ) //eslint-disable-line
+

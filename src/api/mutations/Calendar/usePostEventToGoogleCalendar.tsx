@@ -47,9 +47,9 @@ export const usePostEventToGoogleCalendar = () => {
   
       const { event } = variables;
   
-      if (event.eventTableId) { //condition for updating googleCalendar eventId in supabase
-        updateGoogleCalendarEventInSupabase(data, "events", event.eventTableId)
-      }
+      // if (event.eventTableId) { //condition for updating googleCalendar eventId in supabase
+      //   updateGoogleCalendarEventInSupabase(data, "events", event.eventTableId)
+      // }
       if (event.clientId) { //condition for updating googleCalendar eventId in supabase
         updateGoogleCalendarEventInSupabase(data, "clients", event.clientId)
       }

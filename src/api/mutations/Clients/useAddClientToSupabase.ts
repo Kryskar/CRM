@@ -8,7 +8,7 @@ import { supabase } from '../../../database/supabase';
 import { useGetSession } from '../../../hooks/useGetSession';
 import { usePostEventToGoogleCalendar } from '../Calendar/usePostEventToGoogleCalendar';
 
-import { createEventToCalendar } from './mutationHelpers';
+import { createEventToCalendar, createEventToSupabase } from './mutationHelpers';
 
 export const useAddClientToSupabase = () => {
   const { session } = useGetSession();
@@ -17,37 +17,24 @@ export const useAddClientToSupabase = () => {
   const { decodedData } = useGetSession();
   const queryClient = useQueryClient();
   const { mutate: addClient } = useMutation({
-    mutationFn: async (newClient: Pick<NewClient, 'name' | 'surname' | 'phoneNumber' | 'address' | 'requestedAmount'>) => {
+    mutationFn: async (
+      newClient: Pick<
+        NewClient,
+        'name' | 'surname' | 'phoneNumber' | 'address' | 'requestedAmount'
+      >,
+    ) => {
       const { data } = await supabase.from('clients').insert(newClient).select();
 
       if (decodedData && data) {
-        const { clientStatus, id, name, phoneNumber, requestedAmount, surname } =
-          data[INDEX_OF_FIRST_ITEM];
+        const client = data[INDEX_OF_FIRST_ITEM];
 
-        const eventObj = {
-          user: JSON.stringify(decodedData.user_metadata),
-          client: JSON.stringify(data[INDEX_OF_FIRST_ITEM]),
-          eventName: 'added client',
-          clientId: id,
-        };
-        const { data: eventResp } = await supabase.from('events').insert(eventObj).select();
+        const eventObj = createEventToSupabase(client, 'added client', decodedData);
+        await supabase.from('events').insert(eventObj).select();
 
-        if (eventResp) {
-          const { id: eventTabId } = eventResp[INDEX_OF_FIRST_ITEM];
+        const eventToCalendar = createEventToCalendar(client);
 
-          const eventToCalendar = createEventToCalendar(
-            clientStatus,
-            name,
-            surname,
-            phoneNumber,
-            requestedAmount,
-            id,
-            eventTabId,
-          );
-
-          if (session) {
-            mutate({ session, event: eventToCalendar });
-          }
+        if (session) {
+          mutate({ session, event: eventToCalendar });
         }
       }
 

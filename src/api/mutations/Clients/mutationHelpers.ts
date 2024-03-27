@@ -1,23 +1,36 @@
+import { NewClient } from '../../../components/AddClient/AddClient_Container/AddClient_Contaier';
 import { END_OF_TODAY, START_OF_TODAY } from '../../../constants/constants';
+import { GoogleDecodedData } from '../../types/googleDecodedDataTypes';
 import { PostEvent } from '../Calendar/usePostEventToGoogleCalendar';
 
 export const createEventToCalendar = (
-  clientStatus: string,
-  name: string,
-  surname: string,
-  phoneNumber: string,
-  requestedAmount: string,
-  id: string,
-  eventTabId: string,
+  client: NewClient,
   startTime = START_OF_TODAY,
   endTime = END_OF_TODAY,
 ) => {
+  const { clientStatus, name, surname, phoneNumber, requestedAmount, id } = client;
   const eventToCalendar: PostEvent = {
     start: { dateTime: startTime },
     end: { dateTime: endTime },
-    summary: `${clientStatus.toUpperCase()}:\n${name} ${surname}\n pn: ${phoneNumber}\nneed: ${requestedAmount}`,
-    eventTableId: eventTabId,
+    summary: `${clientStatus ? clientStatus.toUpperCase() : ''}:\n${name} ${surname}\n pn: ${phoneNumber}\nneed: ${requestedAmount}`,
+    // eventTableId: eventTabId,
     clientId: id,
   };
   return eventToCalendar;
+};
+
+export const createEventToSupabase = (
+  client: NewClient,
+  eventName: string,
+  decodedData: GoogleDecodedData,
+) => {
+  const { id } = client;
+
+  const eventObj = {
+    user: JSON.stringify(decodedData.user_metadata),
+    client: JSON.stringify(client),
+    eventName: eventName,
+    clientId: id,
+  };
+  return eventObj;
 };

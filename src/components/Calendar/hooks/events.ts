@@ -1,15 +1,15 @@
 import { Event } from 'react-big-calendar';
 import moment from 'moment';
 
-import { GoogleCalendarEventsList } from '../../../api/types/googleCalendarEventsTypes';
+import { Item } from '../../../api/types/googleCalendarEventsTypes';
 
 const dateFormat = (date: string | undefined) => {
   return moment(date).toDate();
 };
 
-export const formatEvents = (data: GoogleCalendarEventsList) => {
+export const formatEvents = (data: Item[]) => {
   const events: Event[] =
-    data.items
+    data
       .filter((item) => item.start)
       .map((item) => ({
         id: item.id,

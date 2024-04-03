@@ -35,7 +35,7 @@ const ModalEditDelete = ({
     formik: {
       handleChange,
       handleSubmit,
-      values: { end, start, title },
+      values: { end, start, title},
     },
     handleDeleteClick,
     handleEditClick,
@@ -45,7 +45,6 @@ const ModalEditDelete = ({
     onClose();
     setMode('');
   };
-
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>

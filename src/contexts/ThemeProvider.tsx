@@ -3,6 +3,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
 import { DARK_MODE, LIGHT_MODE } from '../constants/theme';
 import { buttonTheme } from '../theme/components/button';
+import { floatingLabels } from '../theme/components/form';
 import { iconTheme } from '../theme/iconButton';
 
 interface ThContext {
@@ -22,6 +23,7 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     components: {
       Button: buttonTheme,
       IconButton: iconTheme,
+      Form: floatingLabels,
     },
   });
 

@@ -3,8 +3,9 @@ import { Event } from 'react-big-calendar';
 import { Session } from '@supabase/supabase-js';
 import { useFormik } from 'formik';
 
-import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/useDeleteEventFromGoogleCalendar';
-import { PostEvent, usePutEventToGoogleCalendar } from '../../../api/mutations/usePutEventToGoogleCalendar';
+import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/Calendar/useDeleteEventFromGoogleCalendar';
+import { PostEvent } from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
+import {  usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
 
 export const useEditOrDeleteEvent = (
   session: Session | null,
@@ -34,6 +35,7 @@ export const useEditOrDeleteEvent = (
   const formik = useFormik({
     initialValues: {
       title: '',
+      description:'',
       start: '',
       end: '',
     },
@@ -45,8 +47,8 @@ export const useEditOrDeleteEvent = (
         end: { dateTime: end },
         summary: values.title,
       };
-      if (session && event){
-      editEvent({session, event, editedEvent});
+      if (session && event && event.id){
+      editEvent({session, id:event.id, editedEvent});
       }
       setMode('');
       onClose();
@@ -63,6 +65,7 @@ export const useEditOrDeleteEvent = (
 : '';
       const updatedFormValues = {
         title: event.title || '',
+        description: event.description || '',
         start,
         end,
       };
@@ -77,8 +80,8 @@ export const useEditOrDeleteEvent = (
   const handleEditClick = () => setMode('edit');
 
   const handleDeleteClick = () => {
-    if(session && event){
-      deleteEvent({session,event});
+    if(session && event && event.id){
+      deleteEvent({session,id:event.id});
     }
     onClose();
     setMode('');

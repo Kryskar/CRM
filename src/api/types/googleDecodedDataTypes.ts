@@ -21,7 +21,7 @@ export interface GoogleDecodedData {
     providers: string[]
   }
   
-  interface UserMetadata {
+  export interface UserMetadata {
     avatar_url: string
     email: string
     email_verified: boolean

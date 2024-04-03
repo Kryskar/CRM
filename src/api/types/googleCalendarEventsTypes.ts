@@ -5,9 +5,10 @@ export interface GoogleCalendarEventsList {
   defaultReminders: DefaultReminder[];
   description: string;
   etag: string;
-  items: Item[];
+  items: GoogleCalendarEventsListItem[];
   kind: string;
-  nextSyncToken: string;
+  nextSyncToken?: string;
+  nextPageToken?: string;
   summary: string;
   timeZone: string;
   updated: string;
@@ -18,31 +19,31 @@ interface DefaultReminder {
   minutes: number;
 }
 
-interface Item {
-  attendees: Attendee[];
+export interface GoogleCalendarEventsListItem {
+  attendees?: Attendee[];
   created: string;
   creator: Creator;
-  description: string;
+  description?: string;
   end: End;
   etag: string;
   eventType: string;
-  guestsCanInviteOthers: boolean;
+  guestsCanInviteOthers?: boolean;
   htmlLink: string;
   iCalUID: string;
   id: string;
   kind: string;
-  location: string;
+  location?: string;
   organizer: Organizer;
-  privateCopy: boolean;
+  privateCopy?: boolean;
   reminders: Reminders;
   sequence: number;
-  source: Source;
+  source?: Source;
   start: Start;
   status: string;
   summary: string;
-  transparency: string;
+  transparency?: string;
   updated: string;
-  visibility: string;
+  visibility?: string;
 }
 
 interface Creator {

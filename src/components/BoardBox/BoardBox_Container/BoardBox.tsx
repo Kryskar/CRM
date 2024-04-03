@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Flex, Spinner } from '@chakra-ui/react';
 
+import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { useGetEventsFromSupabase } from '../../../api/queries/useGetEventsFromSupabase';
 import { UserMetadata } from '../../../api/types/googleDecodedDataTypes';
 import {
@@ -8,7 +9,6 @@ import {
   formattedDate,
 } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
-import { NewClient } from '../../AddClient/AddClient_Container/AddClient_Contaier';
 import { getBoardBoxTitle } from '../BoardBox_Items/BoardBox_helpers';
 import { BoardBoxItem } from '../BoardBox_Items/BoardBox_Item';
 

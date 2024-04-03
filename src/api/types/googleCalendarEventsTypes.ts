@@ -5,7 +5,7 @@ export interface GoogleCalendarEventsList {
   defaultReminders: DefaultReminder[];
   description: string;
   etag: string;
-  items: Item[];
+  items: GoogleCalendarEventsListItem[];
   kind: string;
   nextSyncToken?: string;
   nextPageToken?: string;
@@ -19,7 +19,7 @@ interface DefaultReminder {
   minutes: number;
 }
 
-export interface Item {
+export interface GoogleCalendarEventsListItem {
   attendees?: Attendee[];
   created: string;
   creator: Creator;

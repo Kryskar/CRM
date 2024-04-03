@@ -1,57 +1,75 @@
-import { useState } from 'react';
-import { Checkbox, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { CreatableSelect } from 'chakra-react-select';
+import { ChangeEvent } from 'react';
+import {
+  Checkbox,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Select,
+  Stack,
+} from '@chakra-ui/react';
+import { FormikProps } from 'formik';
 
+import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { FILTERED_STATUSES_ARR, STATUSES } from '../../constants/constants';
 
-interface SelectValues {
-  label: string;
-  value: string;
-}
+type chanceCheckboxPropsTypes = {
+  selectedCheckbox: string;
+  setSelectedCheckbox: React.Dispatch<React.SetStateAction<string>>;
+};
 
-const ModifyClientRestOfForm = ({ formik }: { formik: any }) => { //eslint-disable-line
-   
-
-  const [selectedCheckbox, setSelectedCheckbox] = useState('');
-  const [status, setStatus] = useState<SelectValues | undefined>();
+const ModifyClientRestOfForm = ({
+  chanceCheckboxProps,
+  formik,
+}: {
+  chanceCheckboxProps: chanceCheckboxPropsTypes;
+  formik: FormikProps<NewClient>;
+}) => {
+  const { selectedCheckbox, setSelectedCheckbox } = chanceCheckboxProps;
+  // const [status, setStatus] = useState<SelectValues | undefined>();
 
   const handleCheckboxChange = (value: string) => {
     setSelectedCheckbox(value);
     if (value === 'chance') {
       formik.setFieldValue('chance', true);
+      formik.setFieldValue('clientStatus', STATUSES.chance);
     } else if (value === 'notDoable') {
       formik.setFieldValue('chance', false);
       formik.setFieldValue('clientStatus', STATUSES.notDoable);
       formik.setFieldValue('nextContactDate', '');
     }
   };
-  const handleSelectChange = (value: SelectValues) => {
-    setStatus(value);
-    formik.setFieldValue('clientStatus', value.value);
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    formik.setFieldValue('clientStatus', e.target.value);
   };
 
   return (
     <>
-      <Stack direction='row' spacing={5}>
-        <Checkbox
-          colorScheme='green'
-          isChecked={selectedCheckbox === 'chance'}
-          name='chance'
-          value={formik.values.chance}
-          onChange={() => handleCheckboxChange('chance')}
-        >
-          Chance
-        </Checkbox>
-        <Checkbox
-          colorScheme='red'
-          isChecked={selectedCheckbox === 'notDoable'}
-          name='notDoable'
-          onChange={() => handleCheckboxChange('notDoable')}
-        >
-          Not Doable
-        </Checkbox>
-      </Stack>
-      <FormControl variant='floating'>
+      <FormControl isInvalid={formik.touched.chance && !!formik.errors.chance}>
+        <Stack direction='row' spacing={5}>
+          <Checkbox
+            colorScheme='green'
+            isChecked={selectedCheckbox === 'chance'}
+            name='chance'
+            value={formik.values.chance}
+            onBlur={formik.handleBlur}
+            onChange={() => handleCheckboxChange('chance')}
+          >
+            Chance
+          </Checkbox>
+          <Checkbox
+            colorScheme='red'
+            id='chance'
+            isChecked={selectedCheckbox === 'notDoable'}
+            onBlur={formik.handleBlur}
+            onChange={() => handleCheckboxChange('notDoable')}
+          >
+            Not Doable
+          </Checkbox>
+        </Stack>
+        <FormErrorMessage>{formik.errors.chance}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={formik.touched.comment && !!formik.errors.comment} variant='floating'>
         <Input
           name='comment'
           placeholder=' '
@@ -60,30 +78,33 @@ const ModifyClientRestOfForm = ({ formik }: { formik: any }) => { //eslint-disab
           onChange={formik.handleChange}
         />
         <FormLabel>Comment</FormLabel>
+        <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
       </FormControl>
       {selectedCheckbox === 'chance' && (
         <>
-          <FormControl id='place' variant='floating'>
-            <CreatableSelect
-              openMenuOnFocus
-              classNamePrefix='chakra-react-select'
+          <FormControl
+            id='clientStatus'
+            isInvalid={formik.touched.clientStatus && !!formik.errors.clientStatus}
+            variant='floating'
+          >
+            <Select
               name='clientStatus'
-              options={FILTERED_STATUSES_ARR}
-              placeholder=' '
-              chakraStyles={{
-                menu: (provided) => ({
-                  ...provided,
-                  zIndex: 3,
-                }),
-              }}
-              onBlur={formik.handleBlur} //eslint-disable-line
-              value={status}
-              // tabSelectsValues
-              onChange={(value) => (value ? handleSelectChange(value) : '')} //eslint-disable-line
-            />
+              onBlur={formik.handleBlur}
+              onChange={(e) => handleSelectChange(e)}
+            >
+              {FILTERED_STATUSES_ARR.map((obj) => (
+                <option key={obj.value} value={obj.value}>
+                  {obj.label}
+                </option>
+              ))}
+            </Select>
             <FormLabel>Select status</FormLabel>
+            <FormErrorMessage>{formik.errors.clientStatus}</FormErrorMessage>
           </FormControl>
-          <FormControl variant='floating'>
+          <FormControl
+            isInvalid={formik.touched.nextContactDate && !!formik.errors.nextContactDate}
+            variant='floating'
+          >
             <Input
               name='nextContactDate'
               placeholder=' '
@@ -93,6 +114,7 @@ const ModifyClientRestOfForm = ({ formik }: { formik: any }) => { //eslint-disab
               onChange={formik.handleChange}
             />
             <FormLabel>Next Contact Date</FormLabel>
+            <FormErrorMessage>{formik.errors.nextContactDate}</FormErrorMessage>
           </FormControl>
         </>
       )}

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { NewClient } from '../../components/AddClient/AddClient_Container/AddClient_Contaier';
 import { STATUSES } from '../../constants/constants';
 import { QUERY_KEYS } from '../../constants/query_keys';
 import { supabase } from '../../database/supabase';
+import { NewClient } from '../mutations/Clients/useAddClientToSupabase';
 
 export const useGetClientsFromSupabase = (clientStatusToFilter:string) => {
   const {

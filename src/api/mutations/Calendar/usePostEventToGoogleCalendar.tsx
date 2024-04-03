@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../constants/query_keys';
 import { supabase } from '../../../database/supabase';
 import { createGoogleCalendarClient } from '../../axios_instances/googleCalendarClient';
-import { Item } from '../../types/googleCalendarEventsTypes';
+import { GoogleCalendarEventsListItem} from '../../types/googleCalendarEventsTypes';
 
 export interface PostEvent {
   clientId?:string;
@@ -36,7 +36,7 @@ export const usePostEventToGoogleCalendar = () => {
   const queryclient = useQueryClient();
   const toast = useToast();
 
-  const updateGoogleCalendarEventInSupabase = async (data:Item, tableName:string, id:string) => {
+  const updateGoogleCalendarEventInSupabase = async (data:GoogleCalendarEventsListItem, tableName:string, id:string) => {
     const googleCalendarEventId = { googleCalendarEventId: data.id };
         await supabase.from(tableName).update(googleCalendarEventId).eq('id', id);
   }

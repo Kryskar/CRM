@@ -1,8 +1,8 @@
 import { Button, Text,useDisclosure } from '@chakra-ui/react';
 import { CellContext, createColumnHelper } from '@tanstack/react-table';
 
+import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { DATE_FORMATS, formattedDate,STATUSES } from '../../constants/constants';
-import { NewClient } from '../AddClient/AddClient_Container/AddClient_Contaier';
 import ModifyClient from '../ModifyClient/ModifyClient';
 
 const columnHelper = createColumnHelper<NewClient>();
@@ -13,7 +13,7 @@ export interface ModifyClientProps {
   onClose: () => void;
 }
 
-const ChangeStatusButton = ({ info }: { info: CellContext<NewClient, string> }) => {
+const ChangeStatusButton = ({ info }: { info: CellContext<NewClient, unknown> }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const handleButtonClick = () => onOpen();
   return (
@@ -84,9 +84,9 @@ export const columns = [
     header: 'client status',
     sortingFn: 'text',
   }),
-  {
+  columnHelper.display({
     id: 'actions',
-    cell: (info: any) => <ChangeStatusButton info={info} />, //eslint-disable-line
+    cell: (info) => <ChangeStatusButton info={info} />,
     header: 'change status',
-  },
+  })
 ];

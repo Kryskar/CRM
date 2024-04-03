@@ -1,7 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { NewClient } from '../../../components/AddClient/AddClient_Container/AddClient_Contaier';
 import {
   endOfProvidedDay,
   INDEX_OF_FIRST_ITEM,
@@ -16,11 +15,12 @@ import { usePostEventToGoogleCalendar } from '../Calendar/usePostEventToGoogleCa
 import { usePutEventToGoogleCalendar } from '../Calendar/usePutEventToGoogleCalendar';
 
 import { createEventToCalendar, createEventToSupabase } from './mutationHelpers';
+import { NewClient } from './useAddClientToSupabase';
 
 export const useEditClient = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
-  const { session, decodedData } = useGetSession();
+  const { decodedData, session } = useGetSession();
   const { mutate: deleteGoogleCalendarEvent } = useDeleteEventFromGoogleCalendar();
   const { mutate: editGoogleCalendarEvent } = usePutEventToGoogleCalendar();
   const { mutate: postEventToGoogleCalendar } = usePostEventToGoogleCalendar();
@@ -57,8 +57,8 @@ export const useEditClient = () => {
             postEventToGoogleCalendar({ session, event: eventToCalendar });
           }
         }
-        const invalidationQueries: any = [
-          //eslint-disable-line
+        const invalidationQueries: any = [ //eslint-disable-line
+           
           { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.callClient}`] },
           { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.chance}`] },
           { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.notDoable}`] },

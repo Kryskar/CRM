@@ -9,7 +9,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { NewClient } from '../AddClient/AddClient_Container/AddClient_Contaier';
+import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 
 import { columns } from './columns';
 

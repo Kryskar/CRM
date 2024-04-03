@@ -1,7 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { NewClient } from '../../../components/AddClient/AddClient_Container/AddClient_Contaier';
 import { INDEX_OF_FIRST_ITEM } from '../../../constants/constants';
 import { QUERY_KEYS } from '../../../constants/query_keys';
 import { supabase } from '../../../database/supabase';
@@ -9,6 +8,22 @@ import { useGetSession } from '../../../hooks/useGetSession';
 import { usePostEventToGoogleCalendar } from '../Calendar/usePostEventToGoogleCalendar';
 
 import { createEventToCalendar, createEventToSupabase } from './mutationHelpers';
+
+export interface NewClient {
+  addedTime: string;
+  address: string;
+  chance:string;
+  clientStatus?: string;
+  comment:string;
+  googleCalendarEventId?:string;
+  id: string;
+  name: string;
+  nextContactDate:string;
+  phoneNumber: string;
+  requestedAmount: string | number;
+  surname: string;
+  updated_at?:string
+}
 
 export const useAddClientToSupabase = () => {
   const { session } = useGetSession();

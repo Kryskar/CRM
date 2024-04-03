@@ -49,6 +49,12 @@ export const convertLocalToISODate = (date:string) => new Date(date).toISOString
 export const startOfProvidedDay = (date:string) => startOfDay(new Date(date)).toISOString()
 export const endOfProvidedDay = (date:string) => endOfDay(new Date(date)).toISOString()
 
+export const firstWordCharToUppercase = (word: string) => {
+    const FIRST_CHAR_INDEX = 0;
+    const INDEX_OF_THE_BEGINNING = 1;
+    return word.charAt(FIRST_CHAR_INDEX).toUpperCase() + word.slice(INDEX_OF_THE_BEGINNING);
+  };
+
 export const STATUSES = {
     chance: "chance",
     notDoable: "not doable",
@@ -66,5 +72,5 @@ export const STATUSES = {
 
 export const STATUSES_ARR = Object.entries(STATUSES).map(([_,value]) => ({value:value, label:value})) //eslint-disable-line
 
-export const FILTERED_STATUSES_ARR = STATUSES_ARR.filter(({label,value}) => (label!==STATUSES.callClient && label!==STATUSES.notDoable) ) //eslint-disable-line
+export const FILTERED_STATUSES_ARR = STATUSES_ARR.filter(({label}) => (label!==STATUSES.callClient && label!==STATUSES.notDoable) )
 

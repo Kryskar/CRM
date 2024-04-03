@@ -7,7 +7,8 @@ import {
   CALENDAR_TIME_MIN,
 } from '../../constants/constants';
 import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
-import { Item } from '../types/googleCalendarEventsTypes';
+import { GoogleCalendarEventsListItem } from '../types/googleCalendarEventsTypes';
+
 
 const getEvents = async (
   session: Session | null,
@@ -17,7 +18,7 @@ const getEvents = async (
   try {
     if (session) {
       const googleCalendarClient = createGoogleCalendarClient(session);
-      const allEvents:Item[] = [];
+      const allEvents:GoogleCalendarEventsListItem[] = [];
 
      
       const fetchEvents = async (pageToken?: string) => {

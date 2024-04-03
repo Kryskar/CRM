@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../constants/query_keys';
 import { supabase } from '../../database/supabase';
 
-export interface NewEvent {
+export interface EventFromSupabase {
   client: string;
   dateTime: string;
   eventName: string;

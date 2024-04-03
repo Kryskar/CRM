@@ -1,96 +1,78 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 
-import { useAddClientToSupabase } from '../../../api/mutations/Clients/useAddClientToSupabase';
+import {
+  NewClient,
+  useAddClientToSupabase,
+} from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { useEditClient } from '../../../api/mutations/Clients/useEditClient';
+import { STATUSES } from '../../../constants/constants';
 import { ROUTES } from '../../../constants/routes';
-import { validationAddClientSchema } from '../../../schemas/validations';
+import {
+  validationAddClientSchema,
+  validationUpdateClientSchema,
+  validationUpdateClientSchemaChance,
+} from '../../../schemas/validations';
 import ModifyClientRestOfForm from '../../ModifyClient/ModifyClientRestOfForm';
-import { getFormLabels, initialValues } from '../AddClient_Items/addClientHelpers';
+import {
+  createAddClientValuesObj,
+  createUpdatedFormValuesObj,
+  getFormLabels,
+  initialValues,
+} from '../AddClient_Items/addClientHelpers';
 
-export interface NewClient {
-  addedTime: string;
-  address: string;
-  chance:string;
-  clientStatus?: string;
-  comment:string;
-  googleCalendarEventId?:string;
-  id: string;
-  name: string;
-  nextContactDate:string;
-  phoneNumber: string;
-  requestedAmount: string | number;
-  surname: string;
-  updated_at?:string
-}
-
-const  AddClient_Container = ({
+const AddClient_Container = ({
   data = null,
   onClose,
 }: {
   data: NewClient | null;
   onClose?: () => void;
 }) => {
+  const [selectedCheckbox, setSelectedCheckbox] = useState('');
   const { addClient } = useAddClientToSupabase();
   const { editClient } = useEditClient();
   const navigate = useNavigate();
   const handleBackClick = () => {
     navigate(ROUTES.home);
   };
-  
-  const modifyClientSubmit = (values:NewClient) => {
-   
+
+  const modifyClientSubmit = (values: NewClient) => {
     if (data && onClose) {
       const id = data.id;
       editClient({ id, editedData: values });
       onClose();
     }
   };
-  const formik = useFormik({
+
+  const getValidationSchema=(data:NewClient | null,selectedCheckbox:string)=>{
+    if(!data){
+      return validationAddClientSchema
+    }
+    if(selectedCheckbox === STATUSES.chance){
+      return validationUpdateClientSchemaChance
+    }
+    return validationUpdateClientSchema
+  }
+  
+  const formik = useFormik<NewClient>({
     initialValues: initialValues,
     onSubmit: (values) => {
       if (!data) {
-        const addClientValues: Pick<NewClient, 'name' | 'surname' | 'phoneNumber' | 'address' | 'requestedAmount'> = {
-              name: values.name,
-              surname: values.surname,
-              phoneNumber: values.phoneNumber,
-              address: values.address,
-              requestedAmount: values.requestedAmount,
-        }
-        
+        const addClientValues = createAddClientValuesObj(values);
         addClient(addClientValues);
       } else if (data) {
         modifyClientSubmit(values);
       }
     },
 
-    validationSchema: validationAddClientSchema,
+    validationSchema: getValidationSchema(data,selectedCheckbox),
   });
 
   const updateFormValues = () => {
     if (data) {
-      const updatedFormValues = {
-        id: data.id,
-        name: data.name,
-        surname: data.surname,
-        phoneNumber: data.phoneNumber,
-        address: data.address,
-        requestedAmount: data.requestedAmount,
-        addedTime: data.addedTime,
-        chance: '',
-        comment: '',
-        clientStatus: '',
-        nextContactDate: '',
-      };
+      const updatedFormValues = createUpdatedFormValuesObj(data);
       formik.setValues(updatedFormValues);
     }
   };
@@ -103,7 +85,7 @@ const  AddClient_Container = ({
 
   const { errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values } = formik;
   const addClientKeys = ['name', 'surname', 'phoneNumber', 'address', 'requestedAmount'];
-  
+
   return (
     <>
       <form
@@ -135,7 +117,10 @@ const  AddClient_Container = ({
 
         {data && (
           <>
-            <ModifyClientRestOfForm formik={formik} />
+            <ModifyClientRestOfForm
+              chanceCheckboxProps={{ selectedCheckbox, setSelectedCheckbox }}
+              formik={formik}
+            />
             <Button type='submit'>Proceed</Button>
           </>
         )}

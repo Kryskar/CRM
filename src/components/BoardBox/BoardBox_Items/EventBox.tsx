@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Avatar, Box, Button, chakra, Flex, Link, useDisclosure } from '@chakra-ui/react';
 
+import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { DATE_FORMATS, formattedDate, TODAY_BASIC_FORMAT } from '../../../constants/constants';
-import { NewClient } from '../../../pages/Add_Client/AddClient';
 
 import ChangeStatusModal from './ChangeStatusModal';
 

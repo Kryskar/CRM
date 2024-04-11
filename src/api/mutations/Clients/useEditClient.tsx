@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation} from '@tanstack/react-query';
 
 import {
   endOfProvidedDay,
@@ -7,24 +7,22 @@ import {
   startOfProvidedDay,
   STATUSES,
 } from '../../../constants/constants';
-import { QUERY_KEYS } from '../../../constants/query_keys';
 import { supabase } from '../../../database/supabase';
 import { useGetSession } from '../../../hooks/useGetSession';
 import { useDeleteEventFromGoogleCalendar } from '../Calendar/useDeleteEventFromGoogleCalendar';
 import { usePostEventToGoogleCalendar } from '../Calendar/usePostEventToGoogleCalendar';
 import { usePutEventToGoogleCalendar } from '../Calendar/usePutEventToGoogleCalendar';
 
-import { createEventToCalendar, createEventToSupabase } from './mutationHelpers';
+import { createEventToCalendar, createEventToSupabase, useInvalidateMultipleQueries } from './mutationHelpers';
 import { NewClient } from './useAddClientToSupabase';
 
 export const useEditClient = () => {
   const toast = useToast();
-  const queryClient = useQueryClient();
   const { decodedData, session } = useGetSession();
   const { mutate: deleteGoogleCalendarEvent } = useDeleteEventFromGoogleCalendar();
   const { mutate: editGoogleCalendarEvent } = usePutEventToGoogleCalendar();
   const { mutate: postEventToGoogleCalendar } = usePostEventToGoogleCalendar();
-
+  const invalidateQueries = useInvalidateMultipleQueries()
   const { mutate: editClient } = useMutation({
     mutationFn: async ({ editedData, id }: { editedData: NewClient; id: string }) => {
       return await supabase.from('clients').update(editedData).eq('id', id).select();
@@ -57,14 +55,7 @@ export const useEditClient = () => {
             postEventToGoogleCalendar({ session, event: eventToCalendar });
           }
         }
-        const invalidationQueries: any = [ //eslint-disable-line
-           
-          { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.callClient}`] },
-          { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.chance}`] },
-          { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.notDoable}`] },
-          { queryKey: [`${QUERY_KEYS.getClients}_all`] },
-        ];
-        queryClient.invalidateQueries(invalidationQueries);
+       invalidateQueries()
         toast({
           title: 'Client Edited',
           description: `success editing client`,

@@ -12,6 +12,7 @@ import { createEventToCalendar, createEventToSupabase } from './mutationHelpers'
 export interface NewClient {
   addedTime: string;
   address: string;
+  agentEmail?:string,
   chance:string;
   clientStatus?: string;
   comment:string;

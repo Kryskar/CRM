@@ -22,3 +22,14 @@ export const useGetEventsFromSupabase = () => {
         }
         return{data:[], isLoading, error}
   }
+
+
+//   export const useGetUsersFromSupabase = () => {
+//     const {data:users, error, isLoading} = useQuery({queryKey:["get_users"], queryFn: async ()=> await supabase.from('auth.users').select('*')})
+    
+//     // if (users && users.data) {
+//     //     const data = users.data
+//     //     return{data, isLoading, error}
+//     //     }
+//         return{users, isLoading, error}
+//   }

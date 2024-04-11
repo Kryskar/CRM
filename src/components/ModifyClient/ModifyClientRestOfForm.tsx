@@ -13,6 +13,7 @@ import { FormikProps } from 'formik';
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { FILTERED_STATUSES_ARR, STATUSES } from '../../constants/constants';
 
+
 type chanceCheckboxPropsTypes = {
   selectedCheckbox: string;
   setSelectedCheckbox: React.Dispatch<React.SetStateAction<string>>;
@@ -101,6 +102,7 @@ const ModifyClientRestOfForm = ({
             <FormLabel>Select status</FormLabel>
             <FormErrorMessage>{formik.errors.clientStatus}</FormErrorMessage>
           </FormControl>
+          {/* {formik.values.clientStatus !== STATUSES.loanFinalized &&  */}
           <FormControl
             isInvalid={formik.touched.nextContactDate && !!formik.errors.nextContactDate}
             variant='floating'
@@ -116,8 +118,10 @@ const ModifyClientRestOfForm = ({
             <FormLabel>Next Contact Date</FormLabel>
             <FormErrorMessage>{formik.errors.nextContactDate}</FormErrorMessage>
           </FormControl>
+          {/* } */}
         </>
       )}
+      {/* {formik.values.clientStatus === STATUSES.loanFinalized && <SuccessReport formik={formik}/>} */}
     </>
   );
 };

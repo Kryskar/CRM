@@ -11,13 +11,13 @@ import {
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 
-import { columns } from './columns';
 
 interface ClientsTableSortProps {
+  columns: any; //eslint-disable-line
   data: NewClient[];
 }
 
-export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
+export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     columns,
@@ -39,8 +39,9 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
               const meta: any = header.column.columnDef.meta; //eslint-disable-line
               return (
                 <Th
-                  key={header.id}
+                key={header.id}
                   isNumeric={meta?.isNumeric}
+                  textAlign="center"
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   {flexRender(header.column.columnDef.header, header.getContext())}
@@ -67,6 +68,7 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
       <Tbody>
         {table.getRowModel().rows.map((row, index) => (
           <Tr
+           
             key={row.id}
             color={'fontColor'}
             bgColor={
@@ -78,7 +80,7 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
             {row.getVisibleCells().map((cell) => {
               const meta: any = cell.column.columnDef.meta; //eslint-disable-line
               return (
-                <Td key={cell.id} isNumeric={meta?.isNumeric}>
+                <Td key={cell.id} border={"1px black solid"} isNumeric={meta?.isNumeric} textAlign={"center"}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Td>
               );

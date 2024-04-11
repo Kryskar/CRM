@@ -3,30 +3,22 @@ import { Route, Routes } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/react';
 
 import { ROUTES } from './constants/routes';
-import AddClientProvider from './contexts/AddClientProvider';
-import { useGetSession } from './hooks/useGetSession';
+import SessionProvider from './contexts/SessionProvider';
+import StatisticsProvider from './contexts/StatisticsProvider';
 const Home = React.lazy(() => import('./pages/Home/Home'));
 const Clients = React.lazy(() => import('./pages/Clients/Clients'));
 const Calendar = React.lazy(() => import('./pages/Calendar/Calendar'));
 const Chances = React.lazy(() => import('./pages/Chances/Chances'));
 const Finalized = React.lazy(() => import('./pages/Finalized/Finalized'));
 const Analitics = React.lazy(() => import('./pages/Analitics/Analitics'));
-const LogIn = React.lazy(() => import('./pages/LogIn/LogIn'));
 const AddClient = React.lazy(() => import('./pages/Add_Client/AddClient'));
 
 const App = () => {
-  const { session } = useGetSession();
-  
-  if (!session)
-    return (
-      <Suspense fallback={<Spinner color='red.500' size={'xl'} />}>
-        <LogIn />
-      </Suspense>
-    );
 
   return (
     <>
-    <AddClientProvider>
+    <SessionProvider>
+      <StatisticsProvider>
       <Suspense fallback={<Spinner color='red.500' size={'xl'} />}>
         <Routes>
           <Route element={<Home />} path={ROUTES.home}>
@@ -39,7 +31,8 @@ const App = () => {
           <Route element={<AddClient/>} path={ROUTES.addClient}/>
         </Routes>
       </Suspense>
-      </AddClientProvider>
+      </StatisticsProvider>
+      </SessionProvider>
     </>
   );
 };

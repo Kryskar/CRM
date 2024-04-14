@@ -20,7 +20,7 @@ export const useGetClientsFromSupabase = (clientStatusToFilter: string, agentEma
       let query = supabase.from('clients').select('*').order('updated_at', { ascending: false });
 
       if (clientStatusToFilter === STATUSES.chance) {
-        if (agentEmail !== undefined && agentEmail !== null && agentEmail !== '') {
+        if (agentEmail) {
           query = query.eq('agentEmail', agentEmail);
         }
         query = query

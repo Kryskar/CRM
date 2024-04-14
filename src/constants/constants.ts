@@ -1,6 +1,7 @@
 import { addDays, addMonths, differenceInDays, endOfDay, endOfMonth, endOfWeek, format, getDate, getDaysInMonth, startOfDay, startOfMonth, startOfWeek } from 'date-fns';
 
 export const INDEX_OF_FIRST_ITEM = 0
+export const EMPTY_ARR = 0
 export const ONE_MONTH_DISTANCE = 1
 export const ONE_DAY_DISTANCE = 1
 
@@ -16,7 +17,6 @@ export const DATE_FORMATS = {
     date: "yyyy-MM-dd"
 }
 
-export const MONTHLY_PLAN = 200000
 export const CALENDAR_TIME_MIN = '2022-01-01T00:00:00Z';
 export const CALENDAR_TIME_MAX = '2052-01-01T00:00:00Z';
 export const NOW = new Date()
@@ -94,23 +94,25 @@ export const POLISH_BANKS = [
     "Bank Pocztowy",
   ];
 
-  interface PolishBankLogos {
-    [key: string]: string;
+  interface PolishBankLogosColors {
+    [key: string]: {backgroundColor:string, borderColor:string, logo:string};
   }
-  export const POLISH_BANKS_LOGOS :PolishBankLogos = {
-    "PKO Bank Polski": "https://s3-symbol-logo.tradingview.com/pkobp--600.png",
-    "Bank Pekao SA": "https://yt3.googleusercontent.com/wjqeMBJLJ9pdL_QcdZwTjIhzSQ3UPsLKAie9DM93Zd_VwXLDWlMA2lsBaCiZnNAl9JW9kw0lCto=s900-c-k-c0x00ffffff-no-rj",
-    "mBank": 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp0zeuqJb2XcCgb3nuo-2XmZY7z8POc-wQrGCWnPdQaA&s',
-    "ING Bank Śląski": "https://www.galeriapolnocna.pl/cache/_store/ing-bank-slaski_main.jpeg_alpha-0_nc_366x366_im.webp",
-    "Bank Millennium": "https://yt3.googleusercontent.com/ytc/AIdro_nh2v2q8pV6-q5zU92rNVRkSzxSMwG2D5JqhCLdTg=s900-c-k-c0x00ffffff-no-rj",
-    "Alior Bank": "https://iconape.com/wp-content/files/uh/209497/png/209497.png",
-    "Santander Bank Polska": "https://www.santander.pl/_fileserver/time20221223125626/item/1514567",
-    "VeloBank": "https://prnews.pl/wp-content/uploads/2022/11/VeloBank_logo-e1669095277904.png",
-    "Credit Agricole Bank Polska": "https://icons.veryicon.com/png/o/business/bank-logo-collection/logo-of-credit-agricole.png",
-    "Raiffeisen Digital": "https://play-lh.googleusercontent.com/sWe4Dh2Z7Uxkdka9L07mQkGsu5ncH8BwCCCYVYjOLpOjbMz8YWNfyddM_oINkp3ZHKI",
-    "BNP Paribas Bank Polska": "https://p7.hiclipart.com/preview/209/419/819/5bfad0c24e8e5.jpg",
-    "Bank Pocztowy": "https://grubber.gpcdn.pl/companies/3333867/employer-profile-logos/2da80000-56be-0050-9e61-08dc01686915.jpg",
+  export const POLISH_BANKS_LOGOS_COLORS:PolishBankLogosColors = {
+    "PKO Bank Polski": { logo: "https://s3-symbol-logo.tradingview.com/pkobp--600.png", backgroundColor: 'rgba(2, 66, 131, 0.2)', borderColor: 'rgba(2, 66, 131, 1)' },
+    "Bank Pekao SA": { logo: "https://yt3.googleusercontent.com/wjqeMBJLJ9pdL_QcdZwTjIhzSQ3UPsLKAie9DM93Zd_VwXLDWlMA2lsBaCiZnNAl9JW9kw0lCto=s900-c-k-c0x00ffffff-no-rj", backgroundColor: 'rgba(217, 48, 60, 0.5)', borderColor: 'rgba(217, 48, 60, 1)' },
+    "mBank": { logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp0zeuqJb2XcCgb3nuo-2XmZY7z8POc-wQrGCWnPdQaA&s', backgroundColor: 'rgba(231, 2, 22, 0.2)', borderColor: 'rgba(231, 2, 22, 1)' },
+    "ING Bank Śląski": { logo: "https://www.galeriapolnocna.pl/cache/_store/ing-bank-slaski_main.jpeg_alpha-0_nc_366x366_im.webp", backgroundColor: 'rgba(232, 108, 38, 0.2)', borderColor: 'rgba(232, 108, 38, 1)' },
+    "Bank Millennium": { logo: "https://yt3.googleusercontent.com/ytc/AIdro_nh2v2q8pV6-q5zU92rNVRkSzxSMwG2D5JqhCLdTg=s900-c-k-c0x00ffffff-no-rj", backgroundColor: 'rgba(205, 7, 108, 0.3)', borderColor: 'rgba(205, 7, 108, 1)' },
+    "Alior Bank": { logo: "https://iconape.com/wp-content/files/uh/209497/png/209497.png", backgroundColor: 'rgba(108, 23, 22, 0.2)', borderColor: 'rgba(108, 23, 22, 1)' },
+    "Santander Bank Polska": { logo: "https://www.santander.pl/_fileserver/time20221223125626/item/1514567", backgroundColor: 'rgba(209, 0, 13, 0.3)', borderColor: 'rgba(209, 0, 13, 1)' },
+    "VeloBank": { logo: "https://prnews.pl/wp-content/uploads/2022/11/VeloBank_logo-e1669095277904.png", backgroundColor: 'rgba(25, 175, 77, 0.2)', borderColor: 'rgba(25, 175, 77, 1)' },
+    "Credit Agricole Bank Polska": { logo: "https://icons.veryicon.com/png/o/business/bank-logo-collection/logo-of-credit-agricole.png", backgroundColor: 'rgba(21, 123, 116, 0.3)', borderColor: 'rgba(21, 123, 116, 1)' },
+    "Raiffeisen Digital": { logo: "https://play-lh.googleusercontent.com/sWe4Dh2Z7Uxkdka9L07mQkGsu5ncH8BwCCCYVYjOLpOjbMz8YWNfyddM_oINkp3ZHKI", backgroundColor: 'rgba(255, 231, 58, 0.2)', borderColor: 'rgba(255, 231, 58, 1)' },
+    "BNP Paribas Bank Polska": { logo: "https://p7.hiclipart.com/preview/209/419/819/5bfad0c24e8e5.jpg", backgroundColor: 'rgba(22, 176, 117, 0.4)', borderColor: 'rgba(22, 176, 117, 1)' },
+    "Bank Pocztowy": { logo: "https://grubber.gpcdn.pl/companies/3333867/employer-profile-logos/2da80000-56be-0050-9e61-08dc01686915.jpg", backgroundColor: 'rgba(64, 22, 99, 0.3)', borderColor: 'rgba(64, 22, 99, 1)' },
   };
+
+  export const POLISH_BANKS_LOGOS_COLORS_ARR = Object.entries(POLISH_BANKS_LOGOS_COLORS)
 
   export const AGENT_PLAN = 300000
   export const TEAM_PLAN = 3000000
@@ -119,3 +121,8 @@ export const POLISH_BANKS = [
     return data.reduce((acc, obj) => acc + (+obj[key] || 0), 0); //eslint-disable-line
   };
 
+  export const convertToPercentValue = (value:number, data:number[]) => {
+    const sum = data.reduce((acc, data) => acc + data, 0); //eslint-disable-line
+    if (sum === 0) return '0%'; //eslint-disable-line
+    return ((value * 100) / sum).toFixed(2) + '%'; //eslint-disable-line
+  };

@@ -71,7 +71,7 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
       </FormControl>
       <Flex gap={'15px'}>
         {fragmentOfValuesKeys.map((key) => (
-          <>
+          <Flex key={key}>
             <FormControl
               key={key}
               variant='floating'
@@ -96,7 +96,7 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
                 {formik.errors[key as keyof typeof formik.errors]}
               </FormErrorMessage>
             </FormControl>
-          </>
+          </Flex>
         ))}
       </Flex>
 

@@ -19,7 +19,8 @@ export const AnaliticsSidebarComponent = ({
     totalTeamChancesValue,
   } = useStatisticsContext();
   // const [view, setView] = useState('agent');
-  const conditionalString = view === 'agent'
+  const isAgent = view === 'agent'
+  const conditionalString = isAgent
 ? 'your'
 : 'team';
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => setView(e.target.value);
@@ -56,7 +57,7 @@ export const AnaliticsSidebarComponent = ({
       >
         Value of {conditionalString} open sales chances
         <chakra.span fontSize='23px'>
-          {view === 'agent'
+          {isAgent
 ? totalAgentChancesValue
 : totalTeamChancesValue}
         </chakra.span>
@@ -75,11 +76,11 @@ export const AnaliticsSidebarComponent = ({
       >
         Value of {conditionalString} successes in {MONTH_NAME}
         <chakra.span fontSize='23px'>
-          {view === 'agent'
+          {isAgent
 ? totalFinalizedAgentThisMonth
 : totalFinalizedTeamThisMonth}
         </chakra.span>
-        <chakra.span>{`${view === 'agent'
+        <chakra.span>{`${isAgent
 ? agentPrecentPlanRealization+'% of individual plan realisation'
 : teamPrecentPlanRealization+'% of team plan realisation'}`}</chakra.span>
       </Flex>

@@ -31,7 +31,7 @@ export const useGetFinalizedFromSupabase = (
     queryFn: async () => {
       let query = supabase.from('finalized').select('*').order('created_at', { ascending: false });
 
-      if (agentEmail !== undefined && agentEmail !== null && agentEmail !== '') {
+      if (agentEmail) {
         query = query.eq('agentEmail', agentEmail);
       }
 

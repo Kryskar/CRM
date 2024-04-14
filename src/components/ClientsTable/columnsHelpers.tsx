@@ -3,7 +3,7 @@ import { CellContext } from '@tanstack/react-table';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { useGetUserFromSupabaseByEmail } from '../../api/queries/useGetUsersFromSupabase';
-import { POLISH_BANKS_LOGOS, STATUSES } from '../../constants/constants';
+import { POLISH_BANKS_LOGOS_COLORS, STATUSES } from '../../constants/constants';
 import ModifyClient from '../ModifyClient/ModifyClient';
 
 export const ChangeStatusButton = ({ info }: { info: CellContext<NewClient, unknown> }) => {
@@ -40,7 +40,7 @@ export const getColor = (value: string) => {
 };
 
 export const BankImage = ({ bankName }: { bankName: string }) => {
-  const link: string = POLISH_BANKS_LOGOS[bankName];
+  const link: string = POLISH_BANKS_LOGOS_COLORS[bankName].logo;
   return <Image alt={bankName} borderRadius='full' boxSize='30px' src={link} />;
 };
 

@@ -33,11 +33,11 @@ export interface CombinedArrItem extends UserSupabase {
 
 interface StatisticsContext {
   agentPrecentPlanRealization: string;
-  allChanceClients: NewClient[] | never[];
+  allChanceClients: NewClient[];
   combinedTeamArrCurrentMonth: CombinedArrItem[];
-  finalizedDataLoggedInAgent: never[] | FinalizedRecord[];
-  finalizedDataTeamThisMonth: never[] | FinalizedRecord[];
-  loggedInAgentChanceClients: NewClient[] | never[];
+  finalizedDataLoggedInAgent: FinalizedRecord[];
+  finalizedDataTeamThisMonth: FinalizedRecord[];
+  loggedInAgentChanceClients: NewClient[];
   teamPrecentPlanRealization: string;
   totalAgentChancesValue: number;
   totalFinalizedAgentThisMonth: number;
@@ -65,7 +65,7 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     (obj) => obj.agentEmail === email,
   );
 
-  const combinedTeamArrCurrentMonth = allUsers.map((item) => {
+  const combinedTeamArrCurrentMonth = allUsers.map((item:CombinedArrItem) => {
     const allAgentChanceClientsArr = allChanceClients.filter((el) => el.agentEmail === item.email);
     const finalizedAgentClientsArr = finalizedDataTeamThisMonth.filter(
       (el) => el.agentEmail === item.email,

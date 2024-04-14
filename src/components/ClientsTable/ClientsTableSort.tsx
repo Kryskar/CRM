@@ -9,12 +9,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
-
 
 interface ClientsTableSortProps {
   columns: any; //eslint-disable-line
-  data: NewClient[];
+  data: any; //eslint-disable-line
 }
 
 export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {

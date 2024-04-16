@@ -29,7 +29,7 @@ export const createDataAndOptionsForPieChart = (
         },
         datalabels: {
           formatter: (value: any, { chart }: { chart: any }) => //eslint-disable-line
-            convertToPercentValue(value, chart.data.datasets[0].data), //eslint-disable-line
+            convertToPercentValue(value, chart.data.datasets[0].data),  
           color: 'fontColor',
           font: {
             weight: 600,

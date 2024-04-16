@@ -118,11 +118,28 @@ export const POLISH_BANKS = [
   export const TEAM_PLAN = 3000000
 
   export const calculateTotal = (data: any[], key: string):number => { //eslint-disable-line
-    return data.reduce((acc, obj) => acc + (+obj[key] || 0), 0); //eslint-disable-line
+    return data.reduce((acc, obj) => acc + (+obj[key] || 0), 0);  
   };
 
   export const convertToPercentValue = (value:number, data:number[]) => {
-    const sum = data.reduce((acc, data) => acc + data, 0); //eslint-disable-line
-    if (sum === 0) return '0%'; //eslint-disable-line
+    const sum = data.reduce((acc, data) => acc + data, 0);  
+    if (sum === 0) return '0%';  
     return ((value * 100) / sum).toFixed(2) + '%'; //eslint-disable-line
+  };
+
+  export const parseDynamic = (value:string|number) => {
+    if (typeof value === 'string') {
+        return parseFloat(value);
+    }
+    return value
+}
+
+  export const TEAM_RANKING_OPTIONS = {
+    successesVolume: 'successes volume',
+    finalizedNumber: 'finalized number',
+    chancesVolume: 'chances volume',
+    chancesNumber: 'chances number',
+    notDoableNumber: 'not doable number',
+    individualPlan: 'individual plan %',
+    teamPlanContribution: 'team plan contribution',
   };

@@ -73,7 +73,6 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
         {fragmentOfValuesKeys.map((key) => (
           <Flex key={key}>
             <FormControl
-              key={key}
               variant='floating'
               isInvalid={
                 formik.touched[key as keyof typeof formik.touched] &&

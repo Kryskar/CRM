@@ -13,10 +13,14 @@ import { createDataAndOptionsForPieChart } from './pieChartHelpers';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
+interface BankData {
+  [key: string]: number;
+}
+
+type ArrOfLabelsAndSettings = [string,{backgroundColor:string,borderColor:string,logo:string},number]
+
 export const TeamSuccessesBanksPieChart = ({ data }: { data: FinalizedRecord[] }) => {
-  interface BankData {
-    [key: string]: number;
-  }
+ 
   const bankData: BankData = data.reduce(
     (acc: BankData, curr: { bank: string; loanAmount: number }) => {
       const { bank, loanAmount } = curr;
@@ -39,15 +43,13 @@ export const TeamSuccessesBanksPieChart = ({ data }: { data: FinalizedRecord[] }
   const arrOfValues: number[] = sortedBankData.map((item) => item.value);
   const arrOfLabels: string[] = sortedBankData.map((item) => item.bank);
 
-  type ArrOfLabelsAndSettings = [string,{backgroundColor:string,borderColor:string,logo:string},number]
-
   const arrOfLabelsAndSettings: ArrOfLabelsAndSettings[] = arrOfLabels.map((label) => {
     const labelsWithSettings = POLISH_BANKS_LOGOS_COLORS_ARR.find(([bank]) => bank === label);
     if (labelsWithSettings) {
       const [bank, settings] = labelsWithSettings;
       return [bank, settings, arrOfValues[arrOfLabels.indexOf(label)]]
     }
-    return ['', { logo: '', backgroundColor: '', borderColor: '' }, 0]; //eslint-disable-line
+    return ['', { logo: '', backgroundColor: '', borderColor: '' }, 0];  
   });
 
   const arrOfBgColors = arrOfLabelsAndSettings.map(([_, obj]) => obj.backgroundColor); //eslint-disable-line

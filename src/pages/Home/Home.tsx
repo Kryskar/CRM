@@ -9,7 +9,6 @@ import TaskBoard from '../../components/TaskBoard/Taskboard_Container/TaskBoard'
 import { BG_COLOR } from '../../constants/theme';
 import { useCheckDbForUser } from '../../hooks/useCheckDbForClient';
 import { useGetSession } from '../../hooks/useGetSession';
-// import { useCheckDbForClient } from '../../hooks/useCheckDbForClient';
 
 const Home = () => {
     const {decodedData} = useGetSession()

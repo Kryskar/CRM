@@ -23,9 +23,13 @@ import { useSessionContext } from './SessionProvider';
 export interface CombinedArrItem extends UserSupabase {
   chanceClients: NewClient[];
   finalized: FinalizedRecord[];
+  notDoableClients: NewClient[];
   statistics: {
     agentPrecentPlanRealization: string;
     contributionToTeamPlan: string;
+    numberOfChances: number;
+    numberOfFinalized: number;
+    numberOfNotDoable: number;
     totalAgentChancesValue: number;
     totalAgentFinalizedValue: number;
   };
@@ -47,11 +51,13 @@ interface StatisticsContext {
 
 const StatisticsContext = createContext<StatisticsContext | null>(null);
 
-const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }:{children:React.ReactNode}) => {
+const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const { email } = useSessionContext();
-  const { data: allChanceClients, isLoading: isLoadingAllClients } = useGetClientsFromSupabase(
-    STATUSES.chance,
-  );
+  const { data: allClients, isLoading: isLoadingAllClients } = useGetClientsFromSupabase('all');
   const { data: finalizedDataTeamThisMonth, isLoading: isFinalizedTeamLoading } =
     useGetFinalizedFromSupabase('', START_OF_CURRENT_MONTH, END_OF_CURRENT_MONTH);
 
@@ -60,16 +66,23 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   if (isLoadingAllClients || isFinalizedTeamLoading || isAllUsersLoading) {
     return <Spinner />;
   }
+  const allChanceClients = allClients.filter(
+    (el) =>
+      el.clientStatus !== STATUSES.callClient &&
+      el.clientStatus !== STATUSES.notDoable &&
+      el.clientStatus !== STATUSES.reported,
+  );
   const loggedInAgentChanceClients = allChanceClients.filter((obj) => obj.agentEmail === email);
   const finalizedDataLoggedInAgent = finalizedDataTeamThisMonth.filter(
     (obj) => obj.agentEmail === email,
   );
 
-  const combinedTeamArrCurrentMonth = allUsers.map((item:CombinedArrItem) => {
+  const combinedTeamArrCurrentMonth = allUsers.map((item: CombinedArrItem) => {
     const allAgentChanceClientsArr = allChanceClients.filter((el) => el.agentEmail === item.email);
     const finalizedAgentClientsArr = finalizedDataTeamThisMonth.filter(
       (el) => el.agentEmail === item.email,
     );
+    const notDoableAgentClients = allClients.filter(el => el.agentEmail === item.email && el.clientStatus===STATUSES.notDoable)
     const totalAgentChancesValue = calculateTotal(allAgentChanceClientsArr, 'requestedAmount');
     const totalAgentFinalizedValue = calculateTotal(finalizedAgentClientsArr, 'loanAmount');
     const agentPrecentPlanRealization = ((totalAgentFinalizedValue / AGENT_PLAN) * 100).toFixed(2); //eslint-disable-line
@@ -79,19 +92,20 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ...item,
       chanceClients: allAgentChanceClientsArr,
       finalized: finalizedAgentClientsArr,
+      notDoableClients: notDoableAgentClients,
       statistics: {
         totalAgentChancesValue: totalAgentChancesValue,
         totalAgentFinalizedValue: totalAgentFinalizedValue,
+        numberOfChances: allAgentChanceClientsArr.length,
+        numberOfFinalized: finalizedAgentClientsArr.length,
+        numberOfNotDoable: notDoableAgentClients.length,
         agentPrecentPlanRealization: agentPrecentPlanRealization,
         contributionToTeamPlan: contributionToTeamPlan,
       },
     };
   });
 
-  const totalAgentChancesValue = calculateTotal(
-    loggedInAgentChanceClients,
-    'requestedAmount',
-  );
+  const totalAgentChancesValue = calculateTotal(loggedInAgentChanceClients, 'requestedAmount');
   const totalTeamChancesValue = calculateTotal(allChanceClients, 'requestedAmount');
   const totalFinalizedAgentThisMonth = calculateTotal(finalizedDataLoggedInAgent,'loanAmount',); // prettier-ignore
   const totalFinalizedTeamThisMonth = calculateTotal(finalizedDataTeamThisMonth,'loanAmount',); // prettier-ignore
@@ -100,11 +114,8 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     (totalFinalizedAgentThisMonth / AGENT_PLAN) *
     100 
   ).toFixed(2); // prettier-ignore
-  const teamPrecentPlanRealization = (
-    (totalFinalizedTeamThisMonth / TEAM_PLAN) *
-    100 
-  ).toFixed(2); 
- 
+  const teamPrecentPlanRealization = ((totalFinalizedTeamThisMonth / TEAM_PLAN) * 100).toFixed(2);
+
   return (
     <StatisticsContext.Provider
       value={{

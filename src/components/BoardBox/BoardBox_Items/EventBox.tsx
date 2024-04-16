@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Avatar, Box, chakra, Flex, Link, useDisclosure } from '@chakra-ui/react';
+import { Avatar, Box, chakra, Flex, Link} from '@chakra-ui/react';
 
 import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { DATE_FORMATS, formattedDate, TODAY_BASIC_FORMAT } from '../../../constants/constants';
 
-import ChangeStatusModal from './ChangeStatusModal';
 
 export interface User {
   avatar_url: string;
@@ -31,7 +30,6 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
-  const { isOpen, onClose} = useDisclosure();
 
   // const handleClick = () => {
   //   onOpen();
@@ -76,10 +74,7 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
           <chakra.span color={"fontColor"}>{`Requested amount: ${client.requestedAmount}`}</chakra.span>
           <chakra.span color={"fontColor"} fontWeight={'600'}>{`Phone number: ${client.phoneNumber}`}</chakra.span>
         </Flex>
-        <Box textAlign={'center'}>
-          {/* <Button w={'50%'} onClick={handleClick}>change status</Button> */}
-          <ChangeStatusModal isOpen={isOpen} onClose={onClose} />
-        </Box>
+        <Box textAlign={'center'} />
       </Flex>
     </Flex>
   );

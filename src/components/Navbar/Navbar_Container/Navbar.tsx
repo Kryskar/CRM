@@ -1,19 +1,22 @@
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
 
 import { ROUTES } from '../../../constants/routes';
-import { useGetSession } from '../../../hooks/useGetSession';
+import { useSessionContext } from '../../../contexts/SessionProvider';
+import ChangeUserDataModal from '../Navbar_Items/ChangeUserDataModal';
 import LogOut from '../Navbar_Items/LogOut';
 import NavbarIconList from '../Navbar_Items/NavbarIconList';
 import ThemeSwitcher from '../Navbar_Items/ThemeSwitcher';
 
 const Navbar = () => {
-  const { decodedData } = useGetSession();
-  const navigate = useNavigate()
+  const { loggedInUserDbData } = useSessionContext();
+  const navigate = useNavigate();
   const handleAddClientClick = () => {
-    navigate(ROUTES.addClient)
-  }
-  
+    navigate(ROUTES.addClient);
+  };
+  const { email, picture} = loggedInUserDbData;
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <Flex
       alignItems='center'
@@ -32,14 +35,16 @@ const Navbar = () => {
         <ThemeSwitcher />
         <Avatar
           referrerPolicy={'no-referrer'} // added this because sometimes images wasn't displayed properly
+          src={picture}
           transform={'translateY(-6px)'}
-          src={decodedData
-? decodedData.user_metadata.picture
-: ''}
+          onClick={onOpen}
         />
-        <Text fontWeight={'700'}>{decodedData
-? decodedData.user_metadata.email
-: ''}</Text>
+        <ChangeUserDataModal
+          data={loggedInUserDbData}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+        <Text fontWeight={'700'}>{email}</Text>
         <LogOut />
       </Flex>
     </Flex>

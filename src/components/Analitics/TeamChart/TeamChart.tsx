@@ -5,10 +5,10 @@ import { FinalizedRecord } from '../../../api/queries/useGetFinalizedfromSupabas
 import {
   EMPTY_ARR,
   firstWordCharToUppercase,
-  INDEX_OF_FIRST_ITEM,
 } from '../../../constants/constants';
 import { CombinedArrItem } from '../../../contexts/StatisticsProvider';
-import { TeamSuccessesBanksPieChart } from '../Analitics_Items/PieChart/TeamSuccessesBanksPieChart';
+
+import { TeamSuccessesBanksPieChart } from './PieChart/TeamSuccessesBanksPieChart';
 
 type TeamChartProps = {
   data: {
@@ -29,12 +29,10 @@ const TeamChart = ({
       (el) => el.agentEmail === e.target.value,
     );
     setFilteredData(singleAgentFinalizedArr);
-    if (e.target.value !== TEAM_STRING && singleAgentFinalizedArr.length !== EMPTY_ARR) {
-      const user = combinedTeamArrCurrentMonth.find(
-        (el) => el.email === singleAgentFinalizedArr[INDEX_OF_FIRST_ITEM].agentEmail,
-      );
-      if (user) setFilteredDataLabel(user.fullName);
-    }
+
+    const userForLabel = combinedTeamArrCurrentMonth.find(el => el.email === e.target.value)
+      
+    if (userForLabel) setFilteredDataLabel(userForLabel.fullName)
     if (e.target.value === TEAM_STRING) {
       setFilteredData(finalizedDataTeamThisMonth);
       setFilteredDataLabel(firstWordCharToUppercase(TEAM_STRING));
@@ -55,7 +53,7 @@ const TeamChart = ({
           ))}
         </Select>
       </FormControl>
-      <Flex justifyContent={'center'}>
+      <Flex justifyContent={'center'} w={"300px"}>
         {filteredData.length !== EMPTY_ARR && <TeamSuccessesBanksPieChart data={filteredData} />}
         {filteredData.length === EMPTY_ARR && <Text>no successes this month yet</Text>}
       </Flex>

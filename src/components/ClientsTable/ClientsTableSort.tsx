@@ -70,7 +70,7 @@ export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {
             key={row.id}
             color={'fontColor'}
             bgColor={
-              index % 2 === 0 //eslint-disable-line
+              index % 2 === 0  
                 ? 'secondaryColor'
                 : 'tertiaryColor'
             }

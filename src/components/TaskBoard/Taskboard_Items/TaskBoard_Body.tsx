@@ -7,64 +7,83 @@ import { DATE_FORMATS, formattedDate, INDEX_OF_FIRST_ITEM } from '../../../const
 import { SCROLLBAR } from '../../../constants/custom_styles';
 import { ROUTES } from '../../../constants/routes';
 
+import { splitString } from './taskBoardHelpers';
+
 interface TaskBoard_Body_Props {
   data: {
     events: Event[];
-  } | null;
+  };
   endDate: string;
   startDate: string;
 }
 
 const TaskBoard_Body = ({ data, endDate, startDate }: TaskBoard_Body_Props) => {
-  const EQUAL_FOR_SORT_FN = 0;
   const navigate = useNavigate();
 
   const handleIconClick = () => {
     navigate(ROUTES.calendar);
   };
+  const { events } = data;
+  const isLastEvent = (index: number) => index === events.length - 1;
 
   return (
     <>
       <Flex
         fontSize={'10px'}
         justifyContent={'flex-end'}
+        pr="5px"
       >{`${formattedDate(startDate, DATE_FORMATS.basic)} - ${formattedDate(endDate, DATE_FORMATS.basic)}`}</Flex>
-      <Flex flexDirection={'column'} overflow='auto' sx={SCROLLBAR}>
-        <Flex flexDirection={'column'}>
-          {data?.events
-            .sort((a, b) =>
-              a.start && b.start
-? a.start.getTime() - b.start.getTime()
-: EQUAL_FOR_SORT_FN,
-            )
-            .map((event, index) => (
-              <Flex
-                key={event.id}
-                borderBottom={'1px black solid'}
-                fontSize={'12px'}
-                justifyContent={'space-between'}
-                p='5px'
-                _hover={{
+      <Flex flexDirection={'column'} h='300px'>
+        <Flex flexDirection={'column'} overflow='auto' sx={SCROLLBAR}>
+          {events.map((event, index) => (
+            <Flex
+              key={event.id}
+              flexDirection={'column'}
+              fontSize={'12px'}
+              gap='10px'
+              justifyContent={'space-between'}
+              p='5px'
+              _hover={{
+                color: 'secondaryColor',
+                backgroundColor: 'fontColor',
+                '& > .date': {
                   color: 'secondaryColor',
-                  backgroundColor: 'fontColor',
-                }}
-                borderTop={index === INDEX_OF_FIRST_ITEM
-? '1px black solid'
+                },
+              }}
+              borderBottom={isLastEvent(index)
+? ''
+: '1px solid'}
+              borderBottomLeftRadius={isLastEvent(index)
+? '5px'
 : ''}
-              >
-                <Flex flexDirection={'column'}>
-                  <chakra.span>
-                    <CalendarIcon cursor={'pointer'} onClick={handleIconClick} /> event{' '}
-                  </chakra.span>
-                  {event.title}
-                </Flex>
-                <chakra.span fontSize={'9px'}>
+              borderTop={index === INDEX_OF_FIRST_ITEM
+? '1px solid'
+: ''}
+            >
+              <Flex justifyContent={'space-between'}>
+                <chakra.span>
+                  <CalendarIcon cursor={'pointer'} onClick={handleIconClick} /> event{' '}
+                </chakra.span>
+                <chakra.span className='date' color='linkColor' fontSize={'9px'}>
                   {event.start
                     ? formattedDate(event.start.toISOString(), DATE_FORMATS.forTask)
                     : ''}
                 </chakra.span>
               </Flex>
-            ))}
+              <Flex flexDirection={'column'}>
+                {event.title
+? (
+                  <>
+                    <Flex fontWeight={'600'}>{splitString(event.title).title}</Flex>
+                    <Flex>{splitString(event.title).rest}</Flex>
+                  </>
+                )
+: (
+                  ''
+                )}
+              </Flex>
+            </Flex>
+          ))}
         </Flex>
       </Flex>
     </>

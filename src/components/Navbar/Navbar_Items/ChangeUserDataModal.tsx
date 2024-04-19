@@ -31,8 +31,7 @@ const ChangeUserDataModal = ({
   const handleClose = () => {
     onClose();
   };
-  const {updateUser} = useUpdateUser()
-  // const queryClient = useQueryClient()
+  const { updateUser } = useUpdateUser();
 
   const { handleBlur, handleChange, handleSubmit, values } = useFormik({
     initialValues: {
@@ -40,24 +39,26 @@ const ChangeUserDataModal = ({
       picture: picture,
     },
     onSubmit: async (values) => {
-    updateUser({values,email})
-    // queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getUsers] });
-    onClose()
+      updateUser({ values, email });
+      onClose();
     },
   });
-
-  // useEffect(()=>{resetForm()},[isOpen])
 
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>
-        <ModalOverlay />
+        <ModalOverlay bgColor={'modalOverlayColor'} />
 
         <ModalContent>
-          <ModalHeader>change user display data</ModalHeader>
+          <ModalHeader bgColor={'primaryColor'} color='fontColor'>
+            change user display data
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <form onSubmit={handleSubmit}>
+          <ModalBody bgColor={'primaryColor'} color='fontColor'>
+            <form
+              style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+              onSubmit={handleSubmit}
+            >
               <FormControl>
                 <FormLabel htmlFor='email'>email:</FormLabel>
                 <Input disabled id='email' value={email} />
@@ -76,14 +77,14 @@ const ChangeUserDataModal = ({
               <FormControl>
                 <FormLabel htmlFor='picture'>picture:</FormLabel>
                 <Input
-                id='picture'
-                  mb="30px"
+                  id='picture'
+                  mb='30px'
                   value={values.picture}
                   onBlur={handleBlur}
                   onChange={handleChange}
                 />
               </FormControl>
-              <Flex alignItems={'center'} flexDir={'column'} mb="50px" w={'100%'}>
+              <Flex alignItems={'center'} flexDir={'column'} mb='50px' w={'100%'}>
                 <Text fontSize={'10px'}>Preview Picture</Text>
                 <Avatar size={'2xl'} src={values.picture} />
               </Flex>

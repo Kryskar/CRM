@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   flexRender,
   getCoreRowModel,
@@ -8,6 +8,8 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+
+import { BOX_SHADOW } from '../../constants/theme';
 
 
 interface ClientsTableSortProps {
@@ -29,15 +31,19 @@ export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {
   });
 
   return (
+    <Box boxShadow={BOX_SHADOW} w="100%" >
     <Table>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <Tr key={headerGroup.id}>
+          <Tr key={headerGroup.id} >
             {headerGroup.headers.map((header) => {
               const meta: any = header.column.columnDef.meta; //eslint-disable-line
               return (
                 <Th
                 key={header.id}
+                bgColor={"tertiaryColor"}
+                border={"1px solid"}
+                color="linkColor"
                   isNumeric={meta?.isNumeric}
                   textAlign="center"
                   onClick={header.column.getToggleSortingHandler()}
@@ -78,7 +84,7 @@ export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {
             {row.getVisibleCells().map((cell) => {
               const meta: any = cell.column.columnDef.meta; //eslint-disable-line
               return (
-                <Td key={cell.id} border={"1px black solid"} isNumeric={meta?.isNumeric} textAlign={"center"}>
+                <Td key={cell.id} border={"1px solid"} isNumeric={meta?.isNumeric} textAlign={"center"}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Td>
               );
@@ -87,5 +93,6 @@ export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {
         ))}
       </Tbody>
     </Table>
+    </Box>
   );
 };

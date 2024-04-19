@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
+  chakra,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -38,7 +39,7 @@ const AddClient_Container = ({
   data: NewClient | null;
   onClose?: () => void;
 }) => {
-  const {email} = useSessionContext()
+  const { email } = useSessionContext();
   const [selectedCheckbox, setSelectedCheckbox] = useState('');
   const { addClient } = useAddClientToSupabase();
   const { editClient } = useEditClient();
@@ -114,14 +115,19 @@ const AddClient_Container = ({
               }
             >
               <Input
+                errorBorderColor='analyticsRed'
                 name={formKey}
                 placeholder=''
                 value={values[formKey as keyof typeof values]}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <FormLabel>{getFormLabels(formKey)}</FormLabel>
-              <FormErrorMessage>{errors[formKey as keyof typeof errors]}</FormErrorMessage>
+              <FormLabel requiredIndicator={<chakra.span color={'analyticsRed'}> *</chakra.span>}>
+                {getFormLabels(formKey)}
+              </FormLabel>
+              <FormErrorMessage color={'analyticsRed'}>
+                {errors[formKey as keyof typeof errors]}
+              </FormErrorMessage>
             </FormControl>
           ))}
 
@@ -131,7 +137,9 @@ const AddClient_Container = ({
               chanceCheckboxProps={{ selectedCheckbox, setSelectedCheckbox }}
               formik={formik}
             />
-            <Button type='submit'>Proceed</Button>
+            <Button mb={'30px'} type='submit'>
+              Proceed
+            </Button>
           </>
         )}
         {!data && (

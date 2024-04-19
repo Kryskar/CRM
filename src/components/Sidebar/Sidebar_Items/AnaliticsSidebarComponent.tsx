@@ -1,13 +1,14 @@
 import { ChangeEvent } from 'react';
-import { chakra,Flex, Select, Text } from '@chakra-ui/react';
+import { chakra, Flex, Select, Text } from '@chakra-ui/react';
 
 import { MONTH_NAME } from '../../../constants/constants';
 import { useStatisticsContext } from '../../../contexts/StatisticsProvider';
+import { useThemeContext } from '../../../contexts/ThemeProvider';
 
 export const AnaliticsSidebarComponent = ({
   state,
 }: {
-  state: { setView: React.Dispatch<React.SetStateAction<string>>, view: string; };
+  state: { setView: React.Dispatch<React.SetStateAction<string>>; view: string };
 }) => {
   const { setView, view } = state;
   const {
@@ -18,8 +19,9 @@ export const AnaliticsSidebarComponent = ({
     totalFinalizedTeamThisMonth,
     totalTeamChancesValue,
   } = useStatisticsContext();
+  const { CONDITIONAL_OPTION_THEME } = useThemeContext();
   // const [view, setView] = useState('agent');
-  const isAgent = view === 'agent'
+  const isAgent = view === 'agent';
   const conditionalString = isAgent
 ? 'your'
 : 'team';
@@ -30,33 +32,35 @@ export const AnaliticsSidebarComponent = ({
       <Flex
         alignItems={'center'}
         borderBottom='1px solid'
-        borderColor='scrollbarColor'
-        fontSize='12px'
+        fontSize={{md:12, lg:12}} //to  be set later
         h='fit-content'
         justifyContent={'space-between'}
-        pb='10px'
-        pl='15px'
-        pr='15px'
-        pt='10px'
+        px="15px"
+        py="10px"
         w='100%'
       >
         <Text>Quick statistics</Text>
         <Select bgColor={'primaryColor'} h={'30px'} w='100px' onChange={handleChange}>
-          <option value='agent'>agent</option>
-          <option value='team'>team</option>
+          <option style={CONDITIONAL_OPTION_THEME} value='agent'>
+            agent
+          </option>
+          <option style={CONDITIONAL_OPTION_THEME} value='team'>
+            team
+          </option>
         </Select>
       </Flex>
       <Flex
         flexDirection='column'
+        fontSize={{md:16, lg:16}} //to  be set later
         fontWeight='500'
         h='fit-content'
-        pb='10px'
         pl='15px'
-        pt='10px'
+        py="10px"
         w='100%'
       >
         Value of {conditionalString} open sales chances
-        <chakra.span fontSize='23px'>
+        <chakra.span fontSize={{md:23, lg:23}} //to  be set later
+        > 
           {isAgent
 ? totalAgentChancesValue
 : totalTeamChancesValue}
@@ -64,25 +68,27 @@ export const AnaliticsSidebarComponent = ({
       </Flex>
       <Flex
         borderBottom='1px solid'
-        borderColor='scrollbarColor'
         borderTop='1px solid'
         flexDirection='column'
+        fontSize={{md:16, lg:16}} //to  be set later
         fontWeight='500'
         h='fit-content'
-        pb='10px'
         pl='15px'
-        pt='10px'
+        py='10px'
         w='100%'
       >
         Value of {conditionalString} successes in {MONTH_NAME}
-        <chakra.span fontSize='23px'>
+        <chakra.span fontSize={{md:23, lg:23}} //to  be set later
+        >
           {isAgent
 ? totalFinalizedAgentThisMonth
 : totalFinalizedTeamThisMonth}
         </chakra.span>
-        <chakra.span>{`${isAgent
-? agentPrecentPlanRealization+'% of individual plan realisation'
-: teamPrecentPlanRealization+'% of team plan realisation'}`}</chakra.span>
+        <chakra.span>{`${
+          isAgent
+            ? agentPrecentPlanRealization + '% of individual plan realisation'
+            : teamPrecentPlanRealization + '% of team plan realisation'
+        }`}</chakra.span>
       </Flex>
     </Flex>
   );

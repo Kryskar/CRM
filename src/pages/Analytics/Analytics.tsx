@@ -6,16 +6,15 @@ import TeamChart from '../../components/Analitics/TeamChart/TeamChart';
 import { useStatisticsContext } from '../../contexts/StatisticsProvider';
 
 
-const Analitics = () => {
+const Analytics = () => {
   const { combinedTeamArrCurrentMonth, finalizedDataTeamThisMonth } = useStatisticsContext();
-
   return (
-    <Flex justifyContent={'space-between'} p='0 40px 0 40px' w='100%'>
+    <Flex  justifyContent={'space-between'} mt={"40px"} p='0 40px 0 40px' w='100%'>
       <StatisticsIndividualAndTeam />
-      <TeamMembersRankings2 />
       <TeamChart data={{ finalizedDataTeamThisMonth, combinedTeamArrCurrentMonth }} />
+      <TeamMembersRankings2 />
     </Flex>
   );
 };
 
-export default Analitics;
+export default Analytics;

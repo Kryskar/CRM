@@ -14,10 +14,10 @@ export const SidebarChance = ({ obj, view }: { obj: NewClient; view: string }) =
       <Flex justifyContent={'space-between'}>
         <Flex flexDirection={'column'}>
           <chakra.span fontSize={'13px'}>{`${obj.name} ${obj.surname}`}</chakra.span>
-          <chakra.span color={'#4cca36'} fontSize={'13px'}>{`${obj.clientStatus}`}</chakra.span>
+          <chakra.span color={'analyticsGreen'} fontSize={'13px'}>{`${obj.clientStatus}`}</chakra.span>
           {view === 'team'
 ? (
-            <chakra.span color={'blue'} fontSize={'10px'}>{`${fullName}`}</chakra.span>
+            <chakra.span color={'analyticsBlue'} fontSize={'10px'}>{`${fullName}`}</chakra.span>
           )
 : (
             ''

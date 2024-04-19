@@ -3,6 +3,7 @@ import { Avatar, Flex, Select, Text } from '@chakra-ui/react';
 
 import { TEAM_RANKING_OPTIONS } from '../../../constants/constants';
 import { CombinedArrItem, useStatisticsContext } from '../../../contexts/StatisticsProvider';
+import { useThemeContext } from '../../../contexts/ThemeProvider';
 
 import CustomAnalyticsFlex from './CustomAnaliticsFlex';
 
@@ -23,6 +24,7 @@ interface MappedCombinedTeam {
 }
 // team ranking with groupping same results
 const TeamMembersRankings2 = () => {
+  const { CONDITIONAL_OPTION_THEME } = useThemeContext();
   const { combinedTeamArrCurrentMonth } = useStatisticsContext();
   const [selectValue, setSelectValue] = useState(TEAM_RANKING_OPTIONS.successesVolume);
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => setSelectValue(e.target.value);
@@ -59,11 +61,11 @@ const TeamMembersRankings2 = () => {
   const getItemProperties = (index: number) => {
     switch (index) {
       case 0:
-        return { color: '#cca528', size: '35px' };
+        return { color: 'teamRankingFirstColor', size: '35px' };
       case 1:
-        return { color: 'gray', size: '30px' };
+        return { color: 'teamRankingSecondColor', size: '30px' };
       case 2:
-        return { color: '#8d2e31', size: '25px' };
+        return { color: 'teamRankingThirdColor', size: '25px' };
       default:
         return { color: 'fontColor', size: '18px' };
     }
@@ -86,7 +88,7 @@ const TeamMembersRankings2 = () => {
     }, []);
 
     return grouped;
-  }
+  };
 
   const mappedCombinedTeamArr: MappedCombinedTeam[] = combinedTeamArrCurrentMonth.map((el) => ({
     name: el.fullName,
@@ -98,29 +100,28 @@ const TeamMembersRankings2 = () => {
 
   return (
     <CustomAnalyticsFlex alignItems={'center'} gap='20px' w='400px'>
-      <Text fontSize={"16px"} fontWeight={600}>Team members rankings:</Text>
+      <Text fontSize={'16px'} fontWeight={600}>
+        Team members rankings:
+      </Text>
       <Select bgColor={'primaryColor'} w={'60%'} onChange={handleChange}>
         {Object.values(TEAM_RANKING_OPTIONS).map((el) => (
-          <option key={el} value={el}>
+          <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
             {el}
           </option>
         ))}
       </Select>
       <Flex flexDirection={'column'} gap='10px' pt={'20px'} w='80%'>
         {sortedAndGrouped.map((el, index) => (
-          <Flex key={el.total}
+          <Flex
+            key={el.total}
             alignItems={'center'}
             boxShadow={'0 2px 2px -2px gray'}
             justifyContent={'space-between'}
             pb='10px'
           >
-            <Flex >
+            <Flex>
               <Flex alignItems={'center'} boxSize={'35px'} justifyContent={'center'}>
-                <Text
-                  color={getItemProperties(index).color}
-                  fontSize={getItemProperties(index).size}
-                  fontWeight={600}
-                >
+                <Text color={getItemProperties(index).color} fontSize={'25px'} fontWeight={600}>
                   {index + 1}
                 </Text>
               </Flex>

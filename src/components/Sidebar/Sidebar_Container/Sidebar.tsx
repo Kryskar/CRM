@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, FlexProps, Text } from '@chakra-ui/react';
 
 import {
   firstWordCharToUppercase,
 } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
+import { BOX_SHADOW } from '../../../constants/theme';
 import { useStatisticsContext } from '../../../contexts/StatisticsProvider';
 import { AnaliticsSidebarComponent } from '../Sidebar_Items/AnaliticsSidebarComponent';
 import { SidebarChance } from '../Sidebar_Items/SidebarChance';
 
-const Sidebar = ({ w }: { w: string }) => {
+const Sidebar = ({...flexProps }: FlexProps) => {
   const {
     allChanceClients,
     loggedInAgentChanceClients,
@@ -26,13 +27,16 @@ const Sidebar = ({ w }: { w: string }) => {
   return (
     <Flex
       bgColor='secondaryColor'
+      borderRadius={"5px"}
+      boxShadow={BOX_SHADOW}
       color='fontColor'
       flexDirection='column'
       h='100%'
       overflow='auto'
+      pb={"10px"}
       pos='sticky'
       sx={SCROLLBAR}
-      w={w}
+      {...flexProps}
     >
       <AnaliticsSidebarComponent state={{view,setView}}/>
       <Flex flexDirection={'column'} p='10px 15px 0 15px'>

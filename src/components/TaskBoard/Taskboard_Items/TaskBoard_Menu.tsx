@@ -49,10 +49,11 @@ const TaskBoard_Menu = ({
   };
   return (
     <Flex
-      bgColor={'quaternaryColor'}
+    bgColor={'quaternaryColor'}
       color={'linkColor'}
       flexDirection={'column'}
       fontSize={'10px'}
+      p="0 5px 0 5px"
     >
       <Flex gap='5px'>
         <Link

@@ -10,7 +10,7 @@ const Clients = React.lazy(() => import('./pages/Clients/Clients'));
 const Calendar = React.lazy(() => import('./pages/Calendar/Calendar'));
 const Chances = React.lazy(() => import('./pages/Chances/Chances'));
 const Finalized = React.lazy(() => import('./pages/Finalized/Finalized'));
-const Analitics = React.lazy(() => import('./pages/Analitics/Analitics'));
+const Analytics = React.lazy(() => import('./pages/Analytics/Analytics'));
 const AddClient = React.lazy(() => import('./pages/Add_Client/AddClient'));
 
 const App = () => {
@@ -26,9 +26,9 @@ const App = () => {
             <Route element={<Calendar />} path={ROUTES.calendar} />
             <Route element={<Chances />} path={ROUTES.chances} />
             <Route element={<Finalized />} path={ROUTES.finalized} />
-            <Route element={<Analitics />} path={ROUTES.analitics} />
+            <Route element={<Analytics />} path={ROUTES.analytics} />
+            <Route element={<AddClient/>} path={ROUTES.addClient}/>
           </Route>
-          <Route element={<AddClient/>} path={ROUTES.addClient}/>
         </Routes>
       </Suspense>
       </StatisticsProvider>

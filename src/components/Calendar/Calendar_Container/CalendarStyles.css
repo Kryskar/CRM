@@ -4,14 +4,16 @@
   --tertiary-color: #d2d3db;
   --quaternary-color: #f6f6fa;
   --font-color: #484b6a;
+  --link-color: #4d4df1
 }
 
 [data-theme='dark'] {
   --primary-color: #222831;
-  --secondary-color: #393e46;
-  --tertiary-color: #4c5b74;
+  --secondary-color: #2c3038;
+  --tertiary-color: #3e434b;
   --quaternary-color: #5b6169;
   --font-color: #eeeeee;
+  --link-color: rgb(87, 227, 195)
 }
 
 .rbc-header {
@@ -64,7 +66,7 @@
 }
 
 .rbc-event {
-  background-color: #4289f0;
+  background-color: var(--link-color);
   color: white;
 }
 

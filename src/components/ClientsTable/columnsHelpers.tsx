@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Spinner, Text,useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, Image, Spinner, Text, useDisclosure } from '@chakra-ui/react';
 import { CellContext } from '@tanstack/react-table';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
@@ -31,11 +31,11 @@ export const ChangeStatusButton = ({ info }: { info: CellContext<NewClient, unkn
 export const getColor = (value: string) => {
   switch (value) {
     case STATUSES.callClient:
-      return 'blue';
+      return 'analyticsBlue';
     case STATUSES.notDoable:
-      return 'red';
+      return 'analyticsRed';
     default:
-      return '#4cca36';
+      return 'analyticsGreen';
   }
 };
 

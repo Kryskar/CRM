@@ -1,9 +1,9 @@
 import { chakra, Flex } from '@chakra-ui/react';
 
 import {
+  analyticsGetColor,
   DAYS_IN_CURRENT_MONTH,
   DAYS_UNTIL_END_OF_MONTH,
-  parseDynamic,
   TEAM_PLAN,
   TODAY,
 } from '../../../../constants/constants';
@@ -29,30 +29,8 @@ export const TeamPlanAndRealisation = () => {
     },
   };
 
-  const getColor = (el: { label: string; value: number | string }) => {
-    const HALF = 0.5;
-    const HUNDRED_PRECENT = 100
-    const value = parseDynamic(el.value);
-    if (el.label === sections.sectionOne.teamPlanRealisationVolume.label) {
-      if (value < TEAM_PLAN * HALF) {
-        return 'red';
-      } else if (value > TEAM_PLAN * HALF) {
-        return 'orange';
-      } else if (value > TEAM_PLAN) {
-        return 'green';
-      }
-    }
-    if (el.label === sections.sectionTwo.teamPlanRealisation.label) {
-      if (value < HUNDRED_PRECENT * HALF) {
-        return 'red';
-      } else if (value > HUNDRED_PRECENT * HALF) {
-        return 'orange';
-      } else if (value > HUNDRED_PRECENT) {
-        return 'green';
-      }
-    }
-    return 'fontColor';
-  };
+  const { label: teamPlanRealisationLabel } = sections.sectionTwo.teamPlanRealisation;
+  const { label: teamPlanRealisationVolumeLabel } = sections.sectionOne.teamPlanRealisationVolume;
 
   return (
     <CustomAnalyticsFlex flexDirection={'row'} justifyContent={'space-between'}>
@@ -60,7 +38,16 @@ export const TeamPlanAndRealisation = () => {
         {Object.values(sections.sectionOne).map((el) => (
           <Flex key={el.label} justifyContent={'space-between'}>
             <chakra.span fontWeight={'600'}>{el.label}</chakra.span>
-            <chakra.span color={getColor(el)}>{el.value}</chakra.span>
+            <chakra.span
+              color={analyticsGetColor(
+                el,
+                teamPlanRealisationLabel,
+                teamPlanRealisationVolumeLabel,
+                'team',
+              )}
+            >
+              {el.value}
+            </chakra.span>
           </Flex>
         ))}
       </Flex>
@@ -68,7 +55,14 @@ export const TeamPlanAndRealisation = () => {
         {Object.values(sections.sectionTwo).map((el) => (
           <Flex key={el.label} justifyContent={'space-between'}>
             <chakra.span fontWeight={'600'}>{el.label}</chakra.span>
-            <chakra.span color={getColor(el)}>
+            <chakra.span
+              color={analyticsGetColor(
+                el,
+                teamPlanRealisationLabel,
+                teamPlanRealisationVolumeLabel,
+                'team',
+              )}
+            >
               {el.label === sections.sectionTwo.teamPlanRealisation.label ||
               el.label === sections.sectionTwo.timePassed.label
                 ? el.value + '%'

@@ -1,33 +1,35 @@
 import { useState } from 'react';
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Flex, FlexProps, Spinner } from '@chakra-ui/react';
 
 import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendarEvents';
 import { END_OF_CURRENT_MONTH, START_OF_CURRENT_MONTH } from '../../../constants/constants';
 import { QUERY_KEYS } from '../../../constants/query_keys';
+import { BOX_SHADOW } from '../../../constants/theme';
 import { useGetSession } from '../../../hooks/useGetSession';
 import TaskBoard_Body from '../Taskboard_Items/TaskBoard_Body';
 import TaskBoard_Header from '../Taskboard_Items/TaskBoard_Header';
 import TaskBoard_Menu from '../Taskboard_Items/TaskBoard_Menu';
 
 
-const TaskBoard = ({ w }: { w: string }) => {
+const TaskBoard = ({ ...flexProps }: FlexProps) => {
   const { session } = useGetSession();
   const [startDate, setStartDate] = useState(START_OF_CURRENT_MONTH);
   const [endDate, setEndDate] = useState(END_OF_CURRENT_MONTH);
 
   const [queryKey, setQueryKey] = useState(QUERY_KEYS.getEventsThisMonth);
-  const { data, isLoading } = useGetGoogleCalendarEvents(session, queryKey, startDate, endDate);
+  const { data, isLoading} = useGetGoogleCalendarEvents(session, queryKey, startDate, endDate);
 
-  if (isLoading) return <Spinner />;
+  if (!data || isLoading) return <Spinner />;
 
   return (
     <Flex
       bgColor={'secondaryColor'}
       borderRadius={'5px'}
+      boxShadow={BOX_SHADOW}
       color='fontColor'
       flexDirection={'column'}
       h='50%'
-      w={w}
+      {...flexProps}
     >
       <TaskBoard_Header data={data} endDate={endDate} startDate={startDate} />
       <TaskBoard_Menu

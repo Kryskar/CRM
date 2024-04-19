@@ -7,6 +7,7 @@ import {
   firstWordCharToUppercase,
 } from '../../../constants/constants';
 import { CombinedArrItem } from '../../../contexts/StatisticsProvider';
+import { useThemeContext } from '../../../contexts/ThemeProvider';
 
 import { TeamSuccessesBanksPieChart } from './PieChart/TeamSuccessesBanksPieChart';
 
@@ -23,6 +24,7 @@ const TeamChart = ({
   const TEAM_STRING = 'team';
   const [filteredData, setFilteredData] = useState(finalizedDataTeamThisMonth);
   const [filteredDataLabel, setFilteredDataLabel] = useState(firstWordCharToUppercase(TEAM_STRING));
+  const {CONDITIONAL_OPTION_THEME} = useThemeContext()
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const singleAgentFinalizedArr = finalizedDataTeamThisMonth.filter(
@@ -40,14 +42,14 @@ const TeamChart = ({
   };
   return (
     <Flex flexDirection={'column'} gap='20px'>
-      <Text fontSize={'18px'} fontWeight={'600'} textAlign={'center'}>
+      <Text fontSize={'16px'} fontWeight={'600'} textAlign={'center'}>
         {filteredDataLabel} Success Data
       </Text>
       <FormControl alignSelf={'center'} w={'200px'}>
         <Select onChange={handleChange}>
-          <option value={TEAM_STRING}>{TEAM_STRING}</option>
+          <option style={CONDITIONAL_OPTION_THEME} value={TEAM_STRING}>{TEAM_STRING}</option>
           {combinedTeamArrCurrentMonth.map((user) => (
-            <option key={user.id} value={user.email}>
+            <option key={user.id} style={CONDITIONAL_OPTION_THEME} value={user.email}>
               {user.fullName}
             </option>
           ))}

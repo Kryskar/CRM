@@ -1,4 +1,5 @@
 import { convertToPercentValue } from "../../../../constants/constants";
+import { DARK_MODE, LIGHT_MODE } from "../../../../constants/theme";
 
 export const createDataAndOptionsForPieChart = (
     label: string,
@@ -6,6 +7,7 @@ export const createDataAndOptionsForPieChart = (
     data: number[],
     bgColors: string[],
     borderColors: string[],
+    isDarkMode:boolean
   ) => {
     const SHORT = 4
     const isDataShort = data.length<=SHORT
@@ -30,7 +32,9 @@ export const createDataAndOptionsForPieChart = (
         datalabels: {
           formatter: (value: any, { chart }: { chart: any }) => //eslint-disable-line
             convertToPercentValue(value, chart.data.datasets[0].data),  
-          color: 'fontColor',
+          color: isDarkMode
+? DARK_MODE.fontColor
+: LIGHT_MODE.fontColor,
           font: {
             weight: 600,
             size:isDataShort

@@ -3,6 +3,7 @@ import { Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { SCROLLBAR } from '../../../../constants/custom_styles';
 import { useSessionContext } from '../../../../contexts/SessionProvider';
 import { CombinedArrItem, useStatisticsContext } from '../../../../contexts/StatisticsProvider';
+import { useThemeContext } from '../../../../contexts/ThemeProvider';
 import CustomAnalyticsFlex from '../CustomAnaliticsFlex';
 
 import { BarChartStats, createDataAndOptionsForBarChart } from './Bar/BarChartStats';
@@ -12,6 +13,7 @@ import { TeamPlanAndRealisation } from './TeamPlanAndRealisation';
 const StatisticsIndividualAndTeam = () => {
   const { combinedTeamArrCurrentMonth } = useStatisticsContext();
   const { email } = useSessionContext();
+  const {isDarkMode} = useThemeContext()
   const loggedInUserFirstInArrSort = (a: CombinedArrItem, b: CombinedArrItem) => {
     if (a.email === email) return -1;
     if (b.email === email) return 1;
@@ -27,7 +29,7 @@ const StatisticsIndividualAndTeam = () => {
     loggedInUser.statistics.numberOfNotDoable,
   ];
 
-  const { data, options } = createDataAndOptionsForBarChart(dataset);
+  const { data, options } = createDataAndOptionsForBarChart(dataset, isDarkMode);
   return (
     <Flex flexDirection={'column'} gap='10px'>
       <TeamPlanAndRealisation />

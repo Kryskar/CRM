@@ -1,8 +1,13 @@
+import { Flex } from '@chakra-ui/react';
+
 import CalendarComponent from '../../components/Calendar/Calendar_Container/CalendarComponent';
 
 const Calendar = () => {
-
-  return <CalendarComponent />;
+  return (
+    <Flex justifyContent={'center'} w='100vw'>
+      <CalendarComponent />
+    </Flex>
+  );
 };
 
 export default Calendar;

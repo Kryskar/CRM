@@ -44,7 +44,6 @@ export const createEventToSupabase = (
   decodedData: GoogleDecodedData,
 ) => {
   const { id } = client;
-
   const eventObj = {
     user: JSON.stringify(decodedData.user_metadata),
     client: JSON.stringify(client),

@@ -24,19 +24,20 @@ const Navbar = () => {
       color={'fontColor'}
       gap={'10px'}
       h={'100%'}
-      justifyContent={'center'}
+      justifyContent={'space-between'}
       pr='20px'
+      
     >
-      <Flex alignItems={'center'} gap={'20px'} left={5} position={'absolute'} top={3}>
+      <Flex alignItems={'center'} gap={'20px'} >
         <Button onClick={handleAddClientClick}>Add Client</Button>
       </Flex>
       <NavbarIconList />
-      <Flex alignItems={'center'} gap={'20px'} position={'absolute'} right={5} top={3}>
+      <Flex alignItems={'center'} gap={'20px'}>
         <ThemeSwitcher />
         <Avatar
+        
           referrerPolicy={'no-referrer'} // added this because sometimes images wasn't displayed properly
           src={picture}
-          transform={'translateY(-6px)'}
           onClick={onOpen}
         />
         <ChangeUserDataModal

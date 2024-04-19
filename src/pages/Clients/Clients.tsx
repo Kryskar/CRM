@@ -1,20 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Flex, FormControl, Select, Spinner } from '@chakra-ui/react';
 
 import { useGetClientsFromSupabase } from '../../api/queries/useGetClientsFromSupabase';
 import { ClientsTableSort } from '../../components/ClientsTable/ClientsTableSort';
 import { columnsClients, columnsClientsWithAgent } from '../../components/ClientsTable/columns';
 import { STATUSES } from '../../constants/constants';
+import { SCROLLBAR } from '../../constants/custom_styles';
+import { BOX_SHADOW } from '../../constants/theme';
 import { useSessionContext } from '../../contexts/SessionProvider';
+import { useThemeContext } from '../../contexts/ThemeProvider';
 
 const Clients = () => {
-  const {email} = useSessionContext()
+  const { email } = useSessionContext();
   const [clientStatusToFilter, setClientStatusToFilter] = useState(STATUSES.callClient);
+  const [isSelectTouched, setIsSelectTouched] = useState(false);
   const { data, error, isLoading } = useGetClientsFromSupabase(clientStatusToFilter, email);
-
+  const { CONDITIONAL_OPTION_THEME } = useThemeContext();
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setClientStatusToFilter(e.target.value);
+    setIsSelectTouched(true);
   };
+
+  useEffect(() => {
+    if (!isLoading && data && !isSelectTouched) {
+      if (data.length === 0 && clientStatusToFilter === STATUSES.callClient) {
+        setClientStatusToFilter(STATUSES.chance);
+      } else if (data.length === 0 && clientStatusToFilter === STATUSES.chance) {
+        setClientStatusToFilter('all');
+      }
+    }
+  }, [data, isSelectTouched, isLoading]); //eslint-disable-line
 
   if (isLoading) {
     return <Spinner />;
@@ -23,24 +38,37 @@ const Clients = () => {
     return <p>error</p>;
   }
   return (
-    <Flex flexDirection={'column'}>
-      <FormControl alignSelf={'flex-end'} w={'15%'}>
-        <Select value={clientStatusToFilter} onChange={handleChange}>
-          <option value={STATUSES.callClient}>{STATUSES.callClient}</option>
-          <option value={STATUSES.chance}>{'your chances'}</option>
-          <option value={STATUSES.notDoable}>{STATUSES.notDoable}</option>
-          <option value={'all'}>{'all'}</option>
-          {/* <option value={STATUSES.reported}>{STATUSES.reported}</option> */}
-        </Select>
-      </FormControl>
-      <ClientsTableSort
-        data={data}
-        columns={
-          clientStatusToFilter === STATUSES.callClient || clientStatusToFilter === STATUSES.chance
-            ? columnsClients
-            : columnsClientsWithAgent
-        }
-      />
+    <Flex justifyContent={'center'} w='100%'>
+      <Flex alignItems={'center'} flexDirection={'column'} gap='20px' w='95%'>
+        <FormControl alignSelf={'flex-end'} w={'15%'}>
+          <Select value={clientStatusToFilter} onChange={handleChange}>
+            <option style={CONDITIONAL_OPTION_THEME} value={STATUSES.callClient}>
+              {STATUSES.callClient}
+            </option>
+            <option style={CONDITIONAL_OPTION_THEME} value={STATUSES.chance}>
+              {'your chances'}
+            </option>
+            <option style={CONDITIONAL_OPTION_THEME} value={STATUSES.notDoable}>
+              {STATUSES.notDoable}
+            </option>
+            <option style={CONDITIONAL_OPTION_THEME} value={'all'}>
+              {'all'}
+            </option>
+            {/* <option value={STATUSES.reported}>{STATUSES.reported}</option> */}
+          </Select>
+        </FormControl>
+        <Flex boxShadow={BOX_SHADOW} maxH='75vh' mb='50px' overflow='auto' sx={SCROLLBAR} w='100%'>
+          <ClientsTableSort
+            data={data}
+            columns={
+              clientStatusToFilter === STATUSES.callClient ||
+              clientStatusToFilter === STATUSES.chance
+                ? columnsClients
+                : columnsClientsWithAgent
+            }
+          />
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

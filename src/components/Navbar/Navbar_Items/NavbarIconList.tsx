@@ -11,16 +11,17 @@ export const NAV_LIST = [
   { name: 'calendar', icon: CiCalendarDate, path: ROUTES.calendar },
   // { name: 'chances', icon: CiCircleCheck, path: ROUTES.chances },
   { name: 'finalized', icon: CiBadgeDollar, path: ROUTES.finalized },
-  { name: 'analitics', icon: PiChartLineUpThin, path: ROUTES.analitics },
+  { name: 'analitics', icon: PiChartLineUpThin, path: ROUTES.analytics },
 ];
 
 const NavbarIconList = () => {
   const {pathname} = useLocation();
   const navigate = useNavigate();
   return (
-    <Flex gap={'10px'}>
+    <Flex gap={'10px'} left={{lg:"0",xl:"50%"}} position={{lg:"static",xl:"absolute"}} transform={{lg:"0",xl:"translateX(-50%)"}}>
       {NAV_LIST.map((item) => (
         <Icon
+          
           key={item.name}
           as={item.icon}
           border={'2px solid'}

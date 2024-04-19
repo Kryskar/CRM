@@ -26,7 +26,7 @@ export interface EventObj {
   user: User;
 }
 
-const EventBox = ({ data }: { data: EventObj; w: string }) => {
+const EventBox = ({ data }: { data: EventObj}) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
@@ -37,9 +37,11 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
   return (
     <Flex
       bgColor={'tertiaryColor'}
+      borderRadius={"5px"}
       boxShadow={'rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;'}
       flexDirection={'column'}
       overflow={'hidden'}
+      p="0 10px 0 10px"
       transition={'height 0.5s ease'}
       w={'100%'}
       h={!isEventHidden
@@ -57,7 +59,7 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
                   {client.name + ' ' + client.surname}
                 </chakra.span>
               </Flex>
-              <Box color='scrollbarSecondaryColor' fontSize={'9px'}>
+              <Box color='fontColor' fontSize={'9px'}>
                 {formattedDate(eventTime, DATE_FORMATS.basic) === TODAY_BASIC_FORMAT
                   ? formattedDate(eventTime, DATE_FORMATS.timeForEvent)
                   : formattedDate(eventTime, DATE_FORMATS.dateTime)}

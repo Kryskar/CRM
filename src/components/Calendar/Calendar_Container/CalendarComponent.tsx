@@ -18,7 +18,7 @@ const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
   const localizer = momentLocalizer(moment);
  
   return (
-    <Box h='95%' data-theme={isDarkMode
+    <Box h='85vh' w="100%" data-theme={isDarkMode
 ? "dark"
 : "light"}>
       <BigCalendar

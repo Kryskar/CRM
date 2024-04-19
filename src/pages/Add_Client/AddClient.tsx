@@ -4,7 +4,7 @@ import AddClient_Container from '../../components/AddClient/AddClient_Container/
 
 const AddClient = () => {
   return (
-    <Flex alignItems={'center'} h={'100vh'} justifyContent={'center'} w={'100vw'}>
+    <Flex alignItems={'center'} justifyContent={'center'} mt="150px" w={'100vw'}>
       <Box w={"40%"}>
       <AddClient_Container data={null} />
       </Box>

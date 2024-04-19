@@ -1,10 +1,12 @@
 import React from 'react';
 import { Flex, FlexProps } from '@chakra-ui/react';
 
+import { BOX_SHADOW } from '../../../constants/theme';
+
 const defaultProps: FlexProps = {
     bgColor: 'secondaryColor',
     borderRadius: '10px',
-    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
+    boxShadow: BOX_SHADOW,
     flexDirection: 'column',
     fontSize: '14px',
     p: '15px',

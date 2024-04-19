@@ -10,10 +10,23 @@ import {
 } from 'chart.js';
 
 import { convertToPercentValue } from '../../../../../constants/constants';
+import { DARK_MODE, LIGHT_MODE } from '../../../../../constants/theme';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-export const createDataAndOptionsForBarChart = (info: number[]) => {
+export const createDataAndOptionsForBarChart = (info: number[], isDarkMode:boolean) => {
   const options = {
+    scales: {
+      y: {
+        ticks: { color: isDarkMode
+? DARK_MODE.fontColor
+: LIGHT_MODE.fontColor }
+      },
+      x: {
+        ticks: { color: isDarkMode
+? DARK_MODE.fontColor
+: LIGHT_MODE.fontColor, beginAtZero: true }
+      }
+    },
     indexAxis: 'y' as const,
     elements: {
       bar: {
@@ -27,7 +40,9 @@ export const createDataAndOptionsForBarChart = (info: number[]) => {
           if (value === 0) return '';  
           return value;
         },
-        color: 'fontColor',
+        color: isDarkMode
+? DARK_MODE.fontColor
+: LIGHT_MODE.fontColor,
       },
       legend: {
         display: false,

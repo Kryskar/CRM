@@ -1,6 +1,6 @@
 import { Avatar, chakra, Flex, Text } from '@chakra-ui/react';
 
-import { AGENT_PLAN, parseDynamic } from '../../../../constants/constants';
+import { AGENT_PLAN, analyticsGetColor } from '../../../../constants/constants';
 import { CombinedArrItem } from '../../../../contexts/StatisticsProvider';
 import CustomAnalyticsFlex from '../CustomAnaliticsFlex';
 
@@ -29,30 +29,8 @@ export const IndividualStats = ({
     totalChances: { label: 'total chances: ', value: totalAgentChancesValue },
   };
 
-  const getColor = (item: { label: string; value: number | string }) => {
-    const HALF = 0.5;
-    const HUNDRED_PRECENT = 100
-    const value = parseDynamic(item.value);
-    if (item.label === data.totalSuccesses.label) {
-      if (value < AGENT_PLAN * HALF) {
-        return 'red';
-      } else if (value > AGENT_PLAN * HALF) {
-        return 'orange';
-      } else if (value > AGENT_PLAN) {
-        return 'green';
-      }
-    }
-    if (item.label === data.individualPlanRealisation.label) {
-      if (value < HUNDRED_PRECENT * HALF) {
-        return 'red';
-      } else if (value > HUNDRED_PRECENT * HALF) {
-        return 'orange';
-      } else if (value > HUNDRED_PRECENT) {
-        return 'green';
-      }
-    }
-    return 'fontColor';
-  };
+  const { label: individualPlanRealisationLabel } = data.individualPlanRealisation;
+  const { label: totalSuccessesLabel } = data.totalSuccesses;
 
   return (
     <CustomAnalyticsFlex gap='15px'>
@@ -64,7 +42,9 @@ export const IndividualStats = ({
         {Object.values(data).map((item) => (
           <Flex key={item.label} justifyContent={'space-between'}>
             <chakra.span fontWeight={'600'}>{item.label}</chakra.span>
-            <chakra.span color={getColor(item)}>
+            <chakra.span
+              color={analyticsGetColor(item, individualPlanRealisationLabel, totalSuccessesLabel)}
+            >
               {item.label === data.individualPlanRealisation.label ||
               item.label === data.contributionToTeamPlan.label
                 ? item.value + '%'

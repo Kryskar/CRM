@@ -30,7 +30,7 @@ const Clients = () => {
       }
     }
   }, [data, isSelectTouched, isLoading]); //eslint-disable-line
-
+  const selectOptions = [STATUSES.callClient,STATUSES.chance,STATUSES.notDoable,'all']
   if (isLoading) {
     return <Spinner />;
   }
@@ -42,19 +42,11 @@ const Clients = () => {
       <Flex alignItems={'center'} flexDirection={'column'} gap='20px' w='95%'>
         <FormControl alignSelf={'flex-end'} w={'15%'}>
           <Select value={clientStatusToFilter} onChange={handleChange}>
-            <option style={CONDITIONAL_OPTION_THEME} value={STATUSES.callClient}>
-              {STATUSES.callClient}
-            </option>
-            <option style={CONDITIONAL_OPTION_THEME} value={STATUSES.chance}>
-              {'your chances'}
-            </option>
-            <option style={CONDITIONAL_OPTION_THEME} value={STATUSES.notDoable}>
-              {STATUSES.notDoable}
-            </option>
-            <option style={CONDITIONAL_OPTION_THEME} value={'all'}>
-              {'all'}
-            </option>
-            {/* <option value={STATUSES.reported}>{STATUSES.reported}</option> */}
+            {selectOptions.map(el => <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
+              {el===STATUSES.chance
+? 'your chances'
+:el}
+            </option> )}
           </Select>
         </FormControl>
         <Flex boxShadow={BOX_SHADOW} maxH='75vh' mb='50px' overflow='auto' sx={SCROLLBAR} w='100%'>

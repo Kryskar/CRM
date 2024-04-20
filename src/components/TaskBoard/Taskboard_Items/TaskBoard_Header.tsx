@@ -7,7 +7,7 @@ import { DATE_FORMATS, daysDifference, END_OF_CURRENT_MONTH, formattedDate,MONTH
 interface TaskBoard_Header_Props {
     data: {
         events: Event[];
-    } | null,
+    },
     endDate: string,
     startDate: string
 }

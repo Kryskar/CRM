@@ -155,7 +155,8 @@ export const POLISH_BANKS = [
     teamPlanContribution: 'team plan contribution',
   };
 
-  export const analyticsGetColor = (el: { label: string; value: number | string }, label1:string, label2:string, plan?:string) => {
+  // type: "numberCalc" | "percentage"
+  export const analyticsGetColor = (el: { label: string; value: number | string }, label1:string, label2:string, plan?:"team" | "agent") => {
     const HALF = 0.5;
     const HUNDRED_PRECENT = 100
     const value = parseDynamic(el.value);

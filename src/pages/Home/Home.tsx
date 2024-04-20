@@ -16,7 +16,7 @@ const Home = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    syncDbData();
+    syncDbData(); // sync used for updating user in supabase table when new user logs in
   }, [decodedData]); //eslint-disable-line
 
   return (

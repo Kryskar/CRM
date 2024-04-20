@@ -26,6 +26,7 @@ export const AnaliticsSidebarComponent = ({
 ? 'your'
 : 'team';
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => setView(e.target.value);
+  const selectOptions = ['agent','team']
 
   return (
     <Flex bgColor='inherit' color='fontColor' flexDirection='column' pos='sticky'>
@@ -41,12 +42,9 @@ export const AnaliticsSidebarComponent = ({
       >
         <Text>Quick statistics</Text>
         <Select bgColor={'primaryColor'} h={'30px'} w='100px' onChange={handleChange}>
-          <option style={CONDITIONAL_OPTION_THEME} value='agent'>
-            agent
-          </option>
-          <option style={CONDITIONAL_OPTION_THEME} value='team'>
-            team
-          </option>
+          {selectOptions.map((el =><option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
+            {el}
+          </option>))}
         </Select>
       </Flex>
       <Flex

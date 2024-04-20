@@ -51,11 +51,10 @@ const ModifyClientRestOfForm = ({
       <FormControl isInvalid={formik.touched.chance && !!formik.errors.chance}>
         <Stack direction='row' spacing={5}>
           <Checkbox
+          isChecked={selectedCheckbox === 'chance'}
           
-          _invalid={{borderColor:"analyticsRed"}}
-            
-            isChecked={selectedCheckbox === 'chance'}
             name='chance'
+            sx={{'[data-invalid]': {borderColor: "analyticsRed"}}}
             value={formik.values.chance}
             variant={"circular"}
             onBlur={formik.handleBlur}
@@ -64,10 +63,10 @@ const ModifyClientRestOfForm = ({
             Chance
           </Checkbox>
           <Checkbox
-        _invalid={{borderColor:"analyticsRed"}}
+        id='chance'
             
-            id='chance'
             isChecked={selectedCheckbox === 'notDoable'}
+            sx={{'[data-invalid]': {borderColor: "analyticsRed"}}}
             onBlur={formik.handleBlur}
             onChange={() => handleCheckboxChange('notDoable')}
           >

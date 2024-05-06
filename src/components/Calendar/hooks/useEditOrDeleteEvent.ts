@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Event } from 'react-big-calendar';
 import { Session } from '@supabase/supabase-js';
 import { useFormik } from 'formik';
 
@@ -6,8 +7,6 @@ import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/Calenda
 import { PostEvent } from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
 import {  usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
 import { MINUTES_IN_HOUR } from '../../../constants/constants';
-import { Event } from 'react-big-calendar';
-
 
 
 export const useEditOrDeleteEvent = (
@@ -67,7 +66,9 @@ export const useEditOrDeleteEvent = (
 ? parseDateToLocal(event.end)
 : '';
       const updatedFormValues = {
-        title: typeof event.title === 'string' ? event.title : '',
+        title: typeof event.title === 'string'
+? event.title
+: '',
         description: event.description || '',
         start,
         end,

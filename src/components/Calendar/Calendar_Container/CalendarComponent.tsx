@@ -11,8 +11,8 @@ import './CalendarStyles.css'
 
 declare module 'react-big-calendar' {
   interface Event {
-      id?: string;
       description?: string | undefined;
+      id?: string;
   }
 }
 

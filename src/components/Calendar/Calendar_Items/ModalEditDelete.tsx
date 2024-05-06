@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Event } from 'react-big-calendar';
 import {
   Button,
   chakra,
@@ -19,7 +20,6 @@ import {
 import { useGetSession } from '../../../hooks/useGetSession';
 import { splitString } from '../../TaskBoard/Taskboard_Items/taskBoardHelpers';
 import { useEditOrDeleteEvent } from '../hooks/useEditOrDeleteEvent';
-import { Event } from 'react-big-calendar';
 
 
 const ModalEditDelete = ({

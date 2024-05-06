@@ -1,5 +1,5 @@
 export const ROUTES = {
-  analitics: '/analitics',
+  analytics: '/analytics',
   addClient: '/addClient',
   calendar: '/calendar',
   chances: '/chances',

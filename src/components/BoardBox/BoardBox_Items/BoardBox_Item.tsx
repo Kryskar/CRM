@@ -1,11 +1,10 @@
 import { Flex } from "@chakra-ui/react"
 
-import { ParsedEvent } from "../BoardBox_Container/BoardBox"
-
+import { ParsedEvent } from "./BoardBox_Events"
 import EventBox from "./EventBox"
 
-export const BoardBoxItem=({item,w}:{item:ParsedEvent,w:string})=>{
+export const BoardBoxItem=({item}:{item:ParsedEvent})=>{
     return  <Flex  flexDirection={'column'} w={'100%'}>
-                    <EventBox data={item} w={w} />
+                    <EventBox data={item} />
                   </Flex>
   }

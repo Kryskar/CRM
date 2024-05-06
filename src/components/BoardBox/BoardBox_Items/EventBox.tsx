@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Avatar, Box, Button, chakra, Flex, Link, useDisclosure } from '@chakra-ui/react';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { Avatar, Box, chakra, Flex, Link} from '@chakra-ui/react';
 
 import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { DATE_FORMATS, formattedDate, TODAY_BASIC_FORMAT } from '../../../constants/constants';
 
-import ChangeStatusModal from './ChangeStatusModal';
+import { ParsedEvent } from './BoardBox_Events';
 
 
 export interface User {
@@ -28,25 +29,23 @@ export interface EventObj {
   user: User;
 }
 
-const EventBox = ({ data }: { data: EventObj; w: string }) => {
+const EventBox = ({ data }: { data: ParsedEvent}) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
-  const { isOpen, onClose, onOpen } = useDisclosure();
- 
-  const handleClick = () => {
-   onOpen()
-  }
+
   return (
     <Flex
       bgColor={'tertiaryColor'}
+      borderRadius={"5px"}
       boxShadow={'rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;'}
       flexDirection={'column'}
       overflow={'hidden'}
+      p="0 10px 0 10px"
       transition={'height 0.5s ease'}
       w={'100%'}
       h={!isEventHidden
-? '200px'
+? '160px'
 : '20px'}
     >
       <Flex flexDirection={'column'} gap={'20px'} justifyContent={'space-between'} ml={'5px'}>
@@ -60,7 +59,7 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
                   {client.name + ' ' + client.surname}
                 </chakra.span>
               </Flex>
-              <Box color='scrollbarSecondaryColor' fontSize={'9px'}>
+              <Box color='fontColor' fontSize={'9px'}>
                 {formattedDate(eventTime, DATE_FORMATS.basic) === TODAY_BASIC_FORMAT
                   ? formattedDate(eventTime, DATE_FORMATS.timeForEvent)
                   : formattedDate(eventTime, DATE_FORMATS.dateTime)}
@@ -68,19 +67,16 @@ const EventBox = ({ data }: { data: EventObj; w: string }) => {
               <chakra.span fontWeight={'600'}>{client.clientStatus}</chakra.span>
             </Flex>
           </Flex>
-          <Link onClick={handleHideShowClick}>{!isEventHidden
-? 'hide'
-: 'show'}</Link>
+          <Link color={"fontColor"} onClick={handleHideShowClick}>{!isEventHidden
+? <ChevronUpIcon/>
+: <ChevronDownIcon/>}</Link>
         </Flex>
         <Flex alignItems={'center'} flexDirection={'column'} fontSize={'14px'} ml={'10px'}>
-          <chakra.span>{`${client.name} ${client.surname}`}</chakra.span>
-          <chakra.span>{`Requested amount: ${client.requestedAmount}`}</chakra.span>
-          <chakra.span fontWeight={'600'}>{`Phone number: ${client.phoneNumber}`}</chakra.span>
+          <chakra.span color={"fontColor"}>{`${client.name} ${client.surname}`}</chakra.span>
+          <chakra.span color={"fontColor"}>{`Requested amount: ${client.requestedAmount}`}</chakra.span>
+          <chakra.span color={"fontColor"} fontWeight={'600'}>{`Phone number: ${client.phoneNumber}`}</chakra.span>
         </Flex>
-        <Box textAlign={'center'}>
-          <Button w={'50%'} onClick={handleClick}>change status</Button>
-          <ChangeStatusModal isOpen={isOpen} onClose={onClose} />
-         </Box>
+        <Box textAlign={'center'} />
       </Flex>
     </Flex>
   );

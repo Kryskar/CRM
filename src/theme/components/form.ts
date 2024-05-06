@@ -19,12 +19,13 @@ const activeLabelStyles = {
             left: 0,
             zIndex: 2,
             position: "absolute",
-            backgroundColor: "white",
+            backgroundColor: "primaryColor",
+            color:"fontColor",
             pointerEvents: "none",
             mx: 3,
             px: 1,
             my: 2,
-            transformOrigin: "left top"
+            transformOrigin: "left top",
           }
         }
       }

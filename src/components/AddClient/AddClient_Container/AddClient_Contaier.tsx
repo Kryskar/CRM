@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  chakra,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
 import { useFormik } from 'formik';
 
 import {
@@ -10,6 +18,7 @@ import {
 import { useEditClient } from '../../../api/mutations/Clients/useEditClient';
 import { STATUSES } from '../../../constants/constants';
 import { ROUTES } from '../../../constants/routes';
+import { useSessionContext } from '../../../contexts/SessionProvider';
 import {
   validationAddClientSchema,
   validationUpdateClientSchema,
@@ -30,6 +39,7 @@ const AddClient_Container = ({
   data: NewClient | null;
   onClose?: () => void;
 }) => {
+  const { email } = useSessionContext();
   const [selectedCheckbox, setSelectedCheckbox] = useState('');
   const { addClient } = useAddClientToSupabase();
   const { editClient } = useEditClient();
@@ -41,21 +51,22 @@ const AddClient_Container = ({
   const modifyClientSubmit = (values: NewClient) => {
     if (data && onClose) {
       const id = data.id;
-      editClient({ id, editedData: values });
+      const modifiedValues = { ...values, agentEmail: email };
+      editClient({ id, editedData: modifiedValues });
       onClose();
     }
   };
 
-  const getValidationSchema=(data:NewClient | null,selectedCheckbox:string)=>{
-    if(!data){
-      return validationAddClientSchema
+  const getValidationSchema = (data: NewClient | null, selectedCheckbox: string) => {
+    if (!data) {
+      return validationAddClientSchema;
     }
-    if(selectedCheckbox === STATUSES.chance){
-      return validationUpdateClientSchemaChance
+    if (selectedCheckbox === STATUSES.chance) {
+      return validationUpdateClientSchemaChance;
     }
-    return validationUpdateClientSchema
-  }
-  
+    return validationUpdateClientSchema;
+  };
+
   const formik = useFormik<NewClient>({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -67,7 +78,7 @@ const AddClient_Container = ({
       }
     },
 
-    validationSchema: getValidationSchema(data,selectedCheckbox),
+    validationSchema: getValidationSchema(data, selectedCheckbox),
   });
 
   const updateFormValues = () => {
@@ -104,14 +115,19 @@ const AddClient_Container = ({
               }
             >
               <Input
+                errorBorderColor='analyticsRed'
                 name={formKey}
                 placeholder=''
                 value={values[formKey as keyof typeof values]}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <FormLabel>{getFormLabels(formKey)}</FormLabel>
-              <FormErrorMessage>{errors[formKey as keyof typeof errors]}</FormErrorMessage>
+              <FormLabel requiredIndicator={<chakra.span color={'analyticsRed'}> *</chakra.span>}>
+                {getFormLabels(formKey)}
+              </FormLabel>
+              <FormErrorMessage color={'analyticsRed'}>
+                {errors[formKey as keyof typeof errors]}
+              </FormErrorMessage>
             </FormControl>
           ))}
 
@@ -121,7 +137,9 @@ const AddClient_Container = ({
               chanceCheckboxProps={{ selectedCheckbox, setSelectedCheckbox }}
               formik={formik}
             />
-            <Button type='submit'>Proceed</Button>
+            <Button mb={'30px'} type='submit'>
+              Proceed
+            </Button>
           </>
         )}
         {!data && (

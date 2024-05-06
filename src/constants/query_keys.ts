@@ -7,5 +7,8 @@ export const QUERY_KEYS={
     getEventsThisMonth: "GET_EVENTS_THIS_MONTH",
     getEventsNextMonth: "GET_EVENTS_NEXT_MONTH",
     getEventsPreviousMonth: "GET_EVENTS_THIS_MONTH",
-    getClients: "GET_CLIENTS"
+    getClients: "GET_CLIENTS",
+    getFinalized: "GET_FINALIZED",
+    getUsers: "GET_USERS",
+    getUser: "GET_USER",
     }

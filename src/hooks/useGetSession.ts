@@ -29,7 +29,7 @@ export const useGetSession = () => {
         setSession(null);
       }
     });
-
+    
     return () => subscription.unsubscribe();
   }, []);
 

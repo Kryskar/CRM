@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   flexRender,
   getCoreRowModel,
@@ -9,15 +9,15 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
+import { BOX_SHADOW } from '../../constants/theme';
 
-import { columns } from './columns';
 
 interface ClientsTableSortProps {
-  data: NewClient[];
+  columns: any; //eslint-disable-line
+  data: any; //eslint-disable-line
 }
 
-export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
+export const ClientsTableSort = ({ columns, data }: ClientsTableSortProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     columns,
@@ -31,16 +31,21 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
   });
 
   return (
+    <Box boxShadow={BOX_SHADOW} w="100%" >
     <Table>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <Tr key={headerGroup.id}>
+          <Tr key={headerGroup.id} >
             {headerGroup.headers.map((header) => {
               const meta: any = header.column.columnDef.meta; //eslint-disable-line
               return (
                 <Th
-                  key={header.id}
+                key={header.id}
+                bgColor={"tertiaryColor"}
+                border={"1px solid"}
+                color="linkColor"
                   isNumeric={meta?.isNumeric}
+                  textAlign="center"
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   {flexRender(header.column.columnDef.header, header.getContext())}
@@ -67,10 +72,11 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
       <Tbody>
         {table.getRowModel().rows.map((row, index) => (
           <Tr
+           
             key={row.id}
             color={'fontColor'}
             bgColor={
-              index % 2 === 0 //eslint-disable-line
+              index % 2 === 0  
                 ? 'secondaryColor'
                 : 'tertiaryColor'
             }
@@ -78,7 +84,7 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
             {row.getVisibleCells().map((cell) => {
               const meta: any = cell.column.columnDef.meta; //eslint-disable-line
               return (
-                <Td key={cell.id} isNumeric={meta?.isNumeric}>
+                <Td key={cell.id} border={"1px solid"} isNumeric={meta?.isNumeric} textAlign={"center"}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Td>
               );
@@ -87,5 +93,6 @@ export const ClientsTableSort = ({ data }: ClientsTableSortProps) => {
         ))}
       </Tbody>
     </Table>
+    </Box>
   );
 };

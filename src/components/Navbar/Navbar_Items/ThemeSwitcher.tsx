@@ -1,5 +1,5 @@
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
-import { Box, Icon, Switch } from '@chakra-ui/react';
+import {  Flex, Icon, Switch } from '@chakra-ui/react';
 
 import { useThemeContext } from '../../../contexts/ThemeProvider';
 
@@ -10,12 +10,12 @@ const ThemeSwitcher = () => {
     setIsDarkMode(!isDarkMode);
   };
   return (
-    <Box>
-      <Switch boxSize={10} colorScheme='gray' size='md' onChange={handleChange} />
+    <Flex alignItems={"center"}>
+      <Switch boxSize={10}  colorScheme='gray' size='md' style={{display:"flex", alignItems:"center"}} onChange={handleChange} />
       <Icon boxSize={8} as={isDarkMode
 ? MdDarkMode
 : MdLightMode} />
-    </Box>
+    </Flex>
   );
 };
 

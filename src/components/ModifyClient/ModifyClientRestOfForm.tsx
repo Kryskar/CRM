@@ -12,6 +12,8 @@ import { FormikProps } from 'formik';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { FILTERED_STATUSES_ARR, STATUSES } from '../../constants/constants';
+import { useThemeContext } from '../../contexts/ThemeProvider';
+
 
 type chanceCheckboxPropsTypes = {
   selectedCheckbox: string;
@@ -26,6 +28,7 @@ const ModifyClientRestOfForm = ({
   formik: FormikProps<NewClient>;
 }) => {
   const { selectedCheckbox, setSelectedCheckbox } = chanceCheckboxProps;
+  const {CONDITIONAL_OPTION_THEME} = useThemeContext()
   // const [status, setStatus] = useState<SelectValues | undefined>();
 
   const handleCheckboxChange = (value: string) => {
@@ -48,26 +51,29 @@ const ModifyClientRestOfForm = ({
       <FormControl isInvalid={formik.touched.chance && !!formik.errors.chance}>
         <Stack direction='row' spacing={5}>
           <Checkbox
-            colorScheme='green'
-            isChecked={selectedCheckbox === 'chance'}
+          isChecked={selectedCheckbox === 'chance'}
+          
             name='chance'
+            sx={{'[data-invalid]': {borderColor: "analyticsRed"}}}
             value={formik.values.chance}
+            variant={"circular"}
             onBlur={formik.handleBlur}
             onChange={() => handleCheckboxChange('chance')}
           >
             Chance
           </Checkbox>
           <Checkbox
-            colorScheme='red'
-            id='chance'
+        id='chance'
+            
             isChecked={selectedCheckbox === 'notDoable'}
+            sx={{'[data-invalid]': {borderColor: "analyticsRed"}}}
             onBlur={formik.handleBlur}
             onChange={() => handleCheckboxChange('notDoable')}
           >
             Not Doable
           </Checkbox>
         </Stack>
-        <FormErrorMessage>{formik.errors.chance}</FormErrorMessage>
+        <FormErrorMessage color={"analyticsRed"}>{formik.errors.chance}</FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={formik.touched.comment && !!formik.errors.comment} variant='floating'>
         <Input
@@ -78,7 +84,7 @@ const ModifyClientRestOfForm = ({
           onChange={formik.handleChange}
         />
         <FormLabel>Comment</FormLabel>
-        <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
+        <FormErrorMessage color={"analyticsRed"}>{formik.errors.comment}</FormErrorMessage>
       </FormControl>
       {selectedCheckbox === 'chance' && (
         <>
@@ -93,14 +99,15 @@ const ModifyClientRestOfForm = ({
               onChange={(e) => handleSelectChange(e)}
             >
               {FILTERED_STATUSES_ARR.map((obj) => (
-                <option key={obj.value} value={obj.value}>
+                <option key={obj.value} style={CONDITIONAL_OPTION_THEME} value={obj.value}>
                   {obj.label}
                 </option>
               ))}
             </Select>
             <FormLabel>Select status</FormLabel>
-            <FormErrorMessage>{formik.errors.clientStatus}</FormErrorMessage>
+            <FormErrorMessage color={"analyticsRed"}>{formik.errors.clientStatus}</FormErrorMessage>
           </FormControl>
+          {/* {formik.values.clientStatus !== STATUSES.loanFinalized &&  */}
           <FormControl
             isInvalid={formik.touched.nextContactDate && !!formik.errors.nextContactDate}
             variant='floating'
@@ -114,10 +121,12 @@ const ModifyClientRestOfForm = ({
               onChange={formik.handleChange}
             />
             <FormLabel>Next Contact Date</FormLabel>
-            <FormErrorMessage>{formik.errors.nextContactDate}</FormErrorMessage>
+            <FormErrorMessage color={"analyticsRed"}>{formik.errors.nextContactDate}</FormErrorMessage>
           </FormControl>
+          {/* } */}
         </>
       )}
+      {/* {formik.values.clientStatus === STATUSES.loanFinalized && <SuccessReport formik={formik}/>} */}
     </>
   );
 };

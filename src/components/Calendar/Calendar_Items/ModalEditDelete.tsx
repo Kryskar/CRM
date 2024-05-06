@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Event } from 'react-big-calendar';
 import {
   Button,
+  chakra,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -16,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useGetSession } from '../../../hooks/useGetSession';
+import { splitString } from '../../TaskBoard/Taskboard_Items/taskBoardHelpers';
 import { useEditOrDeleteEvent } from '../hooks/useEditOrDeleteEvent';
 
 const ModalEditDelete = ({
@@ -30,12 +33,11 @@ const ModalEditDelete = ({
   const [mode, setMode] = useState('');
 
   const { session } = useGetSession();
-
   const {
     formik: {
       handleChange,
       handleSubmit,
-      values: { end, start, title},
+      values: { end, start, title },
     },
     handleDeleteClick,
     handleEditClick,
@@ -48,14 +50,31 @@ const ModalEditDelete = ({
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>
-        <ModalOverlay />
+        <ModalOverlay bgColor={'modalOverlayColor'} />
 
         <ModalContent>
-          <ModalHeader>{mode === 'edit'
-? 'edit event'
-: event?.title}</ModalHeader>
+          <ModalHeader bgColor={'primaryColor'} color='fontColor'>
+            {mode === 'edit'
+? (
+              'edit event'
+            )
+: (
+              <Flex flexDirection='column' gap="20px">
+                <chakra.span color="linkColor" fontWeight={800}>
+                  {event && event.title
+? splitString(event.title).title
+: ''}
+                </chakra.span>
+                <chakra.span>
+                  {event && event.title
+? splitString(event.title).rest
+: ''}
+                </chakra.span>
+              </Flex>
+            )}
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody bgColor={'primaryColor'} color='fontColor'>
             <form onSubmit={handleSubmit}>
               <FormControl>
                 {mode === 'edit' && (
@@ -92,7 +111,7 @@ const ModalEditDelete = ({
             </form>
           </ModalBody>
 
-          <ModalFooter gap={'15px'}>
+          <ModalFooter bgColor={'primaryColor'} color='fontColor' gap={'15px'}>
             {!mode
 ? (
               <>

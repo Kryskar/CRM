@@ -5,23 +5,32 @@ import { QUERY_KEYS } from '../../constants/query_keys';
 import { supabase } from '../../database/supabase';
 import { NewClient } from '../mutations/Clients/useAddClientToSupabase';
 
-export const useGetClientsFromSupabase = (clientStatusToFilter:string) => {
+export const useGetClientsFromSupabase = (clientStatusToFilter: string, agentEmail?: string) => {
   const {
     data: clients,
     error,
     isLoading,
   } = useQuery({
-    queryKey: [`${QUERY_KEYS.getClients}_${clientStatusToFilter}`],
+    queryKey: [
+      agentEmail
+        ? `${QUERY_KEYS.getClients}_${clientStatusToFilter}_${agentEmail}`
+        : `${QUERY_KEYS.getClients}_${clientStatusToFilter}`,
+    ],
     queryFn: async () => {
       let query = supabase.from('clients').select('*').order('updated_at', { ascending: false });
 
       if (clientStatusToFilter === STATUSES.chance) {
+        if (agentEmail) {
+          query = query.eq('agentEmail', agentEmail);
+        }
         query = query
           .not('clientStatus', 'eq', STATUSES.callClient)
-          .not('clientStatus', 'eq', STATUSES.notDoable);
+          .not('clientStatus', 'eq', STATUSES.notDoable)
+          .not('clientStatus', 'eq', STATUSES.reported);
       } else if (
         clientStatusToFilter === STATUSES.notDoable ||
-        clientStatusToFilter === STATUSES.callClient
+        clientStatusToFilter === STATUSES.callClient ||
+        clientStatusToFilter === STATUSES.reported
       ) {
         query = query.eq('clientStatus', clientStatusToFilter);
       }

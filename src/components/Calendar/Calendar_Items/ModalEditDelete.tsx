@@ -21,6 +21,7 @@ import { useGetSession } from '../../../hooks/useGetSession';
 import { splitString } from '../../TaskBoard/Taskboard_Items/taskBoardHelpers';
 import { useEditOrDeleteEvent } from '../hooks/useEditOrDeleteEvent';
 
+
 const ModalEditDelete = ({
   event,
   isOpen,
@@ -61,12 +62,12 @@ const ModalEditDelete = ({
 : (
               <Flex flexDirection='column' gap="20px">
                 <chakra.span color="linkColor" fontWeight={800}>
-                  {event && event.title
+                  {event && event.title && typeof event.title === 'string'
 ? splitString(event.title).title
 : ''}
                 </chakra.span>
                 <chakra.span>
-                  {event && event.title
+                  {event && event.title && typeof event.title === 'string'
 ? splitString(event.title).rest
 : ''}
                 </chakra.span>

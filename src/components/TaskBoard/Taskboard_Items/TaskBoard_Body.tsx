@@ -90,8 +90,8 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
                 {event.title
 ? (
                   <>
-                    <Flex fontWeight={'600'}>{splitString(event.title).title}</Flex>
-                    <Flex>{splitString(event.title).rest}</Flex>
+                    <Flex fontWeight={'600'}>{typeof event.title === 'string' ? splitString(event.title).title : ""}</Flex>
+                    <Flex>{typeof event.title === 'string' ? splitString(event.title).rest : ""}</Flex>
                   </>
                 )
 : (

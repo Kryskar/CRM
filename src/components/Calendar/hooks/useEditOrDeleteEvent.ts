@@ -8,6 +8,7 @@ import { PostEvent } from '../../../api/mutations/Calendar/usePostEventToGoogleC
 import {  usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
 import { MINUTES_IN_HOUR } from '../../../constants/constants';
 
+
 export const useEditOrDeleteEvent = (
   session: Session | null,
   event: Event | null,
@@ -65,7 +66,9 @@ export const useEditOrDeleteEvent = (
 ? parseDateToLocal(event.end)
 : '';
       const updatedFormValues = {
-        title: event.title || '',
+        title: typeof event.title === 'string'
+? event.title
+: '',
         description: event.description || '',
         start,
         end,

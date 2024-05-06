@@ -1,10 +1,11 @@
-import { addDays, addMonths, differenceInDays, endOfDay, endOfMonth, endOfWeek, format, getDate, getDaysInMonth, startOfDay, startOfMonth, startOfWeek } from 'date-fns';
+import { add,addDays, addMonths, differenceInDays, endOfDay, endOfMonth, endOfWeek, format, getDate, getDaysInMonth, startOfDay, startOfMonth, startOfWeek, } from 'date-fns';
 
 
 export const INDEX_OF_FIRST_ITEM = 0
 export const EMPTY_ARR = 0
 export const ONE_MONTH_DISTANCE = 1
 export const ONE_DAY_DISTANCE = 1
+export const MINUTES_IN_HOUR=60;
 
 export const DATE_FORMATS = {
     basic: "dd/MM/yy",
@@ -13,9 +14,10 @@ export const DATE_FORMATS = {
     forQueryKeys: 'MM/yy',
     dateTime: 'dd/MM/yyyy, hh:mm:ss aa',
     day: 'dd',
+    dayMonthShort: "dd MMM",
     dayMonthFull: "dd MMMM",
     timeForEvent: "hh:mm aa",
-    date: "yyyy-MM-dd"
+    date: "yyyy-MM-dd",
 }
 
 export const CALENDAR_TIME_MIN = '2022-01-01T00:00:00Z';
@@ -46,6 +48,8 @@ export const formattedDate = (date: string, dateFormat:string) => format(new Dat
 export const convertLocalToISODate = (date:string) => new Date(date).toISOString()
 export const startOfProvidedDay = (date:string) => startOfDay(new Date(date)).toISOString()
 export const endOfProvidedDay = (date:string) => endOfDay(new Date(date)).toISOString()
+export const dateToIso = (date:string) => (new Date(date)).toISOString()
+export const addOneHourToIso = (date:string) => (add(new Date(date), {hours:1})).toISOString()
 
 export const firstWordCharToUppercase = (word: string) => {
     const FIRST_CHAR_INDEX = 0;

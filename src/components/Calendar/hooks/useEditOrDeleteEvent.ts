@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/Calendar/useDeleteEventFromGoogleCalendar';
 import { PostEvent } from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
 import {  usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
+import { MINUTES_IN_HOUR } from '../../../constants/constants';
 
 export const useEditOrDeleteEvent = (
   session: Session | null,
@@ -18,10 +19,10 @@ export const useEditOrDeleteEvent = (
   const { mutate: deleteEvent } = useDeleteEventFromGoogleCalendar();
 
   const parseDateToLocal = (date: Date) => {
-    const WARSAW_TIME_ZONE = 1;
+    const LOCAL_TIME_ZONE_OFFSET = date.getTimezoneOffset()/MINUTES_IN_HOUR*-1; 
     const SLICE_START = 0;
     const SLICE_END = -5;
-    date.setHours(date.getHours() + WARSAW_TIME_ZONE);
+    date.setHours(date.getHours() + LOCAL_TIME_ZONE_OFFSET);
     const formattedDate = date.toISOString().slice(SLICE_START, SLICE_END);
     return formattedDate;
   };

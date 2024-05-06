@@ -29,14 +29,14 @@ const Navbar = () => {
       
     >
       <Flex alignItems={'center'} gap={'20px'} >
-        <Button onClick={handleAddClientClick}>Add Client</Button>
+        <Button ml="20px" onClick={handleAddClientClick}>Add Client</Button>
       </Flex>
       <NavbarIconList />
       <Flex alignItems={'center'} gap={'20px'}>
         <ThemeSwitcher />
         <Avatar
-        
-          referrerPolicy={'no-referrer'} // added this because sometimes images wasn't displayed properly
+         referrerPolicy={'no-referrer'} // added this because sometimes images wasn't displayed properly
+          rel="noreferrer"
           src={picture}
           onClick={onOpen}
         />

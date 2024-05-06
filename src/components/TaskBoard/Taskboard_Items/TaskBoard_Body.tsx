@@ -1,7 +1,8 @@
 import { Event } from 'react-big-calendar';
 import { useNavigate } from 'react-router-dom';
 import { CalendarIcon } from '@chakra-ui/icons';
-import { chakra, Flex } from '@chakra-ui/react';
+import { chakra, Flex, Spinner } from '@chakra-ui/react';
+import { differenceInHours } from 'date-fns';
 
 import { DATE_FORMATS, formattedDate, INDEX_OF_FIRST_ITEM } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
@@ -12,26 +13,43 @@ import { splitString } from './taskBoardHelpers';
 interface TaskBoard_Body_Props {
   data: {
     events: Event[];
-  };
+  } | null;
   endDate: string;
+  isLoading: boolean;
   startDate: string;
 }
 
-const TaskBoard_Body = ({ data, endDate, startDate }: TaskBoard_Body_Props) => {
+const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_Props) => {
   const navigate = useNavigate();
 
   const handleIconClick = () => {
     navigate(ROUTES.calendar);
   };
+  if (!data || isLoading)
+    return (
+      <Flex alignItems={'center'} h='315px' justifyContent={'center'}>
+        <Spinner />
+      </Flex>
+    );
   const { events } = data;
   const isLastEvent = (index: number) => index === events.length - 1;
-
+     
+      const getFormat = (event:Event) => {
+        if (event.start && event.end){
+        const hoursDifference = differenceInHours(event.end, event.start)
+        const ALMOST_WHOLE_DAY = 23
+          if (hoursDifference>= ALMOST_WHOLE_DAY) return formattedDate(event.start.toISOString(), DATE_FORMATS.dayMonthShort)
+          else if (hoursDifference< ALMOST_WHOLE_DAY) return formattedDate(event.start.toISOString(), DATE_FORMATS.forTask)
+        }
+      return ""
+      }
+     
   return (
     <>
       <Flex
         fontSize={'10px'}
         justifyContent={'flex-end'}
-        pr="5px"
+        pr='5px'
       >{`${formattedDate(startDate, DATE_FORMATS.basic)} - ${formattedDate(endDate, DATE_FORMATS.basic)}`}</Flex>
       <Flex flexDirection={'column'} h='300px'>
         <Flex flexDirection={'column'} overflow='auto' sx={SCROLLBAR}>
@@ -65,9 +83,7 @@ const TaskBoard_Body = ({ data, endDate, startDate }: TaskBoard_Body_Props) => {
                   <CalendarIcon cursor={'pointer'} onClick={handleIconClick} /> event{' '}
                 </chakra.span>
                 <chakra.span className='date' color='linkColor' fontSize={'9px'}>
-                  {event.start
-                    ? formattedDate(event.start.toISOString(), DATE_FORMATS.forTask)
-                    : ''}
+                  {getFormat(event)}
                 </chakra.span>
               </Flex>
               <Flex flexDirection={'column'}>

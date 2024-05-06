@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Avatar, Box, chakra, Flex, Link} from '@chakra-ui/react';
 
 import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { DATE_FORMATS, formattedDate, TODAY_BASIC_FORMAT } from '../../../constants/constants';
+
+import { ParsedEvent } from './BoardBox_Events';
 
 
 export interface User {
@@ -26,14 +29,11 @@ export interface EventObj {
   user: User;
 }
 
-const EventBox = ({ data }: { data: EventObj}) => {
+const EventBox = ({ data }: { data: ParsedEvent}) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
 
-  // const handleClick = () => {
-  //   onOpen();
-  // };
   return (
     <Flex
       bgColor={'tertiaryColor'}
@@ -68,8 +68,8 @@ const EventBox = ({ data }: { data: EventObj}) => {
             </Flex>
           </Flex>
           <Link color={"fontColor"} onClick={handleHideShowClick}>{!isEventHidden
-? 'hide'
-: 'show'}</Link>
+? <ChevronUpIcon/>
+: <ChevronDownIcon/>}</Link>
         </Flex>
         <Flex alignItems={'center'} flexDirection={'column'} fontSize={'14px'} ml={'10px'}>
           <chakra.span color={"fontColor"}>{`${client.name} ${client.surname}`}</chakra.span>

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import { Flex, Link } from '@chakra-ui/react';
 
 import {
@@ -84,11 +85,11 @@ const TaskBoard_Menu = ({
           this month
         </Link>
       </Flex>
-      <Flex gap='5px' justifyContent={'flex-end'}>
+      <Flex gap='25px' justifyContent={'flex-end'}>
         <Link onClick={() => handleClickNextPreviousMonth(-ONE_MONTH_DISTANCE)}>
-          previous month
+        <ArrowLeftIcon boxSize={3}/> 
         </Link>
-        <Link onClick={() => handleClickNextPreviousMonth(ONE_MONTH_DISTANCE)}>next month</Link>
+        <Link onClick={() => handleClickNextPreviousMonth(ONE_MONTH_DISTANCE)}> <ArrowRightIcon boxSize={3}/></Link>
       </Flex>
     </Flex>
   );

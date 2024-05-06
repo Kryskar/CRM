@@ -1,7 +1,6 @@
 import { Flex } from "@chakra-ui/react"
 
-import { ParsedEvent } from "../BoardBox_Container/BoardBox"
-
+import { ParsedEvent } from "./BoardBox_Events"
 import EventBox from "./EventBox"
 
 export const BoardBoxItem=({item}:{item:ParsedEvent})=>{

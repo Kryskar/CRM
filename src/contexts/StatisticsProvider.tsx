@@ -1,5 +1,4 @@
 import { createContext, useContext } from 'react';
-import { Spinner } from '@chakra-ui/react';
 
 import { NewClient } from '../api/mutations/Clients/useAddClientToSupabase';
 import { UserSupabase } from '../api/mutations/Users/useAddUserToSupabase';
@@ -9,6 +8,7 @@ import {
   useGetFinalizedFromSupabase,
 } from '../api/queries/useGetFinalizedfromSupabase';
 import { useGetUsersFromSupabase } from '../api/queries/useGetUsersFromSupabase';
+import BigSpinner from '../components/Misc/BigSpinner';
 import {
   AGENT_PLAN,
   calculateTotal,
@@ -64,7 +64,7 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({
   const { data: allUsers, isLoading: isAllUsersLoading } = useGetUsersFromSupabase();
 
   if (isLoadingAllClients || isFinalizedTeamLoading || isAllUsersLoading) {
-    return <Spinner />;
+    return <BigSpinner/>;
   }
   const allChanceClients = allClients.filter(
     (el) =>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Flex, FormControl, Select, Spinner } from '@chakra-ui/react';
+import { Flex, FormControl, Select } from '@chakra-ui/react';
 
 import { useGetFinalizedFromSupabase } from '../../api/queries/useGetFinalizedfromSupabase';
 import { useGetUsersFromSupabase } from '../../api/queries/useGetUsersFromSupabase';
 import { ClientsTableSort } from '../../components/ClientsTable/ClientsTableSort';
 import { columnsFinalized } from '../../components/ClientsTable/columns';
+import BigSpinner from '../../components/Misc/BigSpinner';
 import { SCROLLBAR } from '../../constants/custom_styles';
 import { BOX_SHADOW } from '../../constants/theme';
 import { useThemeContext } from '../../contexts/ThemeProvider';
@@ -27,7 +28,7 @@ const Finalized = () => {
     }
   };
 
-  if (isLoading || isLoadingUsers) return <Spinner />;
+  if (isLoading || isLoadingUsers) return <BigSpinner/>;
   return (
     <Flex justifyContent={'center'}>
       <Flex flexDirection={'column'} gap='20px' w='95%'>

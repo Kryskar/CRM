@@ -2,9 +2,9 @@ import { useToast } from '@chakra-ui/react';
 import { useMutation} from '@tanstack/react-query';
 
 import {
-  endOfProvidedDay,
+  addOneHourToIso,
+  dateToIso,
   INDEX_OF_FIRST_ITEM,
-  startOfProvidedDay,
   STATUSES,
 } from '../../../constants/constants';
 import { supabase } from '../../../database/supabase';
@@ -41,8 +41,8 @@ export const useEditClient = () => {
           deleteGoogleCalendarEvent({ session, id: googleCalendarEventId }); //delete if client is not doable
           await supabase.from('clients').update({ googleCalendarEventId: '' }).eq('id', id);
         } else if (chance && session) {
-          const startTime = startOfProvidedDay(nextContactDate);
-          const endTime = endOfProvidedDay(nextContactDate);
+          const startTime = dateToIso(nextContactDate);
+          const endTime = addOneHourToIso(nextContactDate);
           const eventToCalendar = createEventToCalendar(client, startTime, endTime);
           if (googleCalendarEventId) {
             editGoogleCalendarEvent({

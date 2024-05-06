@@ -1,11 +1,11 @@
 import React, { createContext, Suspense, useContext } from 'react';
-import { Spinner } from '@chakra-ui/react';
 
 import { useGetSession } from '../hooks/useGetSession';
 const LogIn = React.lazy(() => import('../pages/LogIn/LogIn'));
 import { UserSupabase } from '../api/mutations/Users/useAddUserToSupabase';
 import { useGetUsersFromSupabase } from '../api/queries/useGetUsersFromSupabase';
 import { GoogleDecodedData } from '../api/types/googleDecodedDataTypes';
+import BigSpinner from '../components/Misc/BigSpinner';
 
 interface SessionContext {
   decodedData: GoogleDecodedData;
@@ -21,11 +21,11 @@ const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
   if (!session)
     return (
-      <Suspense fallback={<Spinner color='red.500' size={'xl'} />}>
+      <Suspense fallback={<BigSpinner />}>
         <LogIn />
       </Suspense>
     );
-  if (!decodedData || isAllUsersLoading) return <Spinner color='red.500' size={'xl'} />;
+  if (!decodedData || isAllUsersLoading) return <BigSpinner />;
   const {
     email,
     user_metadata: { avatar_url, full_name },

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Flex, FormControl, Select, Spinner } from '@chakra-ui/react';
+import { Flex, FormControl, Select} from '@chakra-ui/react';
 
 import { useGetClientsFromSupabase } from '../../api/queries/useGetClientsFromSupabase';
 import { ClientsTableSort } from '../../components/ClientsTable/ClientsTableSort';
 import { columnsClients, columnsClientsWithAgent } from '../../components/ClientsTable/columns';
+import BigSpinner from '../../components/Misc/BigSpinner';
 import { STATUSES } from '../../constants/constants';
 import { SCROLLBAR } from '../../constants/custom_styles';
 import { BOX_SHADOW } from '../../constants/theme';
@@ -32,7 +33,7 @@ const Clients = () => {
   }, [data, isSelectTouched, isLoading]); //eslint-disable-line
   const selectOptions = [STATUSES.callClient,STATUSES.chance,STATUSES.notDoable,'all']
   if (isLoading) {
-    return <Spinner />;
+    return <BigSpinner />;
   }
   if (error) {
     return <p>error</p>;

@@ -73,7 +73,7 @@ Just click on Sign in with Google:
 login: <b>mycrmtestuser@gmail.com</b></br>
 password: <b>CrmTest123</b>
 
-https://crm-agvkbq3fv-karols-projects-923ebbec.vercel.app/clients
+https://crm-chsr0b50l-karols-projects-923ebbec.vercel.app/
 
 ## Usage 💿
 

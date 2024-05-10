@@ -81,7 +81,7 @@
     "multiline-ternary": "error",
     "no-unused-vars": "error",
     "no-use-before-define": "error",
-    "no-magic-numbers": ["error", { "ignore": [-1,0,1,2] }],
+    "no-magic-numbers": ["error", { "ignore": [-1, 0, 1, 2] }],
     "sort-vars": ["error", { "ignoreCase": true }],
     "react/jsx-sort-props": [
       "error",

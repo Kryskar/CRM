@@ -5,7 +5,6 @@
     <h1 align="center">CRM</h1>
 </p>
 
-
 ## Project Overview 📠
 
 CRM it's a database fully integrated with google calendar, built for financial advisors to menage clients and team statistics - [CRM](https://www.myPage.pl), but it also includes some cool features. Enjoy!
@@ -24,27 +23,28 @@ CRM it's a database fully integrated with google calendar, built for financial a
     <img src="https://img.shields.io/badge/Prettier-F7B93E.svg?style=flat&logo=Prettier&logoColor=black" alt="Prettier">
 </p>
 
-| Tech                                                      | Description                                                   |
-| --------------------------------------------------------- | ------------------------------------------------------------- |
-| [TypeScript](https://www.typescriptlang.org/)             | Static type-checking programming language                     |
-| [React](https://reactjs.org/)                             | Library for building user interfaces                          |
-| [Chakra UI](https://v2.chakra-ui.com/)                    | Component Librairy                                            |
-| [Supabase](https://supabase.com/)                         | Open source database                                          |
-| [TanStack Query v5](https://tanstack.com/query/latest)    | asynchronous state management for TS/JS                       |
-| [Axios](https://github.com/axios/axios)                   | Promise based HTTP client for the browser and node.js         |
-| [TanStack Table v8](https://tanstack.com/table/latest)    | Table API                                                     |
-| [React Big Calendar](https://www.npmjs.com/package/react-big-calendar)    |events calendar component built for ReactAPI   |
-| [Formik](https://react-hook-form.com)                     | Forms with easy-to-use validation                             |
-| [Yup](https://github.com/jquense/yup)                     | schema builder for runtime value parsing and validation       |
-| [Husky](https://github.comtypicode/husky)                 | Git hooks                                                     |
-| [ESLint](https://eslint.org/)                             | TypeScript linting                                            |
-| [Prettier](https://prettier.io/)                          | Code formatter                                                |
-
+| Tech                                                                   | Description                                             |
+| ---------------------------------------------------------------------- | ------------------------------------------------------- |
+| [TypeScript](https://www.typescriptlang.org/)                          | Static type-checking programming language               |
+| [React](https://reactjs.org/)                                          | Library for building user interfaces                    |
+| [Chakra UI](https://v2.chakra-ui.com/)                                 | Component Librairy                                      |
+| [Supabase](https://supabase.com/)                                      | Open source database                                    |
+| [TanStack Query v5](https://tanstack.com/query/latest)                 | asynchronous state management for TS/JS                 |
+| [Axios](https://github.com/axios/axios)                                | Promise based HTTP client for the browser and node.js   |
+| [TanStack Table v8](https://tanstack.com/table/latest)                 | Table API                                               |
+| [React Big Calendar](https://www.npmjs.com/package/react-big-calendar) | events calendar component built for ReactAPI            |
+| [Formik](https://react-hook-form.com)                                  | Forms with easy-to-use validation                       |
+| [Yup](https://github.com/jquense/yup)                                  | schema builder for runtime value parsing and validation |
+| [Husky](https://github.comtypicode/husky)                              | Git hooks                                               |
+| [ESLint](https://eslint.org/)                                          | TypeScript linting                                      |
+| [Prettier](https://prettier.io/)                                       | Code formatter                                          |
 
 ## Architecture
+
 ![arch](./screenshots/arch.png)
 
 ## Local development
+
 ```Prerequisite
 Node.js v20.*
 git clone https://github.com/Kryskar/CRM
@@ -53,23 +53,27 @@ cp .env.example .env
 # set up environment variables
 npm run dev
 ```
+
 ## Scripts
+
 ```
 dev - running app locally
-build - build app 
-lint - app linting using eslint 
-lint-fix - app linting and fixing auto fixable problems 
-preview - run built app 
-prettier - prettify code 
+build - build app
+lint - app linting using eslint
+lint-fix - app linting and fixing auto fixable problems
+preview - run built app
+prettier - prettify code
 prepare - script for husky
 ```
+
 ## Live 🎆
+
 Test User Login Data</br>
 Just click on Sign in with Google:
 login: <b>mycrmtestuser@gmail.com</b></br>
 password: <b>CrmTest123</b>
 
-https://mojlive.com
+https://crm-agvkbq3fv-karols-projects-923ebbec.vercel.app/clients
 
 ## Usage 💿
 
@@ -79,7 +83,7 @@ Working with the application begins by logging in with a Google account authoriz
 
 Structure:
 
-![menu](./screenshots/menu.png) 
+![menu](./screenshots/menu.png)
 
 - Home page
 - Current clients database
@@ -96,6 +100,7 @@ The home page consists of three main sections. In the center, there is a changel
 The clients' database contains a table with clients.
 
 Statuses:
+
 - <span style="color:#007FFF;">call to client</span>
 - <span style="color:#4cca36;">chance</span>
 - <span style="color:#4cca36;">not answering phone call</span>
@@ -116,7 +121,7 @@ After talking to the client, the user can decide which status to change to. <spa
 
 <b>Calendar:</b></br>
 
-![googleCalendarLogo](./screenshots/google+calendar.jpg) 
+![googleCalendarLogo](./screenshots/google+calendar.jpg)
 
 The Calendar tab is actually a copy of the Google calendar associated with the user's Google account, where we can manually add, change or delete an event. The application is fully integrated with the Google calendar, so all events in the user's Google calendar are visible in the calendar tab. Any event change or deletion will be reflected both in the CRM application and in the user's Google account.
 
@@ -128,9 +133,10 @@ When the sales process is finalized by selecting the <span style="color:#4cca36;
 
 this is a tab with analytics for the entire team and for each individual. </br>
 stats below 50% of the plan are displayed in <span style="color:#FF007F;">red</span></br>
- 50%-100% on <span style="color:#FDB913;">orange</span> </br>
- over 100% on <span style="color:#4cca36;">green</span>
- The tab contains charts and a ranking of team members
+50%-100% on <span style="color:#FDB913;">orange</span> </br>
+over 100% on <span style="color:#4cca36;">green</span>
+The tab contains charts and a ranking of team members
 
- ## Contact 
+## Contact
+
 E-mail 📧 : karol.kryskiewicz@gmail.com </br>

@@ -2,13 +2,9 @@ import { Session } from '@supabase/supabase-js';
 import { useQuery } from '@tanstack/react-query';
 
 import { formatEvents } from '../../components/Calendar/hooks/events';
-import {
-  CALENDAR_TIME_MAX,
-  CALENDAR_TIME_MIN,
-} from '../../constants/constants';
+import { CALENDAR_TIME_MAX, CALENDAR_TIME_MIN } from '../../constants/constants';
 import { createGoogleCalendarClient } from '../axios_instances/googleCalendarClient';
 import { GoogleCalendarEventsListItem } from '../types/googleCalendarEventsTypes';
-
 
 const getEvents = async (
   session: Session | null,
@@ -18,15 +14,14 @@ const getEvents = async (
   try {
     if (session) {
       const googleCalendarClient = createGoogleCalendarClient(session);
-      const allEvents:GoogleCalendarEventsListItem[] = [];
+      const allEvents: GoogleCalendarEventsListItem[] = [];
 
-     
       const fetchEvents = async (pageToken?: string) => {
         const { data } = await googleCalendarClient.get('', {
           params: {
             timeMin: timeMin,
             timeMax: timeMax,
-            pageToken: pageToken
+            pageToken: pageToken,
           },
         });
 
@@ -47,12 +42,10 @@ const getEvents = async (
 
 export const useGetGoogleCalendarEvents = (
   session: Session | null,
-  queryKey:string,
+  queryKey: string,
   timeMin?: string,
   timeMax?: string,
-  
 ) => {
- 
   const { data, error, isLoading } = useQuery({
     queryKey: [queryKey],
     queryFn: () => getEvents(session, timeMin, timeMax),

@@ -99,11 +99,11 @@ const TeamMembersRankings2 = () => {
   const sortedAndGrouped = sortAndGroup(mappedCombinedTeamArr);
 
   return (
-    <CustomAnalyticsFlex alignItems={'center'} gap='20px' w='400px'>
+    <CustomAnalyticsFlex alignItems={'center'} gap='20px' w={{ base: '300px', lg: '400px' }}>
       <Text fontSize={'16px'} fontWeight={600}>
         Team members rankings:
       </Text>
-      <Select bgColor={'primaryColor'} w={'60%'} onChange={handleChange}>
+      <Select bgColor={'primaryColor'} w={{ base: '80%', lg: '60%' }} onChange={handleChange}>
         {Object.values(TEAM_RANKING_OPTIONS).map((el) => (
           <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
             {el}

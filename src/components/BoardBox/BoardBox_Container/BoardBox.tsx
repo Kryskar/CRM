@@ -3,7 +3,6 @@ import { Flex, FlexProps, Text } from '@chakra-ui/react';
 import { BOX_SHADOW } from '../../../constants/theme';
 import BoardBox_Events from '../BoardBox_Items/BoardBox_Events';
 
-
 const BoardBox = ({ ...flexProps }: FlexProps) => {
   return (
     <Flex

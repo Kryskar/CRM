@@ -28,11 +28,11 @@ const Finalized = () => {
     }
   };
 
-  if (isLoading || isLoadingUsers) return <BigSpinner/>;
+  if (isLoading || isLoadingUsers) return <BigSpinner />;
   return (
     <Flex justifyContent={'center'}>
       <Flex flexDirection={'column'} gap='20px' w='95%'>
-        <FormControl alignSelf={'flex-end'} w={'15%'}>
+        <FormControl alignSelf={'flex-end'} w={{ base: '45%', md: '30%', lg: '15%' }}>
           <Select onChange={handleChange}>
             <option style={CONDITIONAL_OPTION_THEME} value={'all'}>
               {'all'}

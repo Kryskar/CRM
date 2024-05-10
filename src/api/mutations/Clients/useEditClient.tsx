@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation} from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import {
   addOneHourToIso,
@@ -13,7 +13,11 @@ import { useDeleteEventFromGoogleCalendar } from '../Calendar/useDeleteEventFrom
 import { usePostEventToGoogleCalendar } from '../Calendar/usePostEventToGoogleCalendar';
 import { usePutEventToGoogleCalendar } from '../Calendar/usePutEventToGoogleCalendar';
 
-import { createEventToCalendar, createEventToSupabase, useInvalidateMultipleQueries } from './mutationHelpers';
+import {
+  createEventToCalendar,
+  createEventToSupabase,
+  useInvalidateMultipleQueries,
+} from './mutationHelpers';
 import { NewClient } from './useAddClientToSupabase';
 
 export const useEditClient = () => {
@@ -22,7 +26,7 @@ export const useEditClient = () => {
   const { mutate: deleteGoogleCalendarEvent } = useDeleteEventFromGoogleCalendar();
   const { mutate: editGoogleCalendarEvent } = usePutEventToGoogleCalendar();
   const { mutate: postEventToGoogleCalendar } = usePostEventToGoogleCalendar();
-  const invalidateQueries = useInvalidateMultipleQueries()
+  const invalidateQueries = useInvalidateMultipleQueries();
   const { mutate: editClient } = useMutation({
     mutationFn: async ({ editedData, id }: { editedData: NewClient; id: string }) => {
       return await supabase.from('clients').update(editedData).eq('id', id).select();
@@ -55,13 +59,10 @@ export const useEditClient = () => {
             postEventToGoogleCalendar({ session, event: eventToCalendar });
           }
         }
-       invalidateQueries()
+        invalidateQueries();
         toast({
           title: 'Client Edited',
           description: `success editing client`,
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
         });
       }
     },

@@ -12,18 +12,18 @@ import { createEventToCalendar, createEventToSupabase } from './mutationHelpers'
 export interface NewClient {
   addedTime: string;
   address: string;
-  agentEmail?:string,
-  chance:string;
+  agentEmail?: string;
+  chance: string;
   clientStatus?: string;
-  comment:string;
-  googleCalendarEventId?:string;
+  comment: string;
+  googleCalendarEventId?: string;
   id: string;
   name: string;
-  nextContactDate:string;
+  nextContactDate: string;
   phoneNumber: string;
   requestedAmount: string | number;
   surname: string;
-  updated_at?:string
+  updated_at?: string;
 }
 
 export const useAddClientToSupabase = () => {
@@ -61,9 +61,6 @@ export const useAddClientToSupabase = () => {
       toast({
         title: 'Client Added',
         description: `success adding client`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
       });
     },
     onError: (error) => console.error(error), //eslint-disable-line

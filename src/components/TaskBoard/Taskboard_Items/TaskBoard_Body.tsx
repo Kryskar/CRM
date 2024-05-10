@@ -33,17 +33,19 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
     );
   const { events } = data;
   const isLastEvent = (index: number) => index === events.length - 1;
-     
-      const getFormat = (event:Event) => {
-        if (event.start && event.end){
-        const hoursDifference = differenceInHours(event.end, event.start)
-        const ALMOST_WHOLE_DAY = 23
-          if (hoursDifference>= ALMOST_WHOLE_DAY) return formattedDate(event.start.toISOString(), DATE_FORMATS.dayMonthShort)
-          else if (hoursDifference< ALMOST_WHOLE_DAY) return formattedDate(event.start.toISOString(), DATE_FORMATS.forTask)
-        }
-      return ""
-      }
-     
+
+  const getFormat = (event: Event) => {
+    if (event.start && event.end) {
+      const hoursDifference = differenceInHours(event.end, event.start);
+      const ALMOST_WHOLE_DAY = 23;
+      if (hoursDifference >= ALMOST_WHOLE_DAY)
+        return formattedDate(event.start.toISOString(), DATE_FORMATS.dayMonthShort);
+      else if (hoursDifference < ALMOST_WHOLE_DAY)
+        return formattedDate(event.start.toISOString(), DATE_FORMATS.forTask);
+    }
+    return '';
+  };
+
   return (
     <>
       <Flex
@@ -90,8 +92,16 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
                 {event.title
 ? (
                   <>
-                    <Flex fontWeight={'600'}>{typeof event.title === 'string' ? splitString(event.title).title : ""}</Flex>
-                    <Flex>{typeof event.title === 'string' ? splitString(event.title).rest : ""}</Flex>
+                    <Flex fontWeight={'600'}>
+                      {typeof event.title === 'string'
+? splitString(event.title).title
+: ''}
+                    </Flex>
+                    <Flex>
+                      {typeof event.title === 'string'
+? splitString(event.title).rest
+: ''}
+                    </Flex>
                   </>
                 )
 : (

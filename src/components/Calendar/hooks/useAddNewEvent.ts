@@ -10,14 +10,14 @@ import { useGetSession } from '../../../hooks/useGetSession';
 
 export const useAddNewEvent = () => {
   const { session } = useGetSession();
-  const { data, error, isLoading } = useGetGoogleCalendarEvents(session, QUERY_KEYS.getEvents, );
+  const { data, error, isLoading } = useGetGoogleCalendarEvents(session, QUERY_KEYS.getEvents);
   const { mutate } = usePostEventToGoogleCalendar();
 
   useEffect(() => {
     if (isLoading) return;
     if (error) throw new Error('Error getting events from google calendar');
   }, [error, isLoading]);
- 
+
   const handleSelectSlot = ({ end, start }: { end: Date; start: Date }) => {
     const title = window.prompt('New Event name');
     if (title) {

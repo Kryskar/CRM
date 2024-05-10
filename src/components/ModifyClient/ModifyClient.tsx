@@ -20,7 +20,7 @@ const ModifyClient = ({ data, isOpen, onClose }: ModifyClientProps) => {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay bgColor={"modalOverlayColor"}  />
+        <ModalOverlay bgColor={'modalOverlayColor'} />
         <ModalContent>
           <ModalHeader bgColor={'primaryColor'} color='fontColor'>
             {clientStatus !== STATUSES.loanFinalized

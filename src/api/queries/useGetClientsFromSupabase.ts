@@ -28,9 +28,7 @@ export const useGetClientsFromSupabase = (clientStatusToFilter: string, agentEma
           .not('clientStatus', 'eq', STATUSES.notDoable)
           .not('clientStatus', 'eq', STATUSES.reported);
       } else if (
-        clientStatusToFilter === STATUSES.notDoable ||
-        clientStatusToFilter === STATUSES.callClient ||
-        clientStatusToFilter === STATUSES.reported
+        [STATUSES.notDoable, STATUSES.callClient, STATUSES.reported].includes(clientStatusToFilter)
       ) {
         query = query.eq('clientStatus', clientStatusToFilter);
       }

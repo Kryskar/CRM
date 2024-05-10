@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Flex, FormControl, Select} from '@chakra-ui/react';
+import { Flex, FormControl, Select } from '@chakra-ui/react';
 
 import { useGetClientsFromSupabase } from '../../api/queries/useGetClientsFromSupabase';
 import { ClientsTableSort } from '../../components/ClientsTable/ClientsTableSort';
@@ -31,7 +31,7 @@ const Clients = () => {
       }
     }
   }, [data, isSelectTouched, isLoading]); //eslint-disable-line
-  const selectOptions = [STATUSES.callClient,STATUSES.chance,STATUSES.notDoable,'all']
+  const selectOptions = [STATUSES.callClient, STATUSES.chance, STATUSES.notDoable, 'all'];
   if (isLoading) {
     return <BigSpinner />;
   }
@@ -41,13 +41,15 @@ const Clients = () => {
   return (
     <Flex justifyContent={'center'} w='100%'>
       <Flex alignItems={'center'} flexDirection={'column'} gap='20px' w='95%'>
-        <FormControl alignSelf={'flex-end'} w={'15%'}>
+        <FormControl alignSelf={'flex-end'} w={{ base: '45%', md: '30%', lg: '15%' }}>
           <Select value={clientStatusToFilter} onChange={handleChange}>
-            {selectOptions.map(el => <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
-              {el===STATUSES.chance
+            {selectOptions.map((el) => (
+              <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
+                {el === STATUSES.chance
 ? 'your chances'
-:el}
-            </option> )}
+: el}
+              </option>
+            ))}
           </Select>
         </FormControl>
         <Flex boxShadow={BOX_SHADOW} maxH='75vh' mb='50px' overflow='auto' sx={SCROLLBAR} w='100%'>

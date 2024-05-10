@@ -13,7 +13,7 @@ import { TeamPlanAndRealisation } from './TeamPlanAndRealisation';
 const StatisticsIndividualAndTeam = () => {
   const { combinedTeamArrCurrentMonth } = useStatisticsContext();
   const { email } = useSessionContext();
-  const {isDarkMode} = useThemeContext()
+  const { isDarkMode } = useThemeContext();
   const loggedInUserFirstInArrSort = (a: CombinedArrItem, b: CombinedArrItem) => {
     if (a.email === email) return -1;
     if (b.email === email) return 1;
@@ -34,15 +34,20 @@ const StatisticsIndividualAndTeam = () => {
     <Flex flexDirection={'column'} gap='10px'>
       <TeamPlanAndRealisation />
       <Text fontWeight={600}>your statistics:</Text>
-      <SimpleGrid columns={2} pr={'10px'} spacing={8}>
+      <SimpleGrid columns={{ base: 1, lg: 2 }} pr={'10px'} spacing={8}>
         <IndividualStats item={loggedInUser} />
-        <CustomAnalyticsFlex alignItems={'center'} justifyContent={'center'}>
+        <CustomAnalyticsFlex
+          alignItems={'center'}
+          h={{ base: '150px', md: '230px', lg: 'auto' }}
+          justifyContent={'center'}
+          w={{ base: '300px', md: '500px', lg: '100%' }}
+        >
           <BarChartStats settings={{ data, options }} />
         </CustomAnalyticsFlex>
       </SimpleGrid>
       <Text fontWeight={600}>rest of team members statistics:</Text>
       <SimpleGrid
-        columns={2}
+        columns={{ base: 1, lg: 2 }}
         h='400px'
         overflow='auto'
         pb={'5px'}

@@ -18,6 +18,13 @@ import { useFormik } from 'formik';
 import { UserSupabase } from '../../../api/mutations/Users/useAddUserToSupabase';
 import { useUpdateUser } from '../../../api/mutations/Users/useUpdateUser';
 
+import { FormInput } from './ChangeUserDataHelpers';
+
+export interface ChangeUserDisplayData {
+  fullName: string;
+  picture: string;
+}
+
 const ChangeUserDataModal = ({
   data,
   isOpen,
@@ -33,7 +40,7 @@ const ChangeUserDataModal = ({
   };
   const { updateUser } = useUpdateUser();
 
-  const { handleBlur, handleChange, handleSubmit, values } = useFormik({
+  const formik = useFormik<ChangeUserDisplayData>({
     initialValues: {
       fullName: fullName,
       picture: picture,
@@ -43,6 +50,8 @@ const ChangeUserDataModal = ({
       onClose();
     },
   });
+
+  const { handleSubmit, values } = formik;
 
   return (
     <>
@@ -64,26 +73,19 @@ const ChangeUserDataModal = ({
                 <Input disabled id='email' value={email} />
               </FormControl>
 
-              <FormControl>
-                <FormLabel htmlFor='fullName'>full name:</FormLabel>
-                <Input
-                  id='fullName'
-                  value={values.fullName}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-              </FormControl>
+              <FormInput
+                display='full name:'
+                formik={formik}
+                name={'fullName'}
+                value={values.fullName}
+              />
+              <FormInput
+                display='picture:'
+                formik={formik}
+                name={'picture'}
+                value={values.picture}
+              />
 
-              <FormControl>
-                <FormLabel htmlFor='picture'>picture:</FormLabel>
-                <Input
-                  id='picture'
-                  mb='30px'
-                  value={values.picture}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-              </FormControl>
               <Flex alignItems={'center'} flexDir={'column'} mb='50px' w={'100%'}>
                 <Text fontSize={'10px'}>Preview Picture</Text>
                 <Avatar size={'2xl'} src={values.picture} />

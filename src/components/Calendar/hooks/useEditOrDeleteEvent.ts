@@ -5,9 +5,8 @@ import { useFormik } from 'formik';
 
 import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/Calendar/useDeleteEventFromGoogleCalendar';
 import { PostEvent } from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
-import {  usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
+import { usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
 import { MINUTES_IN_HOUR } from '../../../constants/constants';
-
 
 export const useEditOrDeleteEvent = (
   session: Session | null,
@@ -15,12 +14,11 @@ export const useEditOrDeleteEvent = (
   setMode: React.Dispatch<React.SetStateAction<string>>,
   onClose: () => void,
 ) => {
-  
   const { mutate: editEvent } = usePutEventToGoogleCalendar();
   const { mutate: deleteEvent } = useDeleteEventFromGoogleCalendar();
 
   const parseDateToLocal = (date: Date) => {
-    const LOCAL_TIME_ZONE_OFFSET = date.getTimezoneOffset()/MINUTES_IN_HOUR*-1; 
+    const LOCAL_TIME_ZONE_OFFSET = (date.getTimezoneOffset() / MINUTES_IN_HOUR) * -1;
     const SLICE_START = 0;
     const SLICE_END = -5;
     date.setHours(date.getHours() + LOCAL_TIME_ZONE_OFFSET);
@@ -37,20 +35,20 @@ export const useEditOrDeleteEvent = (
   const formik = useFormik({
     initialValues: {
       title: '',
-      description:'',
+      description: '',
       start: '',
       end: '',
     },
     onSubmit: (values) => {
       const start = parseDateToISO(values.start);
       const end = parseDateToISO(values.end);
-      const editedEvent : PostEvent = {
+      const editedEvent: PostEvent = {
         start: { dateTime: start },
         end: { dateTime: end },
         summary: values.title,
       };
-      if (session && event && event.id){
-      editEvent({session, id:event.id, editedEvent});
+      if (session && event && event.id) {
+        editEvent({ session, id: event.id, editedEvent });
       }
       setMode('');
       onClose();
@@ -84,12 +82,11 @@ export const useEditOrDeleteEvent = (
   const handleEditClick = () => setMode('edit');
 
   const handleDeleteClick = () => {
-    if(session && event && event.id){
-      deleteEvent({session,id:event.id});
+    if (session && event && event.id) {
+      deleteEvent({ session, id: event.id });
     }
     onClose();
     setMode('');
-    
   };
   return { formik, handleEditClick, handleDeleteClick };
 };

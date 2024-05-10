@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { Flex, FormControl, Select, Text } from '@chakra-ui/react';
 
 import { FinalizedRecord } from '../../../api/queries/useGetFinalizedfromSupabase';
-import {
-  EMPTY_ARR,
-  firstWordCharToUppercase,
-} from '../../../constants/constants';
+import { EMPTY_ARR, firstWordCharToUppercase } from '../../../constants/constants';
 import { CombinedArrItem } from '../../../contexts/StatisticsProvider';
 import { useThemeContext } from '../../../contexts/ThemeProvider';
 
@@ -24,7 +21,7 @@ const TeamChart = ({
   const TEAM_STRING = 'team';
   const [filteredData, setFilteredData] = useState(finalizedDataTeamThisMonth);
   const [filteredDataLabel, setFilteredDataLabel] = useState(firstWordCharToUppercase(TEAM_STRING));
-  const {CONDITIONAL_OPTION_THEME} = useThemeContext()
+  const { CONDITIONAL_OPTION_THEME } = useThemeContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const singleAgentFinalizedArr = finalizedDataTeamThisMonth.filter(
@@ -32,9 +29,9 @@ const TeamChart = ({
     );
     setFilteredData(singleAgentFinalizedArr);
 
-    const userForLabel = combinedTeamArrCurrentMonth.find(el => el.email === e.target.value)
-      
-    if (userForLabel) setFilteredDataLabel(userForLabel.fullName)
+    const userForLabel = combinedTeamArrCurrentMonth.find((el) => el.email === e.target.value);
+
+    if (userForLabel) setFilteredDataLabel(userForLabel.fullName);
     if (e.target.value === TEAM_STRING) {
       setFilteredData(finalizedDataTeamThisMonth);
       setFilteredDataLabel(firstWordCharToUppercase(TEAM_STRING));
@@ -47,7 +44,9 @@ const TeamChart = ({
       </Text>
       <FormControl alignSelf={'center'} w={'200px'}>
         <Select onChange={handleChange}>
-          <option style={CONDITIONAL_OPTION_THEME} value={TEAM_STRING}>{TEAM_STRING}</option>
+          <option style={CONDITIONAL_OPTION_THEME} value={TEAM_STRING}>
+            {TEAM_STRING}
+          </option>
           {combinedTeamArrCurrentMonth.map((user) => (
             <option key={user.id} style={CONDITIONAL_OPTION_THEME} value={user.email}>
               {user.fullName}
@@ -55,7 +54,7 @@ const TeamChart = ({
           ))}
         </Select>
       </FormControl>
-      <Flex justifyContent={'center'} w={"300px"}>
+      <Flex justifyContent={'center'} w={'300px'}>
         {filteredData.length !== EMPTY_ARR && <TeamSuccessesBanksPieChart data={filteredData} />}
         {filteredData.length === EMPTY_ARR && <Text>no successes this month yet</Text>}
       </Flex>

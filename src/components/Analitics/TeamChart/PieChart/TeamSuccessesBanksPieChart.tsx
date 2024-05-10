@@ -73,8 +73,8 @@ export const TeamSuccessesBanksPieChart = ({ data }: { data: FinalizedRecord[] }
   );
 
   return (
-    <Flex flexDirection={'column'} gap="30px">
-      <Flex w="300px">
+    <Flex flexDirection={'column'} gap='30px'>
+      <Flex w='300px'>
         <Pie data={pieChartData} options={options} />
       </Flex>
       <CustomAnalyticsFlex flexDirection={'column'} gap={'5px'} p='20px'>

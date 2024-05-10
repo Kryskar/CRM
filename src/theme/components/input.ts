@@ -1,6 +1,5 @@
-    export const Input = {
-      defaultProps: {
-        errorBorderColor: 'analyticsRed'
-      }
-    }
-  
+export const Input = {
+  defaultProps: {
+    errorBorderColor: 'analyticsRed',
+  },
+};

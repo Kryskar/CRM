@@ -33,8 +33,13 @@ export const TeamPlanAndRealisation = () => {
   const { label: teamPlanRealisationVolumeLabel } = sections.sectionOne.teamPlanRealisationVolume;
 
   return (
-    <CustomAnalyticsFlex flexDirection={'row'} justifyContent={'space-between'}>
-      <Flex flexDirection={'column'} w='45%'>
+    <CustomAnalyticsFlex
+      flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+      gap={{ base: '10px', md: '10px', lg: '0px' }}
+      justifyContent={'space-between'}
+      w={{ base: '300px', md: '500px', lg: '100%' }}
+    >
+      <Flex flexDirection={'column'} w={{ base: '100%', lg: '45%' }}>
         {Object.values(sections.sectionOne).map((el) => (
           <Flex key={el.label} justifyContent={'space-between'}>
             <chakra.span fontWeight={'600'}>{el.label}</chakra.span>
@@ -51,7 +56,7 @@ export const TeamPlanAndRealisation = () => {
           </Flex>
         ))}
       </Flex>
-      <Flex flexDirection={'column'} w='45%'>
+      <Flex flexDirection={'column'} w={{ base: '100%', lg: '45%' }}>
         {Object.values(sections.sectionTwo).map((el) => (
           <Flex key={el.label} justifyContent={'space-between'}>
             <chakra.span fontWeight={'600'}>{el.label}</chakra.span>

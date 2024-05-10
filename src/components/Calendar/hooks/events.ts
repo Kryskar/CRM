@@ -21,12 +21,10 @@ export const formatEvents = (data: GoogleCalendarEventsListItem[]) => {
 : dateFormat(item.end.date),
         title: item.summary,
         allDay: !!item.start.date,
-      })).sort((a, b) =>
-      a.start && b.start
-  ? a.start.getTime() - b.start.getTime()
-  : 0,
-    ) || [];
-      
-  
+      }))
+      .sort((a, b) => (a.start && b.start
+? a.start.getTime() - b.start.getTime()
+: 0)) || [];
+
   return { events };
 };

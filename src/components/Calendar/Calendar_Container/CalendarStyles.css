@@ -4,7 +4,7 @@
   --tertiary-color: #d2d3db;
   --quaternary-color: #f6f6fa;
   --font-color: #484b6a;
-  --link-color: #4d4df1
+  --link-color: #4d4df1;
 }
 
 [data-theme='dark'] {
@@ -13,7 +13,7 @@
   --tertiary-color: #3e434b;
   --quaternary-color: #5b6169;
   --font-color: #eeeeee;
-  --link-color: rgb(87, 227, 195)
+  --link-color: rgb(87, 227, 195);
 }
 
 .rbc-header {
@@ -90,4 +90,14 @@
 
 .rbc-day-slot .rbc-time-slot {
   border-top: 1px solid var(--tertiary-color);
+}
+
+@media (max-width: 767px) {
+  .rbc-toolbar button {
+    font-size: 10px;
+  }
+  .rbc-toolbar-label {
+    font-size: 12px;
+    font-weight: 600;
+  }
 }

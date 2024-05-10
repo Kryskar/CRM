@@ -21,12 +21,11 @@ export const useGetDataFromEvent = (id: string) => {
     queryFn: async () => await supabase.from('events').select('*').eq('clientId', id),
   });
 
-  if (event && event.data && event.data.length > 0) {  
-    const data = event.data[0];  
+  if (event && event.data && event.data.length > 0) {
+    const data = event.data[0];
     const { clientId, googleCalendarEventId } = data;
     return { clientId, googleCalendarEventId, isLoading, error };
   } else {
-
     return { clientId: undefined, googleCalendarEventId: undefined, isLoading, error };
   }
 };

@@ -7,27 +7,31 @@ import { useThemeContext } from '../../../contexts/ThemeProvider';
 import ModalEdit from '../Calendar_Items/ModalEditDelete';
 import { useAddNewEvent } from '../hooks/useAddNewEvent';
 
-import './CalendarStyles.css'
+import './CalendarStyles.css';
 
 declare module 'react-big-calendar' {
   interface Event {
-      description?: string | undefined;
-      id?: string;
+    description?: string | undefined;
+    id?: string;
   }
 }
 
 const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
   const { data, handleSelectSlot } = useAddNewEvent();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [selectedEvent, setSelectedEvent] = useState<Event| null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { isDarkMode } = useThemeContext();
 
   const localizer = momentLocalizer(moment);
- 
+
   return (
-    <Box h='85vh' w="100%" data-theme={isDarkMode
-? "dark"
-: "light"}>
+    <Box
+      h={{ base: '65vh', md: '65vh', lg: '85vh' }}
+      w='100%'
+      data-theme={isDarkMode
+? 'dark'
+: 'light'}
+    >
       <BigCalendar
         {...props}
         popup

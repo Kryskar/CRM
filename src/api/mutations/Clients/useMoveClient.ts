@@ -9,16 +9,13 @@ export const useMoveClient = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate:moveClient } = useMutation({
+  const { mutate: moveClient } = useMutation({
     mutationFn: async (client) => await supabase.from('chances').insert(client),
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getClients] });
       toast({
         title: 'Client moved',
         description: `success moving client`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
       });
     },
     onError: (error) => console.error(error), //eslint-disable-line

@@ -6,22 +6,18 @@ import { QUERY_KEYS } from '../../../constants/query_keys';
 import { GOOGLE_CALENDAR_API_BASE_URL } from '../../../constants/urls';
 import { createGoogleCalendarClient } from '../../axios_instances/googleCalendarClient';
 
-const deleteEvent = async (session: Session, id:string) => {
-  try {
-    const url = `${GOOGLE_CALENDAR_API_BASE_URL}/${id}`;
+const deleteEvent = async (session: Session, id: string) => {
+  const url = `${GOOGLE_CALENDAR_API_BASE_URL}/${id}`;
 
-    const googleCalendarClient = createGoogleCalendarClient(session);
+  const googleCalendarClient = createGoogleCalendarClient(session);
 
-    const { data } = await googleCalendarClient.delete(url);
-    
-    return data;
-  } catch (error) {
-    console.error('Error deleting event:', error); // eslint-disable-line
-  }
+  const { data } = await googleCalendarClient.delete(url);
+
+  return data;
 };
 
 type DeleteProps = {
-  id:string;
+  id: string;
   session: Session;
 };
 
@@ -35,9 +31,6 @@ export const useDeleteEventFromGoogleCalendar = () => {
       toast({
         title: 'Event Deleted',
         description: `success deleting event`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
       });
     },
   });

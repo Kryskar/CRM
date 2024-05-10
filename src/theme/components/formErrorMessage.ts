@@ -1,5 +1,5 @@
 export const FormErrorMessage = {
-    defaultProps: {
-      color: 'analyticsRed'
-    }
-  }
+  defaultProps: {
+    color: 'analyticsRed',
+  },
+};

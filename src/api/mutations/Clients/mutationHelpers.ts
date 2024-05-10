@@ -7,20 +7,22 @@ import { PostEvent } from '../Calendar/usePostEventToGoogleCalendar';
 
 import { NewClient } from './useAddClientToSupabase';
 
-const getMessageForEventToCalendar = (client:NewClient) => {
+const getMessageForEventToCalendar = (client: NewClient) => {
   const { clientStatus, comment, name, phoneNumber, requestedAmount, surname } = client;
-const message = `${clientStatus
+  const message = `${
+    clientStatus
 ? clientStatus.toUpperCase()
-: ''}:\n${name} ${surname}\n pn: ${phoneNumber}`
-switch (clientStatus){
-  case (STATUSES.callClient):
-    return message+" "+`\nneed: ${requestedAmount}`
-  case (STATUSES.loanFinalized):
-    return message +" "+ 'ask client if everything is fine'
-  default:
-    return message +" "+ comment
-}
-}
+: ''
+  }:\n${name} ${surname}\n pn: ${phoneNumber}`;
+  switch (clientStatus) {
+    case STATUSES.callClient:
+      return message + ' ' + `\nneed: ${requestedAmount}`;
+    case STATUSES.loanFinalized:
+      return message + ' ' + 'ask client if everything is fine';
+    default:
+      return message + ' ' + comment;
+  }
+};
 
 export const createEventToCalendar = (
   client: NewClient,
@@ -44,20 +46,20 @@ export const createEventToSupabase = (
   decodedData: GoogleDecodedData,
 ) => {
   const { id } = client;
-  const eventObj = {
+  return {
     user: JSON.stringify(decodedData.user_metadata),
     client: JSON.stringify(client),
     eventName: eventName,
     clientId: id,
   };
-  return eventObj;
 };
 
 export const useInvalidateMultipleQueries = () => {
   const queryClient = useQueryClient();
 
   const invalidateQueries = () => {
-    const invalidationQueries : any = [ //eslint-disable-line
+    const invalidationQueries: any = [ //eslint-disable-line
+       
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.callClient}`] },
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.chance}`] },
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.notDoable}`] },

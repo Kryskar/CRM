@@ -12,17 +12,14 @@ import { useFormik } from 'formik';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { SuccessReportObj, useReportSuccess } from '../../api/mutations/Finalized/useReportSuccess';
-import {
-  firstWordCharToUppercase,
-  POLISH_BANKS,
-} from '../../constants/constants';
+import { firstWordCharToUppercase, POLISH_BANKS } from '../../constants/constants';
 import { useGetSession } from '../../hooks/useGetSession';
 import { validationSuccessReport } from '../../schemas/validations';
 
 const SuccessReport = ({ data }: { data: NewClient }) => {
   const { decodedData } = useGetSession();
   const { name, phoneNumber, requestedAmount, surname } = data;
-  const {reportSuccess} = useReportSuccess(data)
+  const { reportSuccess } = useReportSuccess(data);
 
   const formik = useFormik({
     initialValues: {
@@ -36,8 +33,8 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
       bank: '',
       agentEmail: '',
     },
-    onSubmit: (values:SuccessReportObj) => {
-      reportSuccess(values)
+    onSubmit: (values: SuccessReportObj) => {
+      reportSuccess(values);
     },
     validationSchema: validationSuccessReport,
   });

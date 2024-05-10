@@ -19,7 +19,9 @@ const chanceValidation = Yup.bool().required('One checkbox selection is required
 const commentValidation = Yup.string().required('Comment is required');
 const statusValidation = Yup.string().required('Status is required');
 const nextContactDate = Yup.string().required('Next Contact Date is required');
-const positiveNumberFieldIsRequired = Yup.number().positive("number must be positive").required('field is required');
+const positiveNumberFieldIsRequired = Yup.number()
+  .positive('number must be positive')
+  .required('field is required');
 const bankValidation = Yup.string().required('Bank is required');
 
 const addClientValidations = {
@@ -42,12 +44,12 @@ const updateClientValidationsChance = {
   nextContactDate: nextContactDate,
 };
 
- const successReportValidations = {
-  intrest:positiveNumberFieldIsRequired,
-  commission:positiveNumberFieldIsRequired,
-  loanPeriod:positiveNumberFieldIsRequired,
-  bank:bankValidation,
-}
+const successReportValidations = {
+  intrest: positiveNumberFieldIsRequired,
+  commission: positiveNumberFieldIsRequired,
+  loanPeriod: positiveNumberFieldIsRequired,
+  bank: bankValidation,
+};
 
 export const validationAddClientSchema = Yup.object().shape(addClientValidations);
 export const validationUpdateClientSchema = Yup.object().shape(updateClientValidations);

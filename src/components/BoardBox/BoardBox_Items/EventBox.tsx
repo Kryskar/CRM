@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { Avatar, Box, chakra, Flex, Link} from '@chakra-ui/react';
+import { Avatar, Box, chakra, Flex, Link } from '@chakra-ui/react';
 
 import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { DATE_FORMATS, formattedDate, TODAY_BASIC_FORMAT } from '../../../constants/constants';
 
 import { ParsedEvent } from './BoardBox_Events';
-
 
 export interface User {
   avatar_url: string;
@@ -29,7 +28,7 @@ export interface EventObj {
   user: User;
 }
 
-const EventBox = ({ data }: { data: ParsedEvent}) => {
+const EventBox = ({ data }: { data: ParsedEvent }) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
@@ -37,11 +36,11 @@ const EventBox = ({ data }: { data: ParsedEvent}) => {
   return (
     <Flex
       bgColor={'tertiaryColor'}
-      borderRadius={"5px"}
+      borderRadius={'5px'}
       boxShadow={'rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;'}
       flexDirection={'column'}
       overflow={'hidden'}
-      p="0 10px 0 10px"
+      p='0 10px 0 10px'
       transition={'height 0.5s ease'}
       w={'100%'}
       h={!isEventHidden
@@ -67,14 +66,21 @@ const EventBox = ({ data }: { data: ParsedEvent}) => {
               <chakra.span fontWeight={'600'}>{client.clientStatus}</chakra.span>
             </Flex>
           </Flex>
-          <Link color={"fontColor"} onClick={handleHideShowClick}>{!isEventHidden
-? <ChevronUpIcon/>
-: <ChevronDownIcon/>}</Link>
+          <Link color={'fontColor'} onClick={handleHideShowClick}>
+            {!isEventHidden
+? <ChevronUpIcon />
+: <ChevronDownIcon />}
+          </Link>
         </Flex>
         <Flex alignItems={'center'} flexDirection={'column'} fontSize={'14px'} ml={'10px'}>
-          <chakra.span color={"fontColor"}>{`${client.name} ${client.surname}`}</chakra.span>
-          <chakra.span color={"fontColor"}>{`Requested amount: ${client.requestedAmount}`}</chakra.span>
-          <chakra.span color={"fontColor"} fontWeight={'600'}>{`Phone number: ${client.phoneNumber}`}</chakra.span>
+          <chakra.span color={'fontColor'}>{`${client.name} ${client.surname}`}</chakra.span>
+          <chakra.span
+            color={'fontColor'}
+          >{`Requested amount: ${client.requestedAmount}`}</chakra.span>
+          <chakra.span
+            color={'fontColor'}
+            fontWeight={'600'}
+          >{`Phone number: ${client.phoneNumber}`}</chakra.span>
         </Flex>
         <Box textAlign={'center'} />
       </Flex>

@@ -52,7 +52,7 @@ const TaskBoard_Header = ({ data, endDate, isLoading, startDate }: TaskBoard_Hea
   if (!data || isLoading)
     return (
       <Flex
-        alignItems={"center"}
+        alignItems={'center'}
         bgImage={'linear-gradient(to right, tertiaryColor, secondaryColor)'}
         h='80px'
         justifyContent={'center'}

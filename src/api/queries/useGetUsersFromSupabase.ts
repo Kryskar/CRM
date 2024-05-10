@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../constants/query_keys';
 import { supabase } from '../../database/supabase';
 
-
 export const useGetUsersFromSupabase = () => {
   const {
     data: users,
@@ -23,11 +22,6 @@ export const useGetUsersFromSupabase = () => {
   return { data: [], isLoading, error, refetch };
 };
 
-export const getUserByEmail = async (email:string) => {
-  const { data: user } = await supabase.from('users').select('*').eq('email', email);
-  return user ;
-};
-
 export const useGetUserFromSupabaseByEmail = (email: string) => {
   const {
     data: user,
@@ -39,7 +33,7 @@ export const useGetUserFromSupabaseByEmail = (email: string) => {
   });
 
   if (user && user.data) {
-    const data = user.data[0];  
+    const data = user.data[0];
     return { data, isLoading, error };
   }
   return { data: [], isLoading, error };

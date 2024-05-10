@@ -50,11 +50,11 @@ const TaskBoard_Menu = ({
   };
   return (
     <Flex
-    bgColor={'quaternaryColor'}
+      bgColor={'quaternaryColor'}
       color={'linkColor'}
       flexDirection={'column'}
       fontSize={'10px'}
-      p="0 5px 0 5px"
+      p='0 5px 0 5px'
     >
       <Flex gap='5px'>
         <Link
@@ -87,9 +87,12 @@ const TaskBoard_Menu = ({
       </Flex>
       <Flex gap='25px' justifyContent={'flex-end'}>
         <Link onClick={() => handleClickNextPreviousMonth(-ONE_MONTH_DISTANCE)}>
-        <ArrowLeftIcon boxSize={3}/> 
+          <ArrowLeftIcon boxSize={3} />
         </Link>
-        <Link onClick={() => handleClickNextPreviousMonth(ONE_MONTH_DISTANCE)}> <ArrowRightIcon boxSize={3}/></Link>
+        <Link onClick={() => handleClickNextPreviousMonth(ONE_MONTH_DISTANCE)}>
+          {' '}
+          <ArrowRightIcon boxSize={3} />
+        </Link>
       </Flex>
     </Flex>
   );

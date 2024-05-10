@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 import BoardBox from '../../components/BoardBox/BoardBox_Container/BoardBox';
 import Navbar from '../../components/Navbar/Navbar_Container/Navbar';
@@ -28,27 +28,26 @@ const Home = () => {
       minH={'100vh'}
       w={'100vw'}
     >
-      <Box h='60px'>
-        <Navbar />
-      </Box>
+      <Navbar />
       {pathname === '/' && (
         <Flex
-          flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+          alignItems={{ base: 'center', md: 'center', lg: 'flex-start', xl: 'flex-start' }}
+          flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
           gap={{ base: '30px', md: '30px', lg: '0px' }}
           h={'90%'}
           justifyContent={'space-between'}
         >
           <Sidebar
             order={{ base: 2, md: 2, lg: 0 }}
-            w={{ base: '400px', md: '400px', lg: '20%' }}
+            w={{ base: '300px', md: '400px', lg: '20%' }}
           />
           <BoardBox
             display={{ base: 'none', md: 'none', lg: 'flex' }}
-            w={{ base: '400px', md: '400px', lg: '55%' }}
+            w={{ base: '300px', md: '400px', lg: '55%' }}
           />
           <TaskBoard
             order={{ base: 1, md: 1, lg: 0 }}
-            w={{ base: '400px', md: '400px', lg: '20%' }}
+            w={{ base: '300px', md: '400px', lg: '20%' }}
           />
         </Flex>
       )}

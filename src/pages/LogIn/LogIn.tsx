@@ -1,5 +1,5 @@
 import { FcGoogle } from 'react-icons/fc';
-import { Button, chakra,Flex, Img, Text } from '@chakra-ui/react';
+import { Button, chakra, Flex, Img, Text } from '@chakra-ui/react';
 
 import { BOX_SHADOW } from '../../constants/theme';
 import { googleSignIn } from '../../hooks/googleSignIn';

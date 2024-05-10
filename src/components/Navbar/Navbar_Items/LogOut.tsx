@@ -6,7 +6,11 @@ const LogOut = () => {
   const handleClick = () => {
     supabase.auth.signOut();
   };
-  return <Button onClick={handleClick}>Sign out</Button>;
+  return (
+    <Button size={{ base: 'sm', md: 'md', lg: 'md' }} onClick={handleClick}>
+      Sign out
+    </Button>
+  );
 };
 
 export default LogOut;

@@ -64,7 +64,7 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({
   const { data: allUsers, isLoading: isAllUsersLoading } = useGetUsersFromSupabase();
 
   if (isLoadingAllClients || isFinalizedTeamLoading || isAllUsersLoading) {
-    return <BigSpinner/>;
+    return <BigSpinner />;
   }
   const allChanceClients = allClients.filter(
     (el) =>
@@ -82,7 +82,9 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({
     const finalizedAgentClientsArr = finalizedDataTeamThisMonth.filter(
       (el) => el.agentEmail === item.email,
     );
-    const notDoableAgentClients = allClients.filter(el => el.agentEmail === item.email && el.clientStatus===STATUSES.notDoable)
+    const notDoableAgentClients = allClients.filter(
+      (el) => el.agentEmail === item.email && el.clientStatus === STATUSES.notDoable,
+    );
     const totalAgentChancesValue = calculateTotal(allAgentChanceClientsArr, 'requestedAmount');
     const totalAgentFinalizedValue = calculateTotal(finalizedAgentClientsArr, 'loanAmount');
     const agentPrecentPlanRealization = ((totalAgentFinalizedValue / AGENT_PLAN) * 100).toFixed(2); //eslint-disable-line

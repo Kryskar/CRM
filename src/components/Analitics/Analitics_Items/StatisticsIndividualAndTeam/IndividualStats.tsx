@@ -33,7 +33,7 @@ export const IndividualStats = ({
   const { label: totalSuccessesLabel } = data.totalSuccesses;
 
   return (
-    <CustomAnalyticsFlex gap='15px'>
+    <CustomAnalyticsFlex gap='15px' w={{ base: '300px', md: '500px', lg: '100%' }}>
       <Flex justifyContent={'space-between'}>
         <Text fontWeight={'600'}>{fullName}</Text>
         <Avatar size={'sm'} src={picture} />

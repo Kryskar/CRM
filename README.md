@@ -7,7 +7,7 @@
 
 ## Project Overview 📠
 
-CRM it's a database fully integrated with google calendar, built for financial advisors to menage clients and team statistics - [CRM](https://www.myPage.pl), but it also includes some cool features. Enjoy!
+CRM it's a database fully integrated with google calendar, built for financial advisors to menage clients and team statistics - [CRM](https://crm-wine-nine.vercel.app/), but it also includes some cool features. Enjoy!
 
 ## Tech/framework used 🧰
 
@@ -73,7 +73,7 @@ Just click on Sign in with Google:
 login: <b>mycrmtestuser@gmail.com</b></br>
 password: <b>CrmTest123</b>
 
-https://crm-chsr0b50l-karols-projects-923ebbec.vercel.app/
+https://crm-wine-nine.vercel.app/
 
 ## Usage 💿
 

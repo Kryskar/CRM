@@ -39,7 +39,7 @@ const Clients = () => {
     return <p>error</p>;
   }
   return (
-    <Flex justifyContent={'center'} w='100%'>
+    <Flex justifyContent={'center'} minH="calc(100vh - 100px)" w='100%'>
       <Flex alignItems={'center'} flexDirection={'column'} gap='20px' w='95%'>
         <FormControl alignSelf={'flex-end'} w={{ base: '45%', md: '30%', lg: '15%' }}>
           <Select value={clientStatusToFilter} onChange={handleChange}>

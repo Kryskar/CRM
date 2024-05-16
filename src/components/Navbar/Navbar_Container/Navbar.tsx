@@ -1,3 +1,4 @@
+import { FaPersonCirclePlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
 
@@ -20,7 +21,7 @@ const Navbar = () => {
   return (
     <>
       <Flex
-        // display ={{ base: 'none', md: 'flex'}}
+        
         alignItems='center'
         bgColor='secondaryColor'
         color={'fontColor'}
@@ -28,17 +29,19 @@ const Navbar = () => {
         gap={'10px'}
         h={'100%'}
         justifyContent={'space-between'}
-        pr='20px'
+    
         py='5px'
       >
-        <Flex justifyContent={'space-between'} w='100vw'>
+        <Flex justifyContent={'space-between'} pr="20px" w='100vw'>
           <Flex alignItems={'center'} gap={'20px'}>
             <Button
               ml='20px'
               size={{ base: 'sm', md: 'md', lg: 'md' }}
               onClick={handleAddClientClick}
             >
-              Add Client
+              <Flex alignItems={'center'} gap='10px'>
+                Add Client <FaPersonCirclePlus fontSize={'20px'} />
+              </Flex>
             </Button>
           </Flex>
           <NavbarIconList display={{ base: 'none', md: 'flex', lg: 'flex' }} />
@@ -55,7 +58,7 @@ const Navbar = () => {
             <Text display={{ base: 'none', md: 'none', lg: 'block' }} fontWeight={'700'}>
               {email}
             </Text>
-            <LogOut />
+            <LogOut/>
           </Flex>
         </Flex>
         <NavbarIconList display={{ base: 'flex', md: 'none', lg: 'none' }} />

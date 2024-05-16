@@ -8,7 +8,7 @@ const AddClient = () => {
     <Flex
       alignItems={'center'}
       justifyContent={'center'}
-      mt={{ base: '30px', md: '100px', lg: '150px' }}
+      mt={{ base: '30px', md: '50x', lg: '70px' }}
       w={'100vw'}
     >
       <Flex

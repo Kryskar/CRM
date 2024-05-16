@@ -8,6 +8,7 @@ import Sidebar from '../../components/Sidebar/Sidebar_Container/Sidebar';
 import TaskBoard from '../../components/TaskBoard/Taskboard_Container/TaskBoard';
 import { useCheckDbForUser } from '../../hooks/useCheckDbForClient';
 import { useGetSession } from '../../hooks/useGetSession';
+// import Footer from '../../components/Footer/Footer';
 
 const Home = () => {
   const { decodedData } = useGetSession();
@@ -21,37 +22,48 @@ const Home = () => {
 
   return (
     <Flex
+      alignItems={{base:"center", lg:'initial','2xl': 'center' }}
       bgColor={'primaryColor'}
       color={'fontColor'}
       direction={'column'}
       gap={'50px'}
       minH={'100vh'}
       w={'100vw'}
+      
     >
       <Navbar />
       {pathname === '/' && (
-        <Flex
-          alignItems={{ base: 'center', md: 'center', lg: 'flex-start', xl: 'flex-start' }}
-          flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
-          gap={{ base: '30px', md: '30px', lg: '0px' }}
-          h={'90%'}
-          justifyContent={'space-between'}
-        >
-          <Sidebar
-            order={{ base: 2, md: 2, lg: 0 }}
-            w={{ base: '300px', md: '400px', lg: '20%' }}
-          />
+        <>
+          <Flex
+            alignItems={{ base: 'center', md: 'center', lg: 'flex-start', xl: 'flex-start' }}
+            flexDirection={{ base: 'column', md: 'row'}}
+            gap={{ base: '30px', md: '30px', lg: '0px' }}
+            justifyContent={'space-between'}
+            w={{base:"350px",md:"700px", lg:'100vw','2xl': '1440px' }}
+          >
+            <Sidebar
+              order={{ base: 2, md: 2, lg: 0 }}
+              w={{ base: '300px', md: '400px', lg: '20%' }}
+            />
+            <BoardBox
+              display={{ base: 'flex', md: 'none', lg: 'flex' }}
+              order={{ base: 3, md: 0, lg: 0 }}
+              w={{ base: '300px', md: '400px', lg: '55%' }}
+            />
+            <TaskBoard
+              order={{ base: 1, md: 1, lg: 0 }}
+              w={{ base: '300px', md: '400px', lg: '20%' }}
+            />
+          </Flex>
           <BoardBox
-            display={{ base: 'none', md: 'none', lg: 'flex' }}
-            w={{ base: '300px', md: '400px', lg: '55%' }}
+            alignSelf={'center'}
+            display={{ base: 'none', md: 'flex', lg: 'none' }}
+            w={{ md: '700px' }}
           />
-          <TaskBoard
-            order={{ base: 1, md: 1, lg: 0 }}
-            w={{ base: '300px', md: '400px', lg: '20%' }}
-          />
-        </Flex>
+        </>
       )}
       <Outlet />
+      {/* <Footer/> */}
     </Flex>
   );
 };

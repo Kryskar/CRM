@@ -44,19 +44,18 @@ const EventBox = ({ data }: { data: ParsedEvent }) => {
       transition={'height 0.5s ease'}
       w={'100%'}
       h={!isEventHidden
-? '160px'
+? '180px'
 : '20px'}
+      onClick={handleHideShowClick}
     >
       <Flex flexDirection={'column'} gap={'20px'} justifyContent={'space-between'} ml={'5px'}>
         <Flex gap='20px' justifyContent={'space-between'}>
           <Flex gap='15px'>
             {!isEventHidden && <Avatar mt={'5px'} size={'sm'} src={user.avatar_url} />}
             <Flex color={'linkColor'} flexDirection={'column'} fontSize={'12px'}>
-              <Flex gap='3px'>
+              <Flex flexDirection={{base:"column", md:"row"}} gap='3px'>
                 <chakra.span>{`${user.full_name} ${eventName}`}</chakra.span>
-                <chakra.span textDecoration={'underline'}>
-                  {client.name + ' ' + client.surname}
-                </chakra.span>
+                <chakra.span fontWeight={'700'}>{client.name + ' ' + client.surname}</chakra.span>
               </Flex>
               <Box color='fontColor' fontSize={'9px'}>
                 {formattedDate(eventTime, DATE_FORMATS.basic) === TODAY_BASIC_FORMAT
@@ -66,13 +65,13 @@ const EventBox = ({ data }: { data: ParsedEvent }) => {
               <chakra.span fontWeight={'600'}>{client.clientStatus}</chakra.span>
             </Flex>
           </Flex>
-          <Link color={'fontColor'} onClick={handleHideShowClick}>
+          <Link color={'fontColor'}>
             {!isEventHidden
 ? <ChevronUpIcon />
 : <ChevronDownIcon />}
           </Link>
         </Flex>
-        <Flex alignItems={'center'} flexDirection={'column'} fontSize={'14px'} ml={'10px'}>
+        <Flex alignItems={'center'} flexDirection={'column'} fontSize={{base:'12px',md:'14px'}} ml={'10px'}>
           <chakra.span color={'fontColor'}>{`${client.name} ${client.surname}`}</chakra.span>
           <chakra.span
             color={'fontColor'}

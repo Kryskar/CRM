@@ -7,6 +7,7 @@ import { useDeleteEventFromGoogleCalendar } from '../../../api/mutations/Calenda
 import { PostEvent } from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
 import { usePutEventToGoogleCalendar } from '../../../api/mutations/Calendar/usePutEventToGoogleCalendar';
 import { MINUTES_IN_HOUR } from '../../../constants/constants';
+import { calendarEditEventValidations } from '../../../schemas/validations';
 
 export const useEditOrDeleteEvent = (
   session: Session | null,
@@ -35,7 +36,6 @@ export const useEditOrDeleteEvent = (
   const formik = useFormik({
     initialValues: {
       title: '',
-      description: '',
       start: '',
       end: '',
     },
@@ -53,6 +53,7 @@ export const useEditOrDeleteEvent = (
       setMode('');
       onClose();
     },
+    validationSchema:calendarEditEventValidations
   });
 
   const updateFormValues = () => {

@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
+import InputMask from 'react-input-mask';
 import { useNavigate } from 'react-router-dom';
+import { ArrowBackIcon, CheckIcon } from '@chakra-ui/icons';
 import {
   Button,
-  chakra,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
 } from '@chakra-ui/react';
-import { useFormik } from 'formik';
+import {  useFormik } from 'formik';
 
 import {
   NewClient,
@@ -28,9 +25,9 @@ import ModifyClientRestOfForm from '../../ModifyClient/ModifyClientRestOfForm';
 import {
   createAddClientValuesObj,
   createUpdatedFormValuesObj,
-  getFormLabels,
   initialValues,
 } from '../AddClient_Items/addClientHelpers';
+import { FloatingLabelInput } from '../AddClient_Items/FloatingLabeLInput';
 
 const AddClient_Container = ({
   data = null,
@@ -94,7 +91,7 @@ const AddClient_Container = ({
     }
   }, [data]); //eslint-disable-line
 
-  const { errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values } = formik;
+  const { handleSubmit, isSubmitting, values } = formik;
   const addClientKeys = ['name', 'surname', 'phoneNumber', 'address', 'requestedAmount'];
 
   return (
@@ -105,32 +102,21 @@ const AddClient_Container = ({
       >
         {Object.keys(values)
           .filter((key) => addClientKeys.includes(key))
-          .map((formKey) => (
-            <FormControl
-              key={formKey}
-              isRequired
-              variant='floating'
-              isInvalid={
-                touched[formKey as keyof typeof errors] && !!errors[formKey as keyof typeof errors]
-              }
-            >
-              <Input
-                errorBorderColor='analyticsRed'
-                name={formKey}
-                placeholder=''
-                value={values[formKey as keyof typeof values]}
-                onBlur={handleBlur}
-                onChange={handleChange}
+          .map((formKey) =>
+            formKey === 'phoneNumber'
+? (
+              <FloatingLabelInput
+                key={formKey}
+                as={InputMask}
+                formik={formik}
+                formKey='phoneNumber'
+                mask='(+99) 999999999'
               />
-              <FormLabel requiredIndicator={<chakra.span color={'analyticsRed'}> *</chakra.span>}>
-                {getFormLabels(formKey)}
-              </FormLabel>
-              <FormErrorMessage color={'analyticsRed'}>
-                {errors[formKey as keyof typeof errors]}
-              </FormErrorMessage>
-            </FormControl>
-          ))}
-
+            )
+: (
+              <FloatingLabelInput key={formKey} formik={formik} formKey={formKey} />
+            ),
+          )}
         {data && (
           <>
             <ModifyClientRestOfForm
@@ -144,9 +130,22 @@ const AddClient_Container = ({
         )}
         {!data && (
           <Flex justifyContent={'space-between'}>
-            <Button onClick={handleBackClick}>Back</Button>
-            <Button disabled={isSubmitting} type='submit'>
-              Submit
+            <Button onClick={handleBackClick}>
+              <Flex alignItems={'center'} gap={'10px'}>
+                <ArrowBackIcon /> Back{' '}
+              </Flex>
+            </Button>
+            <Button
+              bgColor={'analyticsGreen'}
+              border={'1px solid'}
+              borderColor={'fontColor'}
+              disabled={isSubmitting}
+              type='submit'
+            >
+              <Flex alignItems={'center'} gap={'10px'}>
+                Submit
+                <CheckIcon />
+              </Flex>
             </Button>
           </Flex>
         )}

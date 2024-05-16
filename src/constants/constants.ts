@@ -3,6 +3,7 @@ import {
   addDays,
   addMonths,
   differenceInDays,
+  differenceInMinutes,
   endOfDay,
   endOfMonth,
   endOfWeek,
@@ -19,6 +20,7 @@ export const EMPTY_ARR = 0;
 export const ONE_MONTH_DISTANCE = 1;
 export const ONE_DAY_DISTANCE = 1;
 export const MINUTES_IN_HOUR = 60;
+export const TWO_WEEKS_IN_MINUTES = 20160
 
 export const DATE_FORMATS = {
   basic: 'dd/MM/yy',
@@ -54,6 +56,8 @@ export const DAYS_IN_CURRENT_MONTH = getDaysInMonth(NOW);
 
 export const daysDifference = (endDate: Date, startDate: Date) =>
   differenceInDays(endDate, startDate);
+export const minutesDifference = (endDate: string | Date, startDate: string | Date) =>
+  differenceInMinutes(new Date(endDate), new Date(startDate));
 export const formatStartNextPrevoiusMonth = (date: string, distance: number) =>
   startOfMonth(addMonths(date, distance)).toISOString();
 export const formatEndNextPrevoiusMonth = (date: string, distance: number) =>

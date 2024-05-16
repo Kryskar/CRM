@@ -10,7 +10,7 @@ const BoardBox = ({ ...flexProps }: FlexProps) => {
       borderRadius='10px'
       boxShadow={BOX_SHADOW}
       flexDirection={'column'}
-      h={'80vh'}
+      h={{base:"40vh", lg:'80vh'}}
       {...flexProps}
     >
       <Text fontWeight={600} p='30px' paddingBottom={'5px'}>

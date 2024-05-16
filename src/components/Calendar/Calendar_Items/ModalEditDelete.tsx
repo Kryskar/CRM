@@ -5,6 +5,7 @@ import {
   chakra,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -35,8 +36,11 @@ const ModalEditDelete = ({
   const { session } = useGetSession();
   const {
     formik: {
+      errors,
+      handleBlur,
       handleChange,
       handleSubmit,
+      touched,
       values: { end, start, title },
     },
     handleDeleteClick,
@@ -76,35 +80,49 @@ const ModalEditDelete = ({
           <ModalCloseButton />
           <ModalBody bgColor={'primaryColor'} color='fontColor'>
             <form onSubmit={handleSubmit}>
-              <FormControl>
-                {mode === 'edit' && (
-                  <>
-                    <FormLabel>event title:</FormLabel>
-                    <Input id='title' value={title} onChange={handleChange} />
-                  </>
-                )}
-                <FormLabel>start event:</FormLabel>
+              {mode === 'edit' && (
+                <>
+                  <FormControl isInvalid={touched.title && !!errors.title}>
+                    <FormLabel>Event title:</FormLabel>
+                    <Input id='title' value={title} onBlur={handleBlur} onChange={handleChange} />
+                    <FormErrorMessage color={'analyticsRed'} mb='5px'>
+                      {errors.title}
+                    </FormErrorMessage>
+                  </FormControl>
+                </>
+              )}
+              <FormControl isInvalid={touched.start && !!errors.start}>
+                <FormLabel>Start event:</FormLabel>
                 <Input
                   disabled={mode !== 'edit'}
                   id='start'
                   max={end}
                   type='datetime-local'
                   value={start}
+                  onBlur={handleBlur}
                   onChange={handleChange}
                 />
-                <FormLabel>end event:</FormLabel>
+                <FormErrorMessage color={'analyticsRed'} mb='5px'>
+                  {errors.start}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={touched.end && !!errors.end}>
+                <FormLabel>End event:</FormLabel>
                 <Input
                   disabled={mode !== 'edit'}
                   id='end'
-                  mb='20px'
                   min={start}
                   type='datetime-local'
                   value={end}
+                  onBlur={handleBlur}
                   onChange={handleChange}
                 />
+                <FormErrorMessage color={'analyticsRed'} mb='5px'>
+                  {errors.end}
+                </FormErrorMessage>
               </FormControl>
               {mode == 'edit' && (
-                <Button colorScheme='green' marginLeft='auto' type='submit'>
+                <Button colorScheme='green' marginLeft='auto' mt='20px' type='submit'>
                   Confirm Edit
                 </Button>
               )}

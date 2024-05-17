@@ -35,23 +35,25 @@ const Home = () => {
       {pathname === '/' && (
         <>
           <Flex
-            alignItems={{ base: 'center', md: 'center', lg: 'flex-start', xl: 'flex-start' }}
+            alignItems={{ base: 'center', md:"flex-start"}}
             flexDirection={{ base: 'column', md: 'row'}}
-            gap={{ base: '30px', md: '30px', lg: '0px' }}
+            gap={{ base: '30px', lg: '0px' }}
             justifyContent={'space-between'}
+            mb={{base:"20px", md:"0px"}}
             w={{base:"350px",md:"700px", lg:'100vw','2xl': '1440px' }}
+            
           >
             <Sidebar
-              order={{ base: 2, md: 2, lg: 0 }}
+              order={{ base: 2, lg: 0 }}
               w={{ base: '300px', md: '400px', lg: '20%' }}
             />
             <BoardBox
               display={{ base: 'flex', md: 'none', lg: 'flex' }}
-              order={{ base: 3, md: 0, lg: 0 }}
+              order={{ base: 3, md: 0 }}
               w={{ base: '300px', md: '400px', lg: '55%' }}
             />
             <TaskBoard
-              order={{ base: 1, md: 1, lg: 0 }}
+              order={{ base: 1, lg: 0 }}
               w={{ base: '300px', md: '400px', lg: '20%' }}
             />
           </Flex>

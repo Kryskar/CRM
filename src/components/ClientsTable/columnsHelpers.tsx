@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Spinner, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, ButtonProps, Flex, Image, Spinner, Text, useDisclosure } from '@chakra-ui/react';
 import { CellContext } from '@tanstack/react-table';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
@@ -6,7 +6,7 @@ import { useGetUserFromSupabaseByEmail } from '../../api/queries/useGetUsersFrom
 import { POLISH_BANKS_LOGOS_COLORS, STATUSES } from '../../constants/constants';
 import ModifyClient from '../ModifyClient/ModifyClient';
 
-export const ChangeStatusButton = ({ info }: { info: CellContext<NewClient, unknown> }) => {
+export const ChangeStatusButton = ({ info, ...props }: { info: CellContext<NewClient, unknown> } & ButtonProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const handleButtonClick = () => onOpen();
   const { clientStatus } = info.row.original;
@@ -14,7 +14,7 @@ export const ChangeStatusButton = ({ info }: { info: CellContext<NewClient, unkn
     <>
       {clientStatus !== STATUSES.reported
 ? (
-        <Button onClick={handleButtonClick}>
+        <Button {...props} onClick={handleButtonClick}>
           {clientStatus === STATUSES.loanFinalized
 ? 'report success'
 : 'change status'}

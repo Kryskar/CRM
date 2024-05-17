@@ -1,14 +1,15 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react';
 
-const blueButton = defineStyle({
+const Button = defineStyle({
   py: 3,
   px: 5,
-  boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
-  backgroundColor: 'secondaryColor',
+  backgroundColor: 'buttonColor',
+  color: 'fontColor',
+  border: "1px",
   _active: {
-    color: 'tertiaryColor',
+    backgroundColor: 'buttonActiveColor'
   },
-  _hover: {},
+  _hover: {backgroundColor:'buttonHoverColor'},
 });
 
 // const redButton=defineStyle({
@@ -17,7 +18,7 @@ const blueButton = defineStyle({
 // })
 
 const variants = {
-  blue: blueButton,
+  defined: Button,
 };
 
 export const buttonTheme = defineStyleConfig({

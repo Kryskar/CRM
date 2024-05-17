@@ -103,7 +103,7 @@ const TeamMembersRankings2 = () => {
       <Text fontSize={'16px'} fontWeight={600}>
         Team members rankings:
       </Text>
-      <Select bgColor={'primaryColor'} w={{ base: '80%', lg: '60%' }} onChange={handleChange}>
+      <Select bgColor={'primaryColor'} border={"1px"} w={{ base: '80%', lg: '60%' }} onChange={handleChange}>
         {Object.values(TEAM_RANKING_OPTIONS).map((el) => (
           <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
             {el}

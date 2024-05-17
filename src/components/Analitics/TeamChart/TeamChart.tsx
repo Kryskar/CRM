@@ -43,7 +43,7 @@ const TeamChart = ({
         {filteredDataLabel} Success Data
       </Text>
       <FormControl alignSelf={'center'} w={'200px'}>
-        <Select onChange={handleChange}>
+        <Select border={"1px"} onChange={handleChange}>
           <option style={CONDITIONAL_OPTION_THEME} value={TEAM_STRING}>
             {TEAM_STRING}
           </option>

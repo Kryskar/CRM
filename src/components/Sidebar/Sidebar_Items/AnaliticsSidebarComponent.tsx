@@ -41,7 +41,7 @@ export const AnaliticsSidebarComponent = ({
         w='100%'
       >
         <Text>Quick statistics</Text>
-        <Select bgColor={'primaryColor'} h={'30px'} w='100px' onChange={handleChange}>
+        <Select bgColor={'primaryColor'} border={"1px"} h={'30px'} w='100px' onChange={handleChange}>
           {selectOptions.map((el) => (
             <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
               {el}

@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Flex, FormControl, Select } from '@chakra-ui/react';
+import { Flex, FormControl, Select, useMediaQuery } from '@chakra-ui/react';
 
 import { useGetClientsFromSupabase } from '../../api/queries/useGetClientsFromSupabase';
 import { ClientsTableSort } from '../../components/ClientsTable/ClientsTableSort';
-import { columnsClients, columnsClientsWithAgent } from '../../components/ClientsTable/columns';
+import {
+  columnsClients,
+  columnsClientsHeaders,
+  columnsClientsWithAgent,
+  columnsClientsWithAgentHeaders,
+} from '../../components/ClientsTable/columns';
 import BigSpinner from '../../components/Misc/BigSpinner';
 import { STATUSES } from '../../constants/constants';
 import { SCROLLBAR } from '../../constants/custom_styles';
@@ -21,6 +26,13 @@ const Clients = () => {
     setClientStatusToFilter(e.target.value);
     setIsSelectTouched(true);
   };
+  const [isLargerThan950] = useMediaQuery('(min-width: 950px)');
+  const [isLargerThan1300] = useMediaQuery('(min-width: 1300px)');
+  const isSimpleTable =
+    clientStatusToFilter === STATUSES.callClient || clientStatusToFilter === STATUSES.chance;
+    const rightMediaQuery = isSimpleTable
+? isLargerThan950
+: isLargerThan1300
 
   useEffect(() => {
     if (!isLoading && data && !isSelectTouched) {
@@ -39,10 +51,17 @@ const Clients = () => {
     return <p>error</p>;
   }
   return (
-    <Flex justifyContent={'center'} minH="calc(100vh - 100px)" w='100%'>
-      <Flex alignItems={'center'} flexDirection={'column'} gap='20px' w='95%'>
-        <FormControl alignSelf={'flex-end'} w={{ base: '45%', md: '30%', lg: '15%' }}>
-          <Select value={clientStatusToFilter} onChange={handleChange}>
+    <Flex justifyContent={'center'} minH='calc(100vh - 100px)' w='95%'>
+      <Flex
+        alignItems={'center'}
+        flexDirection={'column'}
+        gap='20px'
+        w={rightMediaQuery
+? '95%'
+: 'fit-content'}
+      >
+        <FormControl alignSelf={'flex-end'} w={{ base: '150px' }}>
+          <Select border={"1px"} value={clientStatusToFilter} onChange={handleChange}>
             {selectOptions.map((el) => (
               <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
                 {el === STATUSES.chance
@@ -52,14 +71,29 @@ const Clients = () => {
             ))}
           </Select>
         </FormControl>
-        <Flex boxShadow={BOX_SHADOW} maxH='75vh' mb='50px' overflow='auto' sx={SCROLLBAR} w='100%'>
+        <Flex
+          __css={SCROLLBAR}
+          boxShadow={BOX_SHADOW}
+          maxH='75vh'
+          mb='50px'
+          overflow='auto'
+          overflowX={'hidden'}
+          borderRadius={rightMediaQuery
+? ''
+: '20px'}
+          p={rightMediaQuery
+? ''
+: '20px'}
+          w={rightMediaQuery
+? '100%'
+: { base: '400px', md: '550px' }}
+        >
           <ClientsTableSort
             data={data}
-            columns={
-              clientStatusToFilter === STATUSES.callClient ||
-              clientStatusToFilter === STATUSES.chance
-                ? columnsClients
-                : columnsClientsWithAgent
+            columnProps={
+              isSimpleTable
+                ? [columnsClients, columnsClientsHeaders]
+                : [columnsClientsWithAgent, columnsClientsWithAgentHeaders]
             }
           />
         </Flex>

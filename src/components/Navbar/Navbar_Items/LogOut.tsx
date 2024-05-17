@@ -8,10 +8,10 @@ const LogOut = ({...props}:ButtonProps) => {
     supabase.auth.signOut();
   };
   return (
-    <Button size={{ base: 'sm', md: 'md', lg: 'md' }} onClick={handleClick} {...props}>
-      <Flex alignItems={"center"} gap="10px">
+    <Button size={{ base: 'sm', md: 'md' }} onClick={handleClick} {...props}>
+      <Flex alignItems={"center"} gap={{base: "5px", md: "10px"}}>
       Sign out
-      <IoIosLogOut fontSize={"20px"} />
+      <IoIosLogOut fontSize={"15px"} />
       </Flex>
     </Button>
   );

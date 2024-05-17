@@ -5,6 +5,9 @@ export const LIGHT_MODE = {
   quaternaryColor: '#d0d1dc',
   fontColor: '#484b6a',
   linkColor: '#4d4df1',
+  buttonColor: '#edf2f7',
+  buttonActiveColor: '#cbd5de',
+  buttonHoverColor: '#e3e8ed',
   scrollbarColor: '#888',
   scrollbarSecondaryColor: '#555',
   teamRankingFirstColor: '#cca528',
@@ -16,6 +19,7 @@ export const LIGHT_MODE = {
   analyticsBlue: 'blue',
   modalOverlayColor: 'rgba(0, 0, 0, 0.3)',
   boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
+  mobileTableBorderColor: 'rgba(136, 136, 136, 0.4)',
 };
 
 export const DARK_MODE = {
@@ -25,6 +29,9 @@ export const DARK_MODE = {
   quaternaryColor: '#3a4149',
   fontColor: '#d6dfe2',
   linkColor: '#57e3c3',
+  buttonColor: '#3a3f47', 
+  buttonActiveColor: '#31363e', 
+  buttonHoverColor: '#474d55', 
   scrollbarColor: '#d6dfe2',
   scrollbarSecondaryColor: '#222222',
   teamRankingFirstColor: '#ffc107',
@@ -36,6 +43,7 @@ export const DARK_MODE = {
   analyticsBlue: '#007FFF',
   modalOverlayColor: 'rgba(0, 0, 0, 0.5)',
   boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
+  mobileTableBorderColor: 'rgba(214, 223, 226, 0.4)',
 };
 
 export const BG_COLOR = '#f7f7f8';

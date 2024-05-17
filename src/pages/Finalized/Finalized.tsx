@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Flex, FormControl, Select } from '@chakra-ui/react';
+import { Flex, FormControl, Select, useMediaQuery } from '@chakra-ui/react';
 
 import { useGetFinalizedFromSupabase } from '../../api/queries/useGetFinalizedfromSupabase';
 import { useGetUsersFromSupabase } from '../../api/queries/useGetUsersFromSupabase';
 import { ClientsTableSort } from '../../components/ClientsTable/ClientsTableSort';
-import { columnsFinalized } from '../../components/ClientsTable/columns';
+import { columnsFinalized, columnsFinalizedHeaders } from '../../components/ClientsTable/columns';
 import BigSpinner from '../../components/Misc/BigSpinner';
 import { SCROLLBAR } from '../../constants/custom_styles';
 import { BOX_SHADOW } from '../../constants/theme';
@@ -15,7 +15,7 @@ const Finalized = () => {
   const { data: users, isLoading: isLoadingUsers } = useGetUsersFromSupabase();
   const [filteredData, setFilteredData] = useState(data);
   const { CONDITIONAL_OPTION_THEME } = useThemeContext();
-
+  const [isLargerThan1300] = useMediaQuery('(min-width: 1300px)');
   useEffect(() => {
     setFilteredData(data);
   }, [data]);
@@ -31,9 +31,11 @@ const Finalized = () => {
   if (isLoading || isLoadingUsers) return <BigSpinner />;
   return (
     <Flex justifyContent={'center'}>
-      <Flex flexDirection={'column'} gap='20px' w='95%'>
-        <FormControl alignSelf={'flex-end'} w={{ base: '45%', md: '30%', lg: '15%' }}>
-          <Select onChange={handleChange}>
+      <Flex flexDirection={'column'} gap='20px' w={isLargerThan1300
+? '95%'
+: 'fit-content'}>
+        <FormControl alignSelf={'flex-end'} w={{ base: '150px' }}>
+          <Select border={"1px"} onChange={handleChange}>
             <option style={CONDITIONAL_OPTION_THEME} value={'all'}>
               {'all'}
             </option>
@@ -44,8 +46,26 @@ const Finalized = () => {
             ))}
           </Select>
         </FormControl>
-        <Flex boxShadow={BOX_SHADOW} maxH='75vh' overflow='auto' sx={SCROLLBAR}>
-          <ClientsTableSort columns={columnsFinalized} data={filteredData} />
+        <Flex
+          __css={SCROLLBAR}
+          boxShadow={BOX_SHADOW}
+          maxH='75vh'
+          mb='50px'
+          overflow='auto'
+          borderRadius={isLargerThan1300
+? ''
+: '20px'}
+          p={isLargerThan1300
+? ''
+: '20px'}
+          w={isLargerThan1300
+? '100%'
+: { base: '400px', md: '550px' }}
+        >
+          <ClientsTableSort
+            columnProps={[columnsFinalized, columnsFinalizedHeaders]}
+            data={filteredData}
+          />
         </Flex>
       </Flex>
     </Flex>

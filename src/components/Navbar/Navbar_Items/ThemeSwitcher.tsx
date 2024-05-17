@@ -10,9 +10,8 @@ const ThemeSwitcher = () => {
     setIsDarkMode(!isDarkMode);
   };
   return (
-    <Flex alignItems={'center'}>
+    <Flex alignItems={'center'} gap="5px">
       <Switch
-        boxSize={10}
         colorScheme='gray'
         size={{ base: 'sm', md: 'md', lg: 'md' }}
         style={{ display: 'flex', alignItems: 'center' }}

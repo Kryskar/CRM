@@ -17,26 +17,26 @@ const Navbar = () => {
   };
   const { email, picture } = loggedInUserDbData;
   const { isOpen, onClose, onOpen } = useDisclosure();
-
   return (
     <>
       <Flex
-        
         alignItems='center'
         bgColor='secondaryColor'
         color={'fontColor'}
-        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
+        flexDirection={{ base: 'column', md: 'row' }}
         gap={'10px'}
         h={'100%'}
         justifyContent={'space-between'}
-    
+        px='10px'
         py='5px'
+        w={'100%'}
       >
-        <Flex justifyContent={'space-between'} pr="20px" w='100vw'>
+        <Flex justifyContent={'space-between'} pr='20px' w='100%'>
           <Flex alignItems={'center'} gap={'20px'}>
             <Button
-              ml='20px'
-              size={{ base: 'sm', md: 'md', lg: 'md' }}
+              ml={{ base: 0, lg: '20px' }}
+              size={{ base: 'sm', md: 'md' }}
+              variant="defined"
               onClick={handleAddClientClick}
             >
               <Flex alignItems={'center'} gap='10px'>
@@ -45,7 +45,7 @@ const Navbar = () => {
             </Button>
           </Flex>
           <NavbarIconList display={{ base: 'none', md: 'flex', lg: 'flex' }} />
-          <Flex alignItems={'center'} gap={'20px'}>
+          <Flex alignItems={'center'} gap={{ base: '5px', sm: '20px' }}>
             <ThemeSwitcher />
             <Avatar
               referrerPolicy={'no-referrer'} // added this because sometimes images wasn't displayed properly
@@ -55,10 +55,14 @@ const Navbar = () => {
               onClick={onOpen}
             />
             <ChangeUserDataModal data={loggedInUserDbData} isOpen={isOpen} onClose={onClose} />
-            <Text display={{ base: 'none', md: 'none', lg: 'block' }} fontWeight={'700'}>
+            <Text
+              display={{ base: 'none', md: 'none', lg: 'block' }}
+              fontSize={{ lg: '13px' }}
+              fontWeight={'700'}
+            >
               {email}
             </Text>
-            <LogOut/>
+            <LogOut variant={"defined"} />
           </Flex>
         </Flex>
         <NavbarIconList display={{ base: 'flex', md: 'none', lg: 'none' }} />

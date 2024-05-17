@@ -16,25 +16,26 @@ export interface ModifyClientProps {
   onClose: () => void;
 }
 
+export const columnsClientsHeaders = ['Name', 'Surname', 'Phone number', 'Requested amount', 'Latest status change', 'Client status', 'Change status']
 export const columnsClients = [
   columnHelper.accessor('name', {
     cell: (info) => info.getValue(),
-    header: 'name',
+    header: columnsClientsHeaders[0],
     sortingFn: 'text',
   }),
   columnHelper.accessor('surname', {
     cell: (info) => info.getValue(),
-    header: 'surname',
+    header: columnsClientsHeaders[1],
     sortingFn: 'text',
   }),
   columnHelper.accessor('phoneNumber', {
     cell: (info) => info.getValue(),
-    header: 'phone number',
+    header: columnsClientsHeaders[2],
     sortingFn: 'alphanumeric',
   }),
   columnHelper.accessor('requestedAmount', {
     cell: (info) => info.getValue(),
-    header: 'requested amount',
+    header: columnsClientsHeaders[3], //eslint-disable-line
     sortingFn: 'alphanumeric',
   }),
   columnHelper.accessor('updated_at', {
@@ -45,7 +46,7 @@ export const columnsClients = [
 : '';
       return formattedInfo;
     },
-    header: 'latest status change',
+    header: columnsClientsHeaders[4], //eslint-disable-line
   }),
   columnHelper.accessor('clientStatus', {
     cell: (info) => {
@@ -59,20 +60,21 @@ export const columnsClients = [
         </Text>
       );
     },
-    header: 'client status',
+    header: columnsClientsHeaders[5], //eslint-disable-line
     sortingFn: 'text',
   }),
   columnHelper.display({
     id: 'actions',
     cell: (info) => (
       <Flex justifyContent={'center'}>
-        <ChangeStatusButton info={info} />
+        <ChangeStatusButton info={info} size={{base:'sm', lg:'md'}} variant={"defined"} />
       </Flex>
     ),
-    header: 'change status',
+    header: columnsClientsHeaders[6], //eslint-disable-line
   }),
 ];
 
+export const columnsClientsWithAgentHeaders = [...columnsClientsHeaders, "Agent"]
 export const columnsClientsWithAgent = [
   ...columnsClients,
   columnHelper.accessor('agentEmail', {
@@ -82,11 +84,12 @@ export const columnsClientsWithAgent = [
 ? <Agent email={email} />
 : '';
     },
-    header: 'agent',
+    header: columnsClientsWithAgentHeaders[7], //eslint-disable-line
     sortingFn: 'text',
   }),
 ];
 
+export const columnsFinalizedHeaders = ["Name", "Surname", "Phone number", "Bank", "Loan amount", "Intrest", "Commission", "Period", "Report date/time", "Agent" ]
 export const columnsFinalized = [
   columnHelperFinalized.accessor('clientName', {
     cell: (info) => info.getValue(),

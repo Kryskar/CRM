@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
-import { Avatar, Flex, Select, Text } from '@chakra-ui/react';
+import { Avatar, Flex, FlexProps, Select, Text } from '@chakra-ui/react';
 
-import { TEAM_RANKING_OPTIONS } from '../../../constants/constants';
+import { firstWordCharToUppercase,TEAM_RANKING_OPTIONS } from '../../../constants/constants';
 import { CombinedArrItem, useStatisticsContext } from '../../../contexts/StatisticsProvider';
 import { useThemeContext } from '../../../contexts/ThemeProvider';
 
@@ -23,7 +23,7 @@ interface MappedCombinedTeam {
   total: number;
 }
 // team ranking with groupping same results
-const TeamMembersRankings2 = () => {
+const TeamMembersRankings2 = ({ ...rest }: FlexProps) => {
   const { CONDITIONAL_OPTION_THEME } = useThemeContext();
   const { combinedTeamArrCurrentMonth } = useStatisticsContext();
   const [selectValue, setSelectValue] = useState(TEAM_RANKING_OPTIONS.successesVolume);
@@ -99,14 +99,24 @@ const TeamMembersRankings2 = () => {
   const sortedAndGrouped = sortAndGroup(mappedCombinedTeamArr);
 
   return (
-    <CustomAnalyticsFlex alignItems={'center'} gap='20px' w={{ base: '300px', lg: '400px' }}>
+    <CustomAnalyticsFlex
+      {...rest}
+      alignItems={'center'}
+      gap='20px'
+      w={{ base: '300px', lg: '400px' }}
+    >
       <Text fontSize={'16px'} fontWeight={600}>
         Team members rankings:
       </Text>
-      <Select bgColor={'primaryColor'} border={"1px"} w={{ base: '80%', lg: '60%' }} onChange={handleChange}>
+      <Select
+        bgColor={'primaryColor'}
+        border={'1px'}
+        w={{ base: '80%', lg: '60%' }}
+        onChange={handleChange}
+      >
         {Object.values(TEAM_RANKING_OPTIONS).map((el) => (
           <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
-            {el}
+            {firstWordCharToUppercase(el)}
           </option>
         ))}
       </Select>

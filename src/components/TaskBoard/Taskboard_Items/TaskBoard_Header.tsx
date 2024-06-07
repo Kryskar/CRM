@@ -79,11 +79,11 @@ const TaskBoard_Header = ({ data, endDate, isLoading, startDate }: TaskBoard_Hea
       <Flex flexDirection={'column'} gap='10px'>
         <chakra.span>{`${numOfTasksForToday} ${
           numOfTasksForToday === SINGLE_TASK_NUM
-? 'task'
-: 'tasks'
+? 'Task'
+: 'Tasks'
         } for today`}</chakra.span>
         <Flex alignItems={'flex-end'} flexDirection={'column'}>
-          <chakra.span fontSize={'10px'}>tomorow: {numOfTasksForTomorow}</chakra.span>
+          <chakra.span fontSize={'10px'}>Tomorow: {numOfTasksForTomorow}</chakra.span>
           <chakra.span fontSize={'10px'}>
             {DAYS_DIFFERENCE > WEEK_LENGTH
               ? `${formattedDate(startDate, DATE_FORMATS.monthName)}: ${data?.events.length}`

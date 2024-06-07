@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import {
   Checkbox,
   FormControl,
@@ -11,24 +11,34 @@ import {
 import { FormikProps } from 'formik';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
-import { FILTERED_STATUSES_ARR, STATUSES } from '../../constants/constants';
+import { DATE_FORMATS, FILTERED_STATUSES_ARR, getFirstWorkingDayAfterTwoDays,STATUSES } from '../../constants/constants';
 import { useThemeContext } from '../../contexts/ThemeProvider';
+import { useTourContext } from '../../contexts/TourProvider';
 
 type chanceCheckboxPropsTypes = {
   selectedCheckbox: string;
   setSelectedCheckbox: React.Dispatch<React.SetStateAction<string>>;
 };
 
+type chanceSelectPropsTypes = {
+  selectValue: string; 
+  setSelectValue: React.Dispatch<React.SetStateAction<string>>
+};
+
 const ModifyClientRestOfForm = ({
   chanceCheckboxProps,
-  formik,
+  chanceSelectProps,
+  formik
 }: {
   chanceCheckboxProps: chanceCheckboxPropsTypes;
+  chanceSelectProps: chanceSelectPropsTypes;
   formik: FormikProps<NewClient>;
 }) => {
+  
+  const { randomAddClientData, randomNum, stepIndex } = useTourContext();
   const { selectedCheckbox, setSelectedCheckbox } = chanceCheckboxProps;
+  const { selectValue, setSelectValue} = chanceSelectProps
   const { CONDITIONAL_OPTION_THEME } = useThemeContext();
-  // const [status, setStatus] = useState<SelectValues | undefined>();
 
   const handleCheckboxChange = (value: string) => {
     setSelectedCheckbox(value);
@@ -42,13 +52,49 @@ const ModifyClientRestOfForm = ({
     }
   };
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectValue(e.target.value);
     formik.setFieldValue('clientStatus', e.target.value);
   };
+
+  const TourValuesStep13 = {
+    ...randomAddClientData,
+    chance: true,
+    comment: 'waiting for documents, call to client in 3 days ' + randomNum,
+    clientStatus: STATUSES.waitingForDocuments,
+    nextContactDate:  getFirstWorkingDayAfterTwoDays(new Date(),DATE_FORMATS.forNextContactDateInput),
+  };
+
+
+  useEffect(() => {
+    if (stepIndex === 12) { //eslint-disable-line
+      handleCheckboxChange('chance');
+      formik.setValues(TourValuesStep13);
+      setSelectValue(STATUSES.waitingForDocuments);
+    }
+    if (stepIndex === 26) { //eslint-disable-line
+      handleCheckboxChange('chance');
+      formik.setValues({
+        ...TourValuesStep13,
+        clientStatus: STATUSES.loanFinalized,
+        comment: 'loan finalized',
+      });
+      setSelectValue(STATUSES.loanFinalized);
+    }
+    if (stepIndex === 14 || stepIndex === 27) { //eslint-disable-line
+      formik.submitForm();
+    }
+  }, [stepIndex]); //eslint-disable-line
+
+  useEffect(() => {
+    if(selectValue===STATUSES.loanFinalized){
+      formik.setFieldValue("nextContactDate", getFirstWorkingDayAfterTwoDays(new Date(),DATE_FORMATS.forNextContactDateInput))
+    }
+  },[selectValue]) //eslint-disable-line
 
   return (
     <>
       <FormControl isInvalid={formik.touched.chance && !!formik.errors.chance}>
-        <Stack direction='row' spacing={5}>
+        <Stack className='step12' direction='row' spacing={5}>
           <Checkbox
             isChecked={selectedCheckbox === 'chance'}
             name='chance'
@@ -72,17 +118,7 @@ const ModifyClientRestOfForm = ({
         </Stack>
         <FormErrorMessage color={'analyticsRed'}>{formik.errors.chance}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={formik.touched.comment && !!formik.errors.comment} variant='floating'>
-        <Input
-          name='comment'
-          placeholder=' '
-          value={formik.values.comment}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-        />
-        <FormLabel>Comment</FormLabel>
-        <FormErrorMessage color={'analyticsRed'}>{formik.errors.comment}</FormErrorMessage>
-      </FormControl>
+      
       {selectedCheckbox === 'chance' && (
         <>
           <FormControl
@@ -92,6 +128,7 @@ const ModifyClientRestOfForm = ({
           >
             <Select
               name='clientStatus'
+              value={selectValue}
               onBlur={formik.handleBlur}
               onChange={(e) => handleSelectChange(e)}
             >
@@ -104,12 +141,12 @@ const ModifyClientRestOfForm = ({
             <FormLabel>Select status</FormLabel>
             <FormErrorMessage color={'analyticsRed'}>{formik.errors.clientStatus}</FormErrorMessage>
           </FormControl>
-          {/* {formik.values.clientStatus !== STATUSES.loanFinalized &&  */}
           <FormControl
             isInvalid={formik.touched.nextContactDate && !!formik.errors.nextContactDate}
             variant='floating'
           >
             <Input
+            disabled={selectValue===STATUSES.loanFinalized}
               name='nextContactDate'
               placeholder=' '
               type='datetime-local'
@@ -122,10 +159,19 @@ const ModifyClientRestOfForm = ({
               {formik.errors.nextContactDate}
             </FormErrorMessage>
           </FormControl>
-          {/* } */}
         </>
       )}
-      {/* {formik.values.clientStatus === STATUSES.loanFinalized && <SuccessReport formik={formik}/>} */}
+      <FormControl isInvalid={formik.touched.comment && !!formik.errors.comment} variant='floating'>
+        <Input
+          name='comment'
+          placeholder=' '
+          value={formik.values.comment}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+        />
+        <FormLabel>Comment</FormLabel>
+        <FormErrorMessage color={'analyticsRed'}>{formik.errors.comment}</FormErrorMessage>
+      </FormControl>
     </>
   );
 };

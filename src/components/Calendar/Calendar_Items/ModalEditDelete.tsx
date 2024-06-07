@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Event } from 'react-big-calendar';
 import {
   Button,
@@ -17,7 +17,10 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import { addDays, addHours, format } from 'date-fns';
 
+import { DATE_FORMATS } from '../../../constants/constants';
+import { useTourContext } from '../../../contexts/TourProvider';
 import { useGetSession } from '../../../hooks/useGetSession';
 import { splitString } from '../../TaskBoard/Taskboard_Items/taskBoardHelpers';
 import { useEditOrDeleteEvent } from '../hooks/useEditOrDeleteEvent';
@@ -32,35 +35,52 @@ const ModalEditDelete = ({
   onClose: () => void;
 }) => {
   const [mode, setMode] = useState('');
-
+  const {stepIndex} = useTourContext()
   const { session } = useGetSession();
   const {
-    formik: {
-      errors,
-      handleBlur,
-      handleChange,
-      handleSubmit,
-      touched,
-      values: { end, start, title },
-    },
+    formik,
     handleDeleteClick,
     handleEditClick,
   } = useEditOrDeleteEvent(session, event, setMode, onClose);
-
+ const {
+  errors,
+  handleBlur,
+  handleChange,
+  handleSubmit,
+  touched,
+  values: { end, start, title },
+} = formik
   const handleClose = () => {
     onClose();
     setMode('');
   };
+  /* eslint-disable */
+  useEffect(() => {
+    if (stepIndex === 20) { 
+      handleEditClick()
+    }
+    if (stepIndex === 21) { 
+      formik.setValues({
+        title:"#EDIT TEST# "+title,
+        start: format(addDays(new Date, 7), DATE_FORMATS.forNextContactDateInput), 
+        end: format(addHours(addDays(new Date, 7),1), DATE_FORMATS.forNextContactDateInput) 
+      })
+    }
+    if (stepIndex === 22) { 
+      formik.submitForm()
+    }
+  }, [stepIndex]); 
+  /* eslint-enable*/
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay bgColor={'modalOverlayColor'} />
 
-        <ModalContent>
+        <ModalContent className='step20 step21'>
           <ModalHeader bgColor={'primaryColor'} color='fontColor'>
             {mode === 'edit'
 ? (
-              'edit event'
+              'Edit event'
             )
 : (
               <Flex flexDirection='column' gap='20px'>
@@ -122,7 +142,7 @@ const ModalEditDelete = ({
                 </FormErrorMessage>
               </FormControl>
               {mode == 'edit' && (
-                <Button colorScheme='green' marginLeft='auto' mt='20px' type='submit'>
+                <Button className='step22' colorScheme='green' marginLeft='auto' mt='20px' type='submit'>
                   Confirm Edit
                 </Button>
               )}

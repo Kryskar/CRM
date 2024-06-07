@@ -3,8 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import BigSpinner from './components/Misc/BigSpinner';
 import { ROUTES } from './constants/routes';
+import OperationsProvider from './contexts/OperationsProvider';
 import SessionProvider from './contexts/SessionProvider';
 import StatisticsProvider from './contexts/StatisticsProvider';
+import TourProvider from './contexts/TourProvider';
 const Home = React.lazy(() => import('./pages/Home/Home'));
 const Clients = React.lazy(() => import('./pages/Clients/Clients'));
 const Calendar = React.lazy(() => import('./pages/Calendar/Calendar'));
@@ -16,6 +18,8 @@ const App = () => {
   return (
     <>
       <SessionProvider>
+        <OperationsProvider>
+        <TourProvider>
         <StatisticsProvider>
           <Suspense fallback={<BigSpinner />}>
             <Routes>
@@ -29,6 +33,8 @@ const App = () => {
             </Routes>
           </Suspense>
         </StatisticsProvider>
+        </TourProvider>
+        </OperationsProvider>
       </SessionProvider>
     </>
   );

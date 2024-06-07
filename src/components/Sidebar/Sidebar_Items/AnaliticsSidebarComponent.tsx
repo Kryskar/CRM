@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { chakra, Flex, Select, Text } from '@chakra-ui/react';
 
-import { MONTH_NAME } from '../../../constants/constants';
+import { firstWordCharToUppercase, MONTH_NAME } from '../../../constants/constants';
 import { useStatisticsContext } from '../../../contexts/StatisticsProvider';
 import { useThemeContext } from '../../../contexts/ThemeProvider';
 
@@ -44,7 +44,7 @@ export const AnaliticsSidebarComponent = ({
         <Select bgColor={'primaryColor'} border={"1px"} h={'30px'} w='100px' onChange={handleChange}>
           {selectOptions.map((el) => (
             <option key={el} style={CONDITIONAL_OPTION_THEME} value={el}>
-              {el}
+              {firstWordCharToUppercase(el)}
             </option>
           ))}
         </Select>

@@ -65,7 +65,7 @@ export const createDataAndOptionsForBarChart = (info: number[], isDarkMode: bool
     },
   };
 
-  const labels = ['successess', 'chances', 'not doable'];
+  const labels = ['Successess', 'Chances', 'Not doable'];
 
   const data = {
     labels,

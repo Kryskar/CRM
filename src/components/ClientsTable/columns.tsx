@@ -3,7 +3,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { FinalizedRecord } from '../../api/queries/useGetFinalizedfromSupabase';
-import { DATE_FORMATS, formattedDate } from '../../constants/constants';
+import { DATE_FORMATS, firstWordCharToUppercase, formattedDate } from '../../constants/constants';
 
 import { Agent, BankImage, ChangeStatusButton, getColor } from './columnsHelpers';
 
@@ -56,7 +56,7 @@ export const columnsClients = [
 : '';
       return (
         <Text color={color} fontWeight={600}>
-          {info.getValue()}
+          {firstWordCharToUppercase(info.getValue() ?? "")}
         </Text>
       );
     },
@@ -67,7 +67,7 @@ export const columnsClients = [
     id: 'actions',
     cell: (info) => (
       <Flex justifyContent={'center'}>
-        <ChangeStatusButton info={info} size={{base:'sm', lg:'md'}} variant={"defined"} />
+        <ChangeStatusButton className='step9 step28' info={info} size={{base:'sm', lg:'md'}} variant={"defined"} />
       </Flex>
     ),
     header: columnsClientsHeaders[6], //eslint-disable-line

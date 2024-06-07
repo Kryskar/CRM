@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Avatar,
   Button,
@@ -17,6 +18,7 @@ import { useFormik } from 'formik';
 
 import { UserSupabase } from '../../../api/mutations/Users/useAddUserToSupabase';
 import { useUpdateUser } from '../../../api/mutations/Users/useUpdateUser';
+import { validationChangeUserData } from '../../../schemas/validations';
 
 import { FormInput } from './ChangeUserDataHelpers';
 
@@ -39,20 +41,29 @@ const ChangeUserDataModal = ({
     onClose();
   };
   const { updateUser } = useUpdateUser();
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const initialValues = {
+    fullName: fullName,
+    picture: picture,
+  };
   const formik = useFormik<ChangeUserDisplayData>({
-    initialValues: {
-      fullName: fullName,
-      picture: picture,
-    },
+    initialValues: initialValues,
     onSubmit: async (values) => {
       updateUser({ values, email });
+      setFormSubmitted(true);
       onClose();
     },
+    validationSchema: validationChangeUserData,
   });
 
   const { handleSubmit, values } = formik;
-
+  useEffect(() => {
+    if (!isOpen && !formSubmitted) {
+      formik.resetForm({ values: initialValues });
+    } else if (!isOpen && formSubmitted) {
+      setFormSubmitted(false);
+    }
+  }, [isOpen, formSubmitted]); //eslint-disable-line
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>
@@ -60,7 +71,7 @@ const ChangeUserDataModal = ({
 
         <ModalContent>
           <ModalHeader bgColor={'primaryColor'} color='fontColor'>
-            change user display data
+            Change user display data
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody bgColor={'primaryColor'} color='fontColor'>
@@ -69,21 +80,22 @@ const ChangeUserDataModal = ({
               onSubmit={handleSubmit}
             >
               <FormControl>
-                <FormLabel htmlFor='email'>email:</FormLabel>
+                <FormLabel htmlFor='email'>Email:</FormLabel>
                 <Input disabled id='email' value={email} />
               </FormControl>
 
               <FormInput
-                display='full name:'
+                display='Full name:'
                 formik={formik}
                 name={'fullName'}
                 value={values.fullName}
               />
               <FormInput
-                display='picture:'
                 formik={formik}
                 name={'picture'}
                 value={values.picture}
+                display='
+                Picture:'
               />
 
               <Flex alignItems={'center'} flexDir={'column'} mb='50px' w={'100%'}>

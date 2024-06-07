@@ -4,9 +4,14 @@ import { CalendarIcon } from '@chakra-ui/icons';
 import { chakra, Flex, Spinner } from '@chakra-ui/react';
 import { differenceInHours } from 'date-fns';
 
-import { DATE_FORMATS, formattedDate, INDEX_OF_FIRST_ITEM } from '../../../constants/constants';
+import {
+  DATE_FORMATS,
+  extractPhoneNumber,
+  formattedDate,
+  INDEX_OF_FIRST_ITEM,
+} from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
-import { ROUTES } from '../../../constants/routes';
+import { useOpeationsContext } from '../../../contexts/OperationsProvider';
 
 import { splitString } from './taskBoardHelpers';
 
@@ -21,9 +26,16 @@ interface TaskBoard_Body_Props {
 
 const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_Props) => {
   const navigate = useNavigate();
-
-  const handleIconClick = () => {
-    navigate(ROUTES.calendar);
+  const { setIsTaskboardClientClicked, setTaskboardClientPhoneNumber } = useOpeationsContext();
+  const handleEventClick = (event: any) => { //eslint-disable-line
+    if (event && event.title) {
+      const phoneNumber = extractPhoneNumber(event.title);
+      setTaskboardClientPhoneNumber(phoneNumber
+? phoneNumber
+: '');
+      setIsTaskboardClientClicked(true);
+      navigate('/clients');
+    }
   };
   if (!data || isLoading)
     return (
@@ -57,7 +69,8 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
         <Flex flexDirection={'column'} overflow='auto' sx={SCROLLBAR}>
           {events.map((event, index) => (
             <Flex
-              key={event.id}
+               key={event.id}
+              cursor={'pointer'}
               flexDirection={'column'}
               fontSize={'12px'}
               gap='10px'
@@ -79,10 +92,11 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
               borderTop={index === INDEX_OF_FIRST_ITEM
 ? '1px solid'
 : ''}
+              onClick={() => handleEventClick(event)}
             >
               <Flex justifyContent={'space-between'}>
                 <chakra.span>
-                  <CalendarIcon cursor={'pointer'} onClick={handleIconClick} /> event{' '}
+                  <CalendarIcon /> event{' '}
                 </chakra.span>
                 <chakra.span className='date' color='linkColor' fontSize={'9px'}>
                   {getFormat(event)}

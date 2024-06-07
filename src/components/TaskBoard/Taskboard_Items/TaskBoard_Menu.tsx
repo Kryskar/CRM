@@ -60,7 +60,7 @@ const TaskBoard_Menu = ({
         <Link
           onClick={() => handleClickMenu(START_OF_TODAY, END_OF_TODAY, QUERY_KEYS.getEventsToday)}
         >
-          today
+          Today
         </Link>
         <Link
           onClick={() =>
@@ -71,7 +71,7 @@ const TaskBoard_Menu = ({
             )
           }
         >
-          this week
+          This week
         </Link>
         <Link
           onClick={() =>
@@ -82,7 +82,7 @@ const TaskBoard_Menu = ({
             )
           }
         >
-          this month
+          This month
         </Link>
       </Flex>
       <Flex gap='25px' justifyContent={'flex-end'}>

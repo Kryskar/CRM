@@ -21,14 +21,14 @@ const ModifyClient = ({ data, isOpen, onClose }: ModifyClientProps) => {
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay bgColor={'modalOverlayColor'} />
-        <ModalContent>
-          <ModalHeader bgColor={'primaryColor'} color='fontColor'>
+        <ModalContent className='step11 step13 step26 step27 step30 step31'>
+          <ModalHeader  bgColor={'primaryColor'} color='fontColor'>
             {clientStatus !== STATUSES.loanFinalized
 ? 'Change Status'
 : 'Report Success'}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody bgColor={'primaryColor'} color='fontColor'>
+          <ModalBody  bgColor={'primaryColor'} color='fontColor'>
             <Flex justifyContent={'center'} w={'100%'}>
               {clientStatus !== STATUSES.loanFinalized
 ? (

@@ -54,7 +54,7 @@ export const ClientsTableSort = ({ columnProps, data }: ClientsTableSortProps) =
         <Table>
           <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <Tr key={headerGroup.id}>
+              <Tr key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
                   const meta: any = header.column.columnDef.meta; //eslint-disable-line
                   return (

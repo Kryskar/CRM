@@ -1,5 +1,7 @@
+import { faker } from '@faker-js/faker';
 import {
   add,
+  addBusinessDays,
   addDays,
   addMonths,
   differenceInDays,
@@ -15,12 +17,13 @@ import {
   startOfWeek,
 } from 'date-fns';
 
+
 export const INDEX_OF_FIRST_ITEM = 0;
 export const EMPTY_ARR = 0;
 export const ONE_MONTH_DISTANCE = 1;
 export const ONE_DAY_DISTANCE = 1;
 export const MINUTES_IN_HOUR = 60;
-export const TWO_WEEKS_IN_MINUTES = 20160
+export const TWO_WEEKS_IN_MINUTES = 20160;
 
 export const DATE_FORMATS = {
   basic: 'dd/MM/yy',
@@ -33,6 +36,7 @@ export const DATE_FORMATS = {
   dayMonthFull: 'dd MMMM',
   timeForEvent: 'hh:mm aa',
   date: 'yyyy-MM-dd',
+  forNextContactDateInput: "yyyy-MM-dd'T'HH:mm",
 };
 
 export const CALENDAR_TIME_MIN = '2022-01-01T00:00:00Z';
@@ -94,9 +98,10 @@ export const STATUSES = {
 };
 
 export const STATUSES_ARR = Object.entries(STATUSES).map(([_, value]) => ({ //eslint-disable-line
+   
   value: value,
   label: value,
-}));  
+}));
 
 export const FILTERED_STATUSES_ARR = STATUSES_ARR.filter(
   ({ label }) =>
@@ -257,6 +262,7 @@ export const TEAM_PLAN = 3000000;
 
 export const calculateTotal = (data: any[], key: string): number => { //eslint-disable-line
    
+
   return data.reduce((acc, obj) => acc + (+obj[key] || 0), 0);
 };
 
@@ -319,3 +325,62 @@ export const analyticsGetColor = (
 
   return 'fontColor';
 };
+
+export const TOUR_STATUS_KEY = 'crmAppTourStatus';
+export const randomAddress =
+  faker.location.streetAddress() +
+  ', ' +
+  faker.location.zipCode() +
+  ' ' +
+  faker.location.city() +
+  ', ' +
+  faker.location.country();
+
+export const generateRandomRoundedNumber = () => {
+  const randomNum = faker.number.int({ min: 10000, max: 50000 });
+  return Math.round(randomNum / 1000) * 1000; //eslint-disable-line
+};
+
+export const generatePhoneNumber = () => {
+  const countryCode = faker.number.int({ min: 10, max: 99 });
+  const phoneNumber = faker.number.int({ min: 100000000, max: 999999999 });
+  return `(+${countryCode}) ${phoneNumber}`;
+};
+
+const generateLettersOnlyNameAndSurname =() => {
+  let name, surname;
+  do {
+      name = faker.person.firstName();
+  } while (!/^[a-zA-Z]+$/.test(name)); 
+  do {
+      surname = faker.person.lastName();
+  } while (!/^[a-zA-Z]+$/.test(surname)); 
+  return { name, surname };
+}
+
+export const randomGuideTourClientData: any = () => { //eslint-disable-line
+  const { name, surname } = generateLettersOnlyNameAndSurname()
+  return {
+    name: name,
+    surname: surname,
+    phoneNumber: generatePhoneNumber(),
+    address: randomAddress,
+    requestedAmount: generateRandomRoundedNumber(),
+  };
+};
+
+export const randomGeneratedNumber = () => `#${faker.number.int({ min: 1, max: 999999 })}`;
+
+export const extractPhoneNumber = (input: string): string | null => {
+  const phoneNumberPattern = /\(\+\d{2}\) \d{9}/;
+  const match = input.match(phoneNumberPattern);
+  return match
+? match[0]
+: null;
+};
+
+export const getFirstWorkingDayAfterTwoDays = (date:Date, dateFormat:string) => {
+const dateAfterThreeDays = addDays(date, 2);
+const finalDate = addBusinessDays(dateAfterThreeDays, 1);
+return format(finalDate, dateFormat);
+}

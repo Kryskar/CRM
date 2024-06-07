@@ -1,10 +1,11 @@
 import React from 'react';
 import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { UserMetadata } from '@supabase/supabase-js';
+import { isAfter, parseISO, subDays } from 'date-fns';
 
 import { NewClient } from '../../../api/mutations/Clients/useAddClientToSupabase';
 import { useGetEventsFromSupabase } from '../../../api/queries/useGetEventsFromSupabase';
-import { DATE_FORMATS, formattedDate } from '../../../constants/constants';
+import { DATE_FORMATS, formattedDate, NOW } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
 
 import { getBoardBoxTitle } from './BoardBox_helpers';
@@ -18,7 +19,7 @@ export interface ParsedEvent {
   user: UserMetadata;
 }
 
-const BoardBox_Events = () => {
+const BoardBox_Events = ({changelogRange}:{changelogRange:number}) => {
   const { data, isLoading } = useGetEventsFromSupabase();
   if (isLoading)
     return (
@@ -27,7 +28,15 @@ const BoardBox_Events = () => {
       </Flex>
     );
 
-  const parsedData = data.reduce(
+    const startDate = subDays(NOW, changelogRange);
+    const filtered = data.filter( item => {
+      const itemDate = parseISO(item.dateTime)
+      if (changelogRange != 0)
+      return isAfter(itemDate, startDate) 
+    else return data
+    })
+
+  const parsedData = filtered.reduce(
     (acc, obj) => {
       const key = formattedDate(obj.dateTime, DATE_FORMATS.basic);
       if (!acc[key]) {

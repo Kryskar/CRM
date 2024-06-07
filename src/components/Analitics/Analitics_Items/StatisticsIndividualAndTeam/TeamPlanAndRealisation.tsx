@@ -4,6 +4,7 @@ import {
   analyticsGetColor,
   DAYS_IN_CURRENT_MONTH,
   DAYS_UNTIL_END_OF_MONTH,
+  firstWordCharToUppercase,
   TEAM_PLAN,
   TODAY,
 } from '../../../../constants/constants';
@@ -42,7 +43,7 @@ export const TeamPlanAndRealisation = () => {
       <Flex flexDirection={'column'} w={{ base: '100%', lg: '45%' }}>
         {Object.values(sections.sectionOne).map((el) => (
           <Flex key={el.label} justifyContent={'space-between'}>
-            <chakra.span fontWeight={'600'}>{el.label}</chakra.span>
+            <chakra.span fontWeight={'600'}>{firstWordCharToUppercase(el.label)}</chakra.span>
             <chakra.span
               color={analyticsGetColor(
                 el,
@@ -59,7 +60,7 @@ export const TeamPlanAndRealisation = () => {
       <Flex flexDirection={'column'} w={{ base: '100%', lg: '45%' }}>
         {Object.values(sections.sectionTwo).map((el) => (
           <Flex key={el.label} justifyContent={'space-between'}>
-            <chakra.span fontWeight={'600'}>{el.label}</chakra.span>
+            <chakra.span fontWeight={'600'}>{firstWordCharToUppercase(el.label)}</chakra.span>
             <chakra.span
               color={analyticsGetColor(
                 el,

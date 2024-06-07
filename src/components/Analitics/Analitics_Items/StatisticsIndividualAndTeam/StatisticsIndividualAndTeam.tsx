@@ -1,4 +1,4 @@
-import { Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { Flex, FlexProps, SimpleGrid, Text } from '@chakra-ui/react';
 
 import { SCROLLBAR } from '../../../../constants/custom_styles';
 import { useSessionContext } from '../../../../contexts/SessionProvider';
@@ -10,7 +10,7 @@ import { BarChartStats, createDataAndOptionsForBarChart } from './Bar/BarChartSt
 import { IndividualStats } from './IndividualStats';
 import { TeamPlanAndRealisation } from './TeamPlanAndRealisation';
 
-const StatisticsIndividualAndTeam = () => {
+const StatisticsIndividualAndTeam = ({...rest}:FlexProps) => {
   const { combinedTeamArrCurrentMonth } = useStatisticsContext();
   const { email } = useSessionContext();
   const { isDarkMode } = useThemeContext();
@@ -31,9 +31,9 @@ const StatisticsIndividualAndTeam = () => {
 
   const { data, options } = createDataAndOptionsForBarChart(dataset, isDarkMode);
   return (
-    <Flex flexDirection={'column'} gap='10px'>
+    <Flex {...rest} flexDirection={'column'} gap='10px'>
       <TeamPlanAndRealisation />
-      <Text fontWeight={600}>your statistics:</Text>
+      <Text fontWeight={600}>Your statistics:</Text>
       <SimpleGrid columns={{ base: 1, lg: 2 }} pr={'10px'} spacing={8}>
         <IndividualStats item={loggedInUser} />
         <CustomAnalyticsFlex
@@ -45,7 +45,7 @@ const StatisticsIndividualAndTeam = () => {
           <BarChartStats settings={{ data, options }} />
         </CustomAnalyticsFlex>
       </SimpleGrid>
-      <Text fontWeight={600}>rest of team members statistics:</Text>
+      <Text fontWeight={600}>Rest of team members statistics:</Text>
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         h='400px'

@@ -1,6 +1,6 @@
 import { Avatar, chakra, Flex, Text } from '@chakra-ui/react';
 
-import { AGENT_PLAN, analyticsGetColor } from '../../../../constants/constants';
+import { AGENT_PLAN, analyticsGetColor, firstWordCharToUppercase } from '../../../../constants/constants';
 import { CombinedArrItem } from '../../../../contexts/StatisticsProvider';
 import CustomAnalyticsFlex from '../CustomAnaliticsFlex';
 
@@ -41,7 +41,7 @@ export const IndividualStats = ({
       <Flex flexDirection={'column'}>
         {Object.values(data).map((item) => (
           <Flex key={item.label} justifyContent={'space-between'}>
-            <chakra.span fontWeight={'600'}>{item.label}</chakra.span>
+            <chakra.span fontWeight={'600'}>{firstWordCharToUppercase(item.label)}</chakra.span>
             <chakra.span
               color={analyticsGetColor(item, individualPlanRealisationLabel, totalSuccessesLabel)}
             >

@@ -19,7 +19,7 @@ const AddClient = () => {
         py='50px'
         w={{ base: '80%', md: '60%', lg: '40%' }}
       >
-        <AddClient_Container data={null} />
+        <AddClient_Container  data={null} />
       </Flex>
     </Flex>
   );

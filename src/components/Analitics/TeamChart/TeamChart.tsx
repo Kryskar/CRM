@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, FormControl, Select, Text } from '@chakra-ui/react';
+import { Flex, FlexProps, FormControl, Select, Text } from '@chakra-ui/react';
 
 import { FinalizedRecord } from '../../../api/queries/useGetFinalizedfromSupabase';
 import { EMPTY_ARR, firstWordCharToUppercase } from '../../../constants/constants';
@@ -16,9 +16,9 @@ type TeamChartProps = {
 };
 
 const TeamChart = ({
-  data: { combinedTeamArrCurrentMonth, finalizedDataTeamThisMonth },
-}: TeamChartProps) => {
-  const TEAM_STRING = 'team';
+  data: { combinedTeamArrCurrentMonth, finalizedDataTeamThisMonth }, ...rest
+}: TeamChartProps & FlexProps) => {
+  const TEAM_STRING = 'Team';
   const [filteredData, setFilteredData] = useState(finalizedDataTeamThisMonth);
   const [filteredDataLabel, setFilteredDataLabel] = useState(firstWordCharToUppercase(TEAM_STRING));
   const { CONDITIONAL_OPTION_THEME } = useThemeContext();
@@ -38,7 +38,7 @@ const TeamChart = ({
     }
   };
   return (
-    <Flex flexDirection={'column'} gap='20px'>
+    <Flex {...rest} flexDirection={'column'} gap='20px'>
       <Text fontSize={'16px'} fontWeight={'600'} textAlign={'center'}>
         {filteredDataLabel} Success Data
       </Text>

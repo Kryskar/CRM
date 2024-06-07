@@ -16,6 +16,7 @@ import { useEditClient } from '../../../api/mutations/Clients/useEditClient';
 import { STATUSES } from '../../../constants/constants';
 import { ROUTES } from '../../../constants/routes';
 import { useSessionContext } from '../../../contexts/SessionProvider';
+import { useTourContext } from '../../../contexts/TourProvider';
 import {
   validationAddClientSchema,
   validationUpdateClientSchema,
@@ -36,8 +37,10 @@ const AddClient_Container = ({
   data: NewClient | null;
   onClose?: () => void;
 }) => {
+  const { randomAddClientData, stepIndex } = useTourContext();
   const { email } = useSessionContext();
   const [selectedCheckbox, setSelectedCheckbox] = useState('');
+  const [selectValue, setSelectValue] = useState('');
   const { addClient } = useAddClientToSupabase();
   const { editClient } = useEditClient();
   const navigate = useNavigate();
@@ -66,10 +69,11 @@ const AddClient_Container = ({
 
   const formik = useFormik<NewClient>({
     initialValues: initialValues,
-    onSubmit: (values) => {
+    onSubmit: (values, {resetForm}) => {
       if (!data) {
         const addClientValues = createAddClientValuesObj(values);
         addClient(addClientValues);
+        resetForm()
       } else if (data) {
         modifyClientSubmit(values);
       }
@@ -90,13 +94,21 @@ const AddClient_Container = ({
       updateFormValues();
     }
   }, [data]); //eslint-disable-line
+  useEffect(() => {
+    if (stepIndex === 4) { //eslint-disable-line
+      formik.setValues(randomAddClientData);
+    }
+    if (stepIndex === 5) { //eslint-disable-line
+      formik.submitForm()
+    }
+  }, [stepIndex]); //eslint-disable-line
 
-  const { handleSubmit, isSubmitting, values } = formik;
+  const { handleSubmit, isSubmitting, values} = formik;
   const addClientKeys = ['name', 'surname', 'phoneNumber', 'address', 'requestedAmount'];
 
   return (
     <>
-      <form
+      <form className='step5'
         style={{ display: 'flex', flexDirection: 'column', gap: '30px', width: '90%' }}
         onSubmit={handleSubmit}
       >
@@ -121,9 +133,10 @@ const AddClient_Container = ({
           <>
             <ModifyClientRestOfForm
               chanceCheckboxProps={{ selectedCheckbox, setSelectedCheckbox }}
+              chanceSelectProps={{ selectValue, setSelectValue}}
               formik={formik}
             />
-            <Button mb={'30px'} type='submit'>
+            <Button className='step14' mb={'30px'} type='submit'>
               Proceed
             </Button>
           </>

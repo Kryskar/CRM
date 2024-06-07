@@ -17,9 +17,9 @@ const Analytics = () => {
       p='0 40px 0 40px'
       w='100%'
     >
-      <StatisticsIndividualAndTeam />
-      <TeamChart data={{ finalizedDataTeamThisMonth, combinedTeamArrCurrentMonth }} />
-      <TeamMembersRankings2 />
+      <StatisticsIndividualAndTeam className='step36' />
+      <TeamChart className='step37' data={{ finalizedDataTeamThisMonth, combinedTeamArrCurrentMonth }} />
+      <TeamMembersRankings2 className='step38' />
     </Flex>
   );
 };

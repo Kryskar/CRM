@@ -1,6 +1,6 @@
 import { Step } from 'react-joyride';
 import { SearchIcon } from '@chakra-ui/icons';
-import { Button, chakra, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Button, chakra, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { LogosGoogleCalendar } from '../components/Misc/LogosGoogleCalendar';
 
@@ -13,7 +13,6 @@ export const steps: Step[] = [
     target: '.step1',
     content: (
       <Flex flexDirection='column' gap='10px'>
-        <Image mb='10px' alignSelf={'center'} boxSize={'50px'} src='/favicon.png' />
         <Heading size='h4'>Welcome to the CRM application!</Heading>
         <Text>
           <chakra.span fontWeight={500}>CRM</chakra.span> is a database fully integrated with

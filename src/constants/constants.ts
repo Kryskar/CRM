@@ -154,7 +154,7 @@ export const POLISH_BANKS_LOGOS_COLORS: PolishBankLogosColors = {
     borderColor: 'rgba(205, 7, 108, 1)',
   },
   'Alior Bank': {
-    logo: 'https://iconape.com/wp-content/files/uh/209497/png/209497.png',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/8/86/Alior_Bank.svg',
     backgroundColor: 'rgba(108, 23, 22, 0.2)',
     borderColor: 'rgba(108, 23, 22, 1)',
   },

@@ -1,6 +1,6 @@
 import { Step } from 'react-joyride';
 import { SearchIcon } from '@chakra-ui/icons';
-import { Button, chakra, Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, chakra, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
 import { LogosGoogleCalendar } from '../components/Misc/LogosGoogleCalendar';
 
@@ -12,14 +12,30 @@ export const steps: Step[] = [
   {
     target: '.step1',
     content: (
-      <Flex flexDirection='column' gap='5px'>
-        <Heading size='h4'>Welcome to the CRM application tour!</Heading>
+      <Flex flexDirection='column' gap='10px'>
+        <Image mb='10px' alignSelf={'center'} boxSize={'50px'} src='/favicon.png' />
+        <Heading size='h4'>Welcome to the CRM application!</Heading>
+        <Text>
+          <chakra.span fontWeight={500}>CRM</chakra.span> is a database fully integrated with
+          <Flex
+            cursor={'pointer'}
+            onClick={handleRedirect}
+            fontWeight={500}
+            alignItems={'center'}
+            gap='5px'
+            justifyContent={'center'}
+          >
+            <LogosGoogleCalendar /> Google Calendar
+          </Flex>{' '}
+          built for financial advisors to manage clients and team statistics.{' '}
+        </Text>
         <Text>
           In the following steps, you will learn more about its features and functionalities.
         </Text>
       </Flex>
     ),
     disableBeacon: true,
+    placement: 'center',
   },
   {
     target: '.step2',
@@ -84,9 +100,9 @@ export const steps: Step[] = [
         This is the Clients table where all clients are listed. By default, every client is marked
         as{' '}
         <chakra.span color='analyticsBlue' fontWeight={500}>
-          "Call Client"
+          "Call client"
         </chakra.span>{' '}
-        because they are the highest priority. Agent task is to contact the client and update their
+        because they are the highest priority. Agent's task is to contact the client and update their
         status accordingly.
       </Text>
     ),
@@ -97,7 +113,7 @@ export const steps: Step[] = [
   },
   {
     target: '.step10',
-    content: <Text>Step 10.</Text>,
+    content: 'missed step',
   },
   {
     target: '.step11',
@@ -116,7 +132,7 @@ export const steps: Step[] = [
           "Not Doable"
         </chakra.span>
         .
-        <br /> For the tour, we select the{' '}
+        <br /> For this tour, we select the{' '}
         <chakra.span color='analyticsGreen' fontWeight={500}>
           "Chance"
         </chakra.span>{' '}
@@ -225,7 +241,7 @@ export const steps: Step[] = [
   },
   {
     target: '.step22',
-    content: <Text>Let’s confirm the changes.</Text>,
+    content: <Text>Confirm the changes.</Text>,
   },
   {
     target: '.step23',
@@ -268,7 +284,7 @@ export const steps: Step[] = [
     target: '.step27',
     content: (
       <Text>
-        Let’s confirm by pressing the <chakra.span fontWeight={500}>"Proceed"</chakra.span> button.
+        Confirm by pressing the <chakra.span fontWeight={500}>"Proceed"</chakra.span> button.
       </Text>
     ),
   },

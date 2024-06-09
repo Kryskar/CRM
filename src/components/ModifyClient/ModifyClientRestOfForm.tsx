@@ -11,7 +11,12 @@ import {
 import { FormikProps } from 'formik';
 
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
-import { DATE_FORMATS, FILTERED_STATUSES_ARR, getFirstWorkingDayAfterTwoDays,STATUSES } from '../../constants/constants';
+import {
+  DATE_FORMATS,
+  FILTERED_STATUSES_ARR,
+  getFirstWorkingDayAfterGivenDays,
+  STATUSES,
+} from '../../constants/constants';
 import { useThemeContext } from '../../contexts/ThemeProvider';
 import { useTourContext } from '../../contexts/TourProvider';
 
@@ -21,23 +26,22 @@ type chanceCheckboxPropsTypes = {
 };
 
 type chanceSelectPropsTypes = {
-  selectValue: string; 
-  setSelectValue: React.Dispatch<React.SetStateAction<string>>
+  selectValue: string;
+  setSelectValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const ModifyClientRestOfForm = ({
   chanceCheckboxProps,
   chanceSelectProps,
-  formik
+  formik,
 }: {
   chanceCheckboxProps: chanceCheckboxPropsTypes;
   chanceSelectProps: chanceSelectPropsTypes;
   formik: FormikProps<NewClient>;
 }) => {
-  
   const { randomAddClientData, randomNum, stepIndex } = useTourContext();
   const { selectedCheckbox, setSelectedCheckbox } = chanceCheckboxProps;
-  const { selectValue, setSelectValue} = chanceSelectProps
+  const { selectValue, setSelectValue } = chanceSelectProps;
   const { CONDITIONAL_OPTION_THEME } = useThemeContext();
 
   const handleCheckboxChange = (value: string) => {
@@ -61,17 +65,20 @@ const ModifyClientRestOfForm = ({
     chance: true,
     comment: 'waiting for documents, call to client in 3 days ' + randomNum,
     clientStatus: STATUSES.waitingForDocuments,
-    nextContactDate:  getFirstWorkingDayAfterTwoDays(new Date(),DATE_FORMATS.forNextContactDateInput),
+    nextContactDate: getFirstWorkingDayAfterGivenDays(
+      new Date(),
+      DATE_FORMATS.forNextContactDateInput,
+      2,
+    ),
   };
-
-
+  /* eslint-disable */
   useEffect(() => {
-    if (stepIndex === 12) { //eslint-disable-line
+    if (stepIndex === 12) {
       handleCheckboxChange('chance');
       formik.setValues(TourValuesStep13);
       setSelectValue(STATUSES.waitingForDocuments);
     }
-    if (stepIndex === 26) { //eslint-disable-line
+    if (stepIndex === 26) {
       handleCheckboxChange('chance');
       formik.setValues({
         ...TourValuesStep13,
@@ -80,17 +87,20 @@ const ModifyClientRestOfForm = ({
       });
       setSelectValue(STATUSES.loanFinalized);
     }
-    if (stepIndex === 14 || stepIndex === 27) { //eslint-disable-line
+    if (stepIndex === 14 || stepIndex === 27) {
       formik.submitForm();
     }
-  }, [stepIndex]); //eslint-disable-line
+  }, [stepIndex]);
 
   useEffect(() => {
-    if(selectValue===STATUSES.loanFinalized){
-      formik.setFieldValue("nextContactDate", getFirstWorkingDayAfterTwoDays(new Date(),DATE_FORMATS.forNextContactDateInput))
+    if (selectValue === STATUSES.loanFinalized) {
+      formik.setFieldValue(
+        'nextContactDate',
+        getFirstWorkingDayAfterGivenDays(new Date(), DATE_FORMATS.forNextContactDateInput, 2),
+      );
     }
-  },[selectValue]) //eslint-disable-line
-
+  }, [selectValue]);
+  /* eslint-enable */
   return (
     <>
       <FormControl isInvalid={formik.touched.chance && !!formik.errors.chance}>
@@ -118,7 +128,7 @@ const ModifyClientRestOfForm = ({
         </Stack>
         <FormErrorMessage color={'analyticsRed'}>{formik.errors.chance}</FormErrorMessage>
       </FormControl>
-      
+
       {selectedCheckbox === 'chance' && (
         <>
           <FormControl
@@ -146,7 +156,7 @@ const ModifyClientRestOfForm = ({
             variant='floating'
           >
             <Input
-            disabled={selectValue===STATUSES.loanFinalized}
+              disabled={selectValue === STATUSES.loanFinalized}
               name='nextContactDate'
               placeholder=' '
               type='datetime-local'

@@ -3,6 +3,7 @@ import {
   add,
   addBusinessDays,
   addDays,
+  addHours,
   addMonths,
   differenceInDays,
   differenceInMinutes,
@@ -16,7 +17,6 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns';
-
 
 export const INDEX_OF_FIRST_ITEM = 0;
 export const EMPTY_ARR = 0;
@@ -99,6 +99,7 @@ export const STATUSES = {
 
 export const STATUSES_ARR = Object.entries(STATUSES).map(([_, value]) => ({ //eslint-disable-line
    
+
   value: value,
   label: value,
 }));
@@ -347,19 +348,20 @@ export const generatePhoneNumber = () => {
   return `(+${countryCode}) ${phoneNumber}`;
 };
 
-const generateLettersOnlyNameAndSurname =() => {
+const generateLettersOnlyNameAndSurname = () => {
   let name, surname;
   do {
-      name = faker.person.firstName();
-  } while (!/^[a-zA-Z]+$/.test(name)); 
+    name = faker.person.firstName();
+  } while (!/^[a-zA-Z]+$/.test(name));
   do {
-      surname = faker.person.lastName();
-  } while (!/^[a-zA-Z]+$/.test(surname)); 
+    surname = faker.person.lastName();
+  } while (!/^[a-zA-Z]+$/.test(surname));
   return { name, surname };
-}
+};
 
 export const randomGuideTourClientData: any = () => { //eslint-disable-line
-  const { name, surname } = generateLettersOnlyNameAndSurname()
+   
+  const { name, surname } = generateLettersOnlyNameAndSurname();
   return {
     name: name,
     surname: surname,
@@ -379,8 +381,16 @@ export const extractPhoneNumber = (input: string): string | null => {
 : null;
 };
 
-export const getFirstWorkingDayAfterTwoDays = (date:Date, dateFormat:string) => {
-const dateAfterThreeDays = addDays(date, 2);
-const finalDate = addBusinessDays(dateAfterThreeDays, 1);
-return format(finalDate, dateFormat);
-}
+export const getFirstWorkingDayAfterGivenDays = (
+  date: Date,
+  dateFormat: string,
+  numOfDays: number,
+  endDateHoursDifference: number = 0,
+) => {
+  const dateAfterGivenDays = addDays(date, numOfDays);
+  const finalDate = addBusinessDays(dateAfterGivenDays, 1);
+  const endDate = addHours(finalDate, endDateHoursDifference);
+  if (endDateHoursDifference !== 0) {
+    return format(endDate, dateFormat);
+  } else return format(finalDate, dateFormat);
+};

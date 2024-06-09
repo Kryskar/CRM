@@ -113,7 +113,7 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
                     </Flex>
                     <Flex>
                       {typeof event.title === 'string'
-? splitString(event.title).rest
+? splitString(event.title).rest 
 : ''}
                     </Flex>
                   </>

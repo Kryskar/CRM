@@ -17,9 +17,8 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
-import { addDays, addHours, format } from 'date-fns';
 
-import { DATE_FORMATS } from '../../../constants/constants';
+import { DATE_FORMATS, getFirstWorkingDayAfterGivenDays } from '../../../constants/constants';
 import { useTourContext } from '../../../contexts/TourProvider';
 import { useGetSession } from '../../../hooks/useGetSession';
 import { splitString } from '../../TaskBoard/Taskboard_Items/taskBoardHelpers';
@@ -35,41 +34,51 @@ const ModalEditDelete = ({
   onClose: () => void;
 }) => {
   const [mode, setMode] = useState('');
-  const {stepIndex} = useTourContext()
+  const { stepIndex } = useTourContext();
   const { session } = useGetSession();
+  const { formik, handleDeleteClick, handleEditClick } = useEditOrDeleteEvent(
+    session,
+    event,
+    setMode,
+    onClose,
+  );
   const {
-    formik,
-    handleDeleteClick,
-    handleEditClick,
-  } = useEditOrDeleteEvent(session, event, setMode, onClose);
- const {
-  errors,
-  handleBlur,
-  handleChange,
-  handleSubmit,
-  touched,
-  values: { end, start, title },
-} = formik
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    values: { end, start, title },
+  } = formik;
   const handleClose = () => {
     onClose();
     setMode('');
   };
   /* eslint-disable */
   useEffect(() => {
-    if (stepIndex === 20) { 
-      handleEditClick()
+    if (stepIndex === 20) {
+      handleEditClick();
     }
-    if (stepIndex === 21) { 
+    if (stepIndex === 21) {
       formik.setValues({
-        title:"#EDIT TEST# "+title,
-        start: format(addDays(new Date, 7), DATE_FORMATS.forNextContactDateInput), 
-        end: format(addHours(addDays(new Date, 7),1), DATE_FORMATS.forNextContactDateInput) 
-      })
+        title: '#EDIT TEST# ' + title,
+        start: getFirstWorkingDayAfterGivenDays(
+          new Date(),
+          DATE_FORMATS.forNextContactDateInput,
+          7,
+        ),
+        end: getFirstWorkingDayAfterGivenDays(
+          new Date(),
+          DATE_FORMATS.forNextContactDateInput,
+          7,
+          2,
+        ), //
+      });
     }
-    if (stepIndex === 22) { 
-      formik.submitForm()
+    if (stepIndex === 22) {
+      formik.submitForm();
     }
-  }, [stepIndex]); 
+  }, [stepIndex]);
   /* eslint-enable*/
   return (
     <>
@@ -142,7 +151,13 @@ const ModalEditDelete = ({
                 </FormErrorMessage>
               </FormControl>
               {mode == 'edit' && (
-                <Button className='step22' colorScheme='green' marginLeft='auto' mt='20px' type='submit'>
+                <Button
+                  className='step22'
+                  colorScheme='green'
+                  marginLeft='auto'
+                  mt='20px'
+                  type='submit'
+                >
                   Confirm Edit
                 </Button>
               )}

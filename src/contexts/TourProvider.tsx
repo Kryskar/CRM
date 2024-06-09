@@ -56,37 +56,54 @@ const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     } else if (action === ACTIONS.PREV) {
       setStepIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     } else if (type === EVENTS.STEP_AFTER) {
-      if (index === 2) {
-        navigate(ROUTES.addClient);
-        setStepIndex((prevIndex) => prevIndex + 1);
-      } else if (index === 5) {
-        navigate(ROUTES.clients);
-        setStepIndex((prevIndex) => prevIndex + 1);
-      } else if (index === 9) {
-        setRun(false);
-      } else if (index === 16) {
-        navigate(ROUTES.calendar);
-        setStepIndex((prevIndex) => prevIndex + 1);
-      } else if (index === 22) {
-        navigate(ROUTES.clients);
-        setStepIndex((prevIndex) => prevIndex + 1);
-      } else if (index === 33) {
-        navigate(ROUTES.analytics);
-        setStepIndex((prevIndex) => prevIndex + 1);
-      } else {
-        setStepIndex((prevIndex) => prevIndex + 1);
+      switch (index) {
+        case 2:
+          navigate(ROUTES.addClient);
+          break;
+        case 5:
+          navigate(ROUTES.clients);
+          break;
+        case 9:
+          setRun(false);
+          break;
+        case 16:
+          navigate(ROUTES.calendar);
+          break;
+        case 22:
+          navigate(ROUTES.clients);
+          break;
+        case 33:
+          navigate(ROUTES.analytics);
+          break;
+        default:
+          break;
       }
+      setStepIndex((prevIndex) => prevIndex + 1);
     }
   };
-/* eslint-enable */
 
   const startTour = () => {
     setRun(true);
   };
 
+  const getRightStepIndexForCounter = (index: number) => {
+    //because of missed steps in step array
+    if (index < 9) {
+      return index + 1;
+    } else if (index >= 9 && index <= 18) {
+      return index;
+    } else if (index > 18 && index <= 24) {
+      return index - 1;
+    } else if (index > 24 && index <= 28) {
+      return index - 2;
+    } else if (index > 28) {
+      return index - 3;
+    }
+  };
+
   useEffect(() => {
     if (run) {
-      const disableOutsideClick = (e:  MouseEvent) => {
+      const disableOutsideClick = (e: MouseEvent) => {
         const tooltip = document.querySelector('.react-joyride__tooltip');
         if (tooltip && !tooltip.contains(e.target as Node)) {
           e.stopPropagation();
@@ -122,7 +139,6 @@ const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         callback={handleJoyrideCallback}
         continuous={true}
         run={run}
-        // showProgress={true}
         showSkipButton={true}
         stepIndex={stepIndex}
         steps={steps}
@@ -130,6 +146,10 @@ const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           options: {
             zIndex: 10000,
           },
+        }}
+        locale={{
+          next: `Next Step (${getRightStepIndexForCounter(stepIndex)}/${steps.length - 4})`,
+          last: `Last (${stepIndex - 3}/${steps.length - 4})`,
         }}
       />
     </TourContext.Provider>

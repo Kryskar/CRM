@@ -13,17 +13,16 @@ import { useFormik } from 'formik';
 import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import { SuccessReportObj, useReportSuccess } from '../../api/mutations/Finalized/useReportSuccess';
 import { firstWordCharToUppercase, POLISH_BANKS } from '../../constants/constants';
+import { useSessionContext } from '../../contexts/SessionProvider';
 import { useTourContext } from '../../contexts/TourProvider';
-import { useGetSession } from '../../hooks/useGetSession';
 import { validationSuccessReport } from '../../schemas/validations';
 
 const SuccessReport = ({ data }: { data: NewClient }) => {
-  const { decodedData } = useGetSession();
+  const {email} = useSessionContext()
   const { name, phoneNumber, requestedAmount, surname } = data;
   const { reportSuccess } = useReportSuccess(data);
   const [selectValue, setSelectValue] = useState("")
  const {stepIndex} = useTourContext()
-
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +34,7 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
       commission: '',
       loanPeriod: '',
       bank: '',
-      agentEmail: '',
+      agentEmail: email,
     },
     onSubmit: (values: SuccessReportObj) => {
       reportSuccess(values);
@@ -49,10 +48,8 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
   }
 
   useEffect(() => {
-    if (decodedData) {
-      formik.setFieldValue('agentEmail', decodedData.email);
-    }
-  }, [decodedData]); //eslint-disable-line
+      formik.setFieldValue('agentEmail', email);
+  }, [formik.values]); //eslint-disable-line
 
   useEffect(() => {
     if (stepIndex === 30) { //eslint-disable-line
@@ -66,9 +63,7 @@ const SuccessReport = ({ data }: { data: NewClient }) => {
         commission: '5',
         loanPeriod: '120',
         bank: randomBank,
-        agentEmail: decodedData
-? decodedData.user_metadata.email
-: "",
+        agentEmail: email,
       })
       setSelectValue(randomBank)
     }

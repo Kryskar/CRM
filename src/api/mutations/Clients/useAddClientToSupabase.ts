@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { INDEX_OF_FIRST_ITEM } from '../../../constants/constants';
 import { QUERY_KEYS } from '../../../constants/query_keys';
+import { useSessionContext } from '../../../contexts/SessionProvider';
 import { supabase } from '../../../database/supabase';
 import { useGetSession } from '../../../hooks/useGetSession';
 import { usePostEventToGoogleCalendar } from '../Calendar/usePostEventToGoogleCalendar';
@@ -28,9 +29,9 @@ export interface NewClient {
 
 export const useAddClientToSupabase = () => {
   const { session } = useGetSession();
+  const {loggedInUserDbData} = useSessionContext()
   const { mutate } = usePostEventToGoogleCalendar();
   const toast = useToast();
-  const { decodedData } = useGetSession();
   const queryClient = useQueryClient();
   const { mutate: addClient } = useMutation({
     mutationFn: async (
@@ -41,16 +42,25 @@ export const useAddClientToSupabase = () => {
     ) => {
       const { data } = await supabase.from('clients').insert(newClient).select();
 
-      if (decodedData && data) {
+      if ( data) {
         const client = data[INDEX_OF_FIRST_ITEM];
 
-        const eventObj = createEventToSupabase(client, 'added client', decodedData);
+        const eventObj = createEventToSupabase(client, 'added client', loggedInUserDbData);
         await supabase.from('events').insert(eventObj).select();
 
-        const eventToCalendar = createEventToCalendar(client);
-
-        if (session) {
+        const {eventPresentationMode, eventToCalendar} = createEventToCalendar(client);
+        if (session && session.user.app_metadata.provider==="google") {
           mutate({ session, event: eventToCalendar });
+        } 
+        else if (session && session.user.app_metadata.provider==="email"){
+            const { error } = await supabase
+              .from('presentation')
+              .insert([eventPresentationMode])
+              .select();
+        
+            if (error) {
+              console.error('Error inserting event:', error); //eslint-disable-line
+            } 
         }
       }
 

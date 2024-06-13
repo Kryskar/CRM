@@ -1,9 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { differenceInHours } from 'date-fns';
 
 import { END_OF_TODAY, START_OF_TODAY, STATUSES } from '../../../constants/constants';
 import { QUERY_KEYS } from '../../../constants/query_keys';
-import { GoogleDecodedData } from '../../types/googleDecodedDataTypes';
 import { PostEvent } from '../Calendar/usePostEventToGoogleCalendar';
+import { UserSupabase } from '../Users/useAddUserToSupabase';
 
 import { NewClient } from './useAddClientToSupabase';
 
@@ -24,6 +25,14 @@ const getMessageForEventToCalendar = (client: NewClient) => {
   }
 };
 
+export interface PresentationEvent {
+  allDay?: boolean;
+  end: string;
+  id?: string;
+  start: string;
+  title: string;
+}
+
 export const createEventToCalendar = (
   client: NewClient,
   startTime = START_OF_TODAY,
@@ -34,20 +43,28 @@ export const createEventToCalendar = (
     start: { dateTime: startTime },
     end: { dateTime: endTime },
     summary: getMessageForEventToCalendar(client),
-    // eventTableId: eventTabId,
     clientId: id,
   };
-  return eventToCalendar;
+  const eventPresentationMode: PresentationEvent = {
+    id: id,
+    start: startTime,
+    end: endTime,
+    title: getMessageForEventToCalendar(client),
+    allDay: differenceInHours(endTime, startTime) >= 24 //eslint-disable-line
+? true
+: false,
+  };
+  return { eventToCalendar, eventPresentationMode };
 };
 
 export const createEventToSupabase = (
   client: NewClient,
   eventName: string,
-  decodedData: GoogleDecodedData,
+  loggedInUserDbData: UserSupabase,
 ) => {
   const { id } = client;
   return {
-    user: JSON.stringify(decodedData.user_metadata),
+    user: JSON.stringify(loggedInUserDbData),
     client: JSON.stringify(client),
     eventName: eventName,
     clientId: id,
@@ -60,6 +77,7 @@ export const useInvalidateMultipleQueries = () => {
   const invalidateQueries = () => {
     const invalidationQueries: any = [ //eslint-disable-line
        
+
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.callClient}`] },
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.chance}`] },
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.notDoable}`] },

@@ -7,7 +7,7 @@
 
 ## Project Overview 📠
 
-CRM it's a database fully integrated with google calendar, built for financial advisors to menage clients and team statistics - [CRM](https://crm-wine-nine.vercel.app/), but it also includes some cool features. Enjoy!
+CRM it's a database fully integrated with google calendar, built for financial advisors to manage clients and team statistics - [CRM](https://crm-wine-nine.vercel.app/), but it also includes some cool features. Enjoy!
 
 ## Tech/framework used 🧰
 
@@ -68,10 +68,7 @@ prepare - script for husky
 
 ## Live 🎆
 
-Test User Login Data</br>
-Just click on Sign in with Google:
-login: <b>mycrmtestuser@gmail.com</b></br>
-password: <b>CrmTest123</b>
+Demonstration version:
 
 https://crm-wine-nine.vercel.app/
 
@@ -124,6 +121,8 @@ After talking to the client, the user can decide which status to change to. <spa
 ![googleCalendarLogo](./screenshots/google+calendar.jpg)
 
 The Calendar tab is actually a copy of the Google calendar associated with the user's Google account, where we can manually add, change or delete an event. The application is fully integrated with the Google calendar, so all events in the user's Google calendar are visible in the calendar tab. Any event change or deletion will be reflected both in the CRM application and in the user's Google account.
+
+<u>Integration demo video:</u> https://www.youtube.com/watch?v=hKdOYG5AjKk
 
 <b>Finalized Clients Database:</b></br>
 

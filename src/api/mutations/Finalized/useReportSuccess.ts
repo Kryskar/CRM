@@ -5,8 +5,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { STATUSES } from '../../../constants/constants';
 import { QUERY_KEYS } from '../../../constants/query_keys';
 import { ROUTES } from '../../../constants/routes';
+import { useSessionContext } from '../../../contexts/SessionProvider';
 import { supabase } from '../../../database/supabase';
-import { useGetSession } from '../../../hooks/useGetSession';
 import { createEventToSupabase } from '../Clients/mutationHelpers';
 import { NewClient } from '../Clients/useAddClientToSupabase';
 
@@ -24,7 +24,7 @@ export interface SuccessReportObj {
 
 export const useReportSuccess = (data: NewClient) => {
   const { id } = data;
-  const { decodedData } = useGetSession();
+  const { loggedInUserDbData } = useSessionContext();
   const toast = useToast();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -32,6 +32,7 @@ export const useReportSuccess = (data: NewClient) => {
   const invalidateQueries = () => {
     const invalidationQueries: any = [ //eslint-disable-line
        
+
       { queryKey: [`${QUERY_KEYS.getClients}_${STATUSES.chance}`] },
       { queryKey: [`${QUERY_KEYS.getClients}_all`] },
     ];
@@ -43,12 +44,8 @@ export const useReportSuccess = (data: NewClient) => {
       await supabase.from('finalized').insert(obj).select(),
     onSuccess: async () => {
       await supabase.from('clients').update({ clientStatus: STATUSES.reported }).eq('id', id);
-
-      if (decodedData) {
-        const eventObj = createEventToSupabase(data, 'reported success of', decodedData);
-        await supabase.from('events').insert(eventObj).select();
-      }
-
+      const eventObj = createEventToSupabase(data, 'reported success of', loggedInUserDbData);
+      await supabase.from('events').insert(eventObj).select();
       toast({
         title: 'Success reported',
         description: `success reporting`,

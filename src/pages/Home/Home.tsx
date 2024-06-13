@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Flex, useBreakpointValue} from '@chakra-ui/react';
+import {  Flex, useBreakpointValue } from '@chakra-ui/react';
 
 import BoardBox from '../../components/BoardBox/BoardBox_Container/BoardBox';
 import Navbar from '../../components/Navbar/Navbar_Container/Navbar';
@@ -10,7 +10,6 @@ import { TOUR_STATUS_KEY } from '../../constants/constants';
 import { useTourContext } from '../../contexts/TourProvider';
 import { useCheckDbForUser } from '../../hooks/useCheckDbForClient';
 import { useGetSession } from '../../hooks/useGetSession';
-
 
 // import Footer from '../../components/Footer/Footer';
 
@@ -32,6 +31,7 @@ const Home = () => {
       }
     }
   }, [isAtLeastMediumDevice]); //eslint-disable-line
+  
   return (
     <Flex
       alignItems={{ base: 'center', lg: 'initial', '2xl': 'center' }}

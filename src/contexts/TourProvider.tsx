@@ -9,7 +9,8 @@ import {
 } from '../constants/constants';
 import { ROUTES } from '../constants/routes';
 
-import { steps } from './TourProviderHelpers';
+import { useSessionContext } from './SessionProvider';
+import { getSteps } from './TourProviderHelpers';
 
 interface ITourContext {
   modalOpen: boolean;
@@ -36,11 +37,14 @@ const TourContext = createContext<ITourContext | null>(null);
 
 const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
+  const {email} = useSessionContext()
+  const steps = getSteps(email)
   const [run, setRun] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [randomNum, setRandomNum] = useState(randomGeneratedNumber);
   const [randomAddClientData, setRandomAddClientData] = useState(randomGuideTourClientData);
+  
 
   /* eslint-disable */
 

@@ -1,17 +1,34 @@
 import { useEffect } from 'react';
+import { useToast } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   PostEvent,
   usePostEventToGoogleCalendar,
 } from '../../../api/mutations/Calendar/usePostEventToGoogleCalendar';
+import { PresentationEvent } from '../../../api/mutations/Clients/mutationHelpers';
 import { useGetGoogleCalendarEvents } from '../../../api/queries/useGetGoogleCalendarEvents';
 import { QUERY_KEYS } from '../../../constants/query_keys';
+import { supabase } from '../../../database/supabase';
 import { useGetSession } from '../../../hooks/useGetSession';
 
 export const useAddNewEvent = () => {
   const { session } = useGetSession();
   const { data, error, isLoading } = useGetGoogleCalendarEvents(session, QUERY_KEYS.getEvents);
   const { mutate } = usePostEventToGoogleCalendar();
+  const queryclient = useQueryClient();
+  const toast = useToast();
+  const addPresentationModeEvent = async (inputData:PresentationEvent) => {
+    await supabase.from('presentation').insert([inputData]).select();
+    queryclient.invalidateQueries({ queryKey: [QUERY_KEYS.getEvents] });
+    toast({
+      title: 'Event Posted',
+      description: `success posting event`,
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
   useEffect(() => {
     if (isLoading) return;
@@ -20,14 +37,24 @@ export const useAddNewEvent = () => {
 
   const handleSelectSlot = ({ end, start }: { end: Date; start: Date }) => {
     const title = window.prompt('New Event name');
+    
     if (title) {
-      const newEvent: PostEvent = {
-        start: { dateTime: start.toISOString() },
-        end: { dateTime: end.toISOString() },
-        summary: title,
-      };
-      if (session) {
-        mutate({ session, event: newEvent });
+      if (session?.user.app_metadata.provider === 'google') {
+        const newEvent: PostEvent = {
+          start: { dateTime: start.toISOString() },
+          end: { dateTime: end.toISOString() },
+          summary: title,
+        };
+        if (session) {
+          mutate({ session, event: newEvent });
+        }
+      } else { //presentation mode
+        const presentationModeNewEvent:PresentationEvent = {
+          start: start.toISOString(),
+          end: end.toISOString(),
+          title: title,
+        };
+        addPresentationModeEvent(presentationModeNewEvent);
       }
     }
   };

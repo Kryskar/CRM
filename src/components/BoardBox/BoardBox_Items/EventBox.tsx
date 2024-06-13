@@ -32,7 +32,7 @@ const EventBox = ({ data }: { data: ParsedEvent }) => {
   const [isEventHidden, setIsEventHidden] = useState(true);
   const handleHideShowClick = () => setIsEventHidden(!isEventHidden);
   const { client, eventName, eventTime, user } = data;
-
+  
   return (
     <Flex
       bgColor={'tertiaryColor'}
@@ -51,10 +51,10 @@ const EventBox = ({ data }: { data: ParsedEvent }) => {
       <Flex flexDirection={'column'} gap={'20px'} justifyContent={'space-between'} ml={'5px'}>
         <Flex gap='20px' justifyContent={'space-between'}>
           <Flex gap='15px'>
-            {!isEventHidden && <Avatar mt={'5px'} size={'sm'} src={user.avatar_url} />}
+            {!isEventHidden && <Avatar mt={'5px'} size={'sm'} src={user.picture} />}
             <Flex color={'linkColor'} flexDirection={'column'} fontSize={'12px'}>
-              <Flex flexDirection={{base:"column", md:"row"}} gap='3px'>
-                <chakra.span>{`${user.full_name} ${eventName}`}</chakra.span>
+              <Flex flexDirection={{ base: 'column', md: 'row' }} gap='3px'>
+                <chakra.span>{`${user.fullName} ${eventName}`}</chakra.span>
                 <chakra.span fontWeight={'700'}>{client.name + ' ' + client.surname}</chakra.span>
               </Flex>
               <Box color='fontColor' fontSize={'9px'}>
@@ -71,7 +71,12 @@ const EventBox = ({ data }: { data: ParsedEvent }) => {
 : <ChevronDownIcon />}
           </Link>
         </Flex>
-        <Flex alignItems={'center'} flexDirection={'column'} fontSize={{base:'12px',md:'14px'}} ml={'10px'}>
+        <Flex
+          alignItems={'center'}
+          flexDirection={'column'}
+          fontSize={{ base: '12px', md: '14px' }}
+          ml={'10px'}
+        >
           <chakra.span color={'fontColor'}>{`${client.name} ${client.surname}`}</chakra.span>
           <chakra.span
             color={'fontColor'}

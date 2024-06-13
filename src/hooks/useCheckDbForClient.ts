@@ -4,12 +4,12 @@ import { supabase } from '../database/supabase';
 import { useGetSession } from './useGetSession';
 
 export const useCheckDbForUser = () => {
-  const { decodedData } = useGetSession();
+  const { decodedData, session } = useGetSession();
   const { addUser } = useAddUserToSupabase();
 
   const syncDbData = async () => {
     const { data: users } = await supabase.from('users').select('*');
-    if (decodedData && users) {
+    if (decodedData && users && session?.user.app_metadata.provider==="google") {
       const {
         user_metadata: { avatar_url, email, full_name },
       } = decodedData;

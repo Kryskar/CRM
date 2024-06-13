@@ -66,6 +66,7 @@ export const BankImage = ({ bankName }: { bankName: string }) => {
 
 export const Agent = ({ email }: { email: string }) => {
   const { data, isLoading } = useGetUserFromSupabaseByEmail(email);
+  
   if (isLoading) return <Spinner />;
   return (
     <Flex alignItems={'center'} gap={'10px'}>

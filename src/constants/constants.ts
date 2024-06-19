@@ -66,7 +66,10 @@ export const formatStartNextPrevoiusMonth = (date: string, distance: number) =>
   startOfMonth(addMonths(date, distance)).toISOString();
 export const formatEndNextPrevoiusMonth = (date: string, distance: number) =>
   endOfMonth(addMonths(date, distance)).toISOString();
-
+export const getHoursAndMinutes = (time: string) => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return { hours, minutes };
+};
 export const formattedDate = (date: string, dateFormat: string) =>
   format(new Date(date), dateFormat);
 export const convertLocalToISODate = (date: string) => new Date(date).toISOString();
@@ -98,8 +101,6 @@ export const STATUSES = {
 };
 
 export const STATUSES_ARR = Object.entries(STATUSES).map(([_, value]) => ({ //eslint-disable-line
-   
-
   value: value,
   label: value,
 }));
@@ -361,6 +362,7 @@ const generateLettersOnlyNameAndSurname = () => {
 
 export const randomGuideTourClientData: any = () => { //eslint-disable-line
    
+
   const { name, surname } = generateLettersOnlyNameAndSurname();
   return {
     name: name,

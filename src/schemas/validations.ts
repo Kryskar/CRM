@@ -64,6 +64,35 @@ const successReportValidations = {
   bank: bankValidation,
 };
 
+export const getAddEventValidations = () => {
+  const isTimeBefore = (startTime: string, endTime: string) => {
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+    if (startHours < endHours) {
+      return true;
+    } else if (startHours === endHours) {
+      return startMinutes < endMinutes;
+    }
+    return false;
+  };
+
+  const calendarAddClientValidations = Yup.object().shape({
+    title: Yup.string().required('Event title is required'),
+    start: Yup.string().required('Event start time is required'),
+    end: Yup.string()
+      .required('Event end time is required')
+      .test('is-after-start', 'Event end time must be after event start time', function (value) {
+        const { start } = this.parent;
+        if (!start || !value) {
+          return true;
+        }
+        return isTimeBefore(start, value);
+      }),
+  });
+  return { calendarAddClientValidations };
+};
+
 export const calendarEditEventValidations = Yup.object().shape({
   title: Yup.string().required('Title is required'),
   start: Yup.date()
@@ -131,5 +160,7 @@ export const validationChangeUserData = Yup.object().shape({
 export const validationAddClientSchema = Yup.object().shape(addClientValidations);
 export const validationUpdateClientSchema = Yup.object().shape(updateClientValidations);
 export const validationUpdateClientSchemaChance = Yup.object().shape(updateClientValidationsChance);
-export const validationUpdateClientSchemaChanceSuccess = Yup.object().shape(updateClientValidationsChanceSuccess);
+export const validationUpdateClientSchemaChanceSuccess = Yup.object().shape(
+  updateClientValidationsChanceSuccess,
+);
 export const validationSuccessReport = Yup.object().shape(successReportValidations);

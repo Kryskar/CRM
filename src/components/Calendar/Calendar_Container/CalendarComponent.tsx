@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar as BigCalendar, CalendarProps, Event, momentLocalizer } from 'react-big-calendar';
+import { Calendar as BigCalendar, CalendarProps, Event, momentLocalizer,SlotInfo } from 'react-big-calendar';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import moment from 'moment';
 
@@ -21,6 +21,7 @@ const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
   const { data, handleSelectSlot } = useAddNewEvent();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<SlotInfo | null>(null)
   const { isDarkMode } = useThemeContext();
   const { modalOpen, randomNum, setModalOpen, setRun, setStepIndex, stepIndex } = useTourContext();
   const localizer = momentLocalizer(moment);
@@ -60,14 +61,15 @@ const CalendarComponent = (props: Omit<CalendarProps, 'localizer'>) => {
         selectable
         events={data?.events || []}
         localizer={localizer}
-        onSelectSlot={handleSelectSlot}
+        onSelectSlot={(e) => handleSelectSlot(e, onOpen, setSelectedSlot)}
         onSelectEvent={(e) => {
           
           setSelectedEvent(e);
           onOpen();
         }}
       />
-      <ModalEdit event={selectedEvent} isOpen={isOpen} onClose={onClose} />
+      <ModalEdit event={selectedEvent} isOpen={isOpen} selectedSlot={selectedSlot} setSelectedSlot={setSelectedSlot} onClose={onClose} />
+
     </Box>
   );
 };

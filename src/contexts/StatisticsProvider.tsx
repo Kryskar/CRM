@@ -38,6 +38,7 @@ export interface CombinedArrItem extends UserSupabase {
 interface StatisticsContext {
   agentPrecentPlanRealization: string;
   allChanceClients: NewClient[];
+  allClients: NewClient[];
   combinedTeamArrCurrentMonth: CombinedArrItem[];
   finalizedDataLoggedInAgent: FinalizedRecord[];
   finalizedDataTeamThisMonth: FinalizedRecord[];
@@ -121,6 +122,7 @@ const StatisticsProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <StatisticsContext.Provider
       value={{
+        allClients,
         loggedInAgentChanceClients,
         allChanceClients,
         finalizedDataLoggedInAgent,

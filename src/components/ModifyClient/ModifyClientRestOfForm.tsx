@@ -14,7 +14,7 @@ import { NewClient } from '../../api/mutations/Clients/useAddClientToSupabase';
 import {
   DATE_FORMATS,
   FILTERED_STATUSES_ARR,
-  getFirstWorkingDayAfterGivenDays,
+  getDateForTour,
   STATUSES,
 } from '../../constants/constants';
 import { useThemeContext } from '../../contexts/ThemeProvider';
@@ -65,7 +65,7 @@ const ModifyClientRestOfForm = ({
     chance: true,
     comment: 'waiting for documents, call to client in 3 days ' + randomNum,
     clientStatus: STATUSES.waitingForDocuments,
-    nextContactDate: getFirstWorkingDayAfterGivenDays(
+    nextContactDate: getDateForTour(
       new Date(),
       DATE_FORMATS.forNextContactDateInput,
       2,
@@ -96,7 +96,7 @@ const ModifyClientRestOfForm = ({
     if (selectValue === STATUSES.loanFinalized) {
       formik.setFieldValue(
         'nextContactDate',
-        getFirstWorkingDayAfterGivenDays(new Date(), DATE_FORMATS.forNextContactDateInput, 2),
+        getDateForTour(new Date(), DATE_FORMATS.forNextContactDateInput, 2),
       );
     }
   }, [selectValue]);

@@ -34,8 +34,17 @@ const TaskBoard_Header = ({ data, endDate, isLoading, startDate }: TaskBoard_Hea
   const getNumOfTasksForDate = (events: Event[], date: number) => {
     if (startDate === START_OF_CURRENT_MONTH && endDate === END_OF_CURRENT_MONTH) {
       return events.filter((event) => {
-        if (event.start)
-          return formattedDate(event.start.toISOString(), DATE_FORMATS.day) === date.toString();
+        if (event.start && event.start instanceof Date) {
+          if (!isNaN(event.start.getTime())) {
+            return formattedDate(event.start.toISOString(), DATE_FORMATS.day) === date.toString();
+          } else {
+            console.warn('Invalid date:', event.start); //eslint-disable-line
+            return false;
+          }
+        } else {
+          console.warn('Invalid date object:', event.start); //eslint-disable-line
+          return false;
+        }
       });
     }
     return [];

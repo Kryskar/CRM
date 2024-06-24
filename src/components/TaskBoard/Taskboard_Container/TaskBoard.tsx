@@ -16,7 +16,6 @@ const TaskBoard = ({ ...flexProps }: FlexProps) => {
   const [endDate, setEndDate] = useState(END_OF_CURRENT_MONTH);
   const [queryKey, setQueryKey] = useState(QUERY_KEYS.getEventsThisMonth);
   const { data, isLoading } = useGetGoogleCalendarEvents(session, queryKey, startDate, endDate);
-
   return (
     <Flex
       bgColor={'secondaryColor'}

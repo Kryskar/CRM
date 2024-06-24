@@ -13,6 +13,9 @@ import {
   format,
   getDate,
   getDaysInMonth,
+  isAfter,
+  isEqual,
+  lastDayOfMonth,
   startOfDay,
   startOfMonth,
   startOfWeek,
@@ -101,6 +104,7 @@ export const STATUSES = {
 };
 
 export const STATUSES_ARR = Object.entries(STATUSES).map(([_, value]) => ({ //eslint-disable-line
+   
   value: value,
   label: value,
 }));
@@ -383,16 +387,28 @@ export const extractPhoneNumber = (input: string): string | null => {
 : null;
 };
 
-export const getFirstWorkingDayAfterGivenDays = (
+export const getDateForTour = (
   date: Date,
   dateFormat: string,
   numOfDays: number,
   endDateHoursDifference: number = 0,
 ) => {
-  const dateAfterGivenDays = addDays(date, numOfDays);
-  const finalDate = addBusinessDays(dateAfterGivenDays, 1);
-  const endDate = addHours(finalDate, endDateHoursDifference);
+  const lastDay = lastDayOfMonth(date);
+  let dateAfterGivenDays = addDays(date, numOfDays);
+
+  if (isAfter(dateAfterGivenDays, lastDay)) {
+    dateAfterGivenDays = lastDay;
+  }
+
+  let finalDate = dateAfterGivenDays;
+
+  if (isAfter(finalDate, lastDay) || isEqual(finalDate, lastDay)) {
+    finalDate = lastDay;
+  } else {
+    finalDate = addBusinessDays(finalDate, 1);
+  }
   if (endDateHoursDifference !== 0) {
-    return format(endDate, dateFormat);
-  } else return format(finalDate, dateFormat);
+    finalDate = addHours(finalDate, endDateHoursDifference);
+  }
+  return format(finalDate, dateFormat);
 };

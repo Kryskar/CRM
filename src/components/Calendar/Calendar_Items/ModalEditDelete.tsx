@@ -18,7 +18,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { DATE_FORMATS, getFirstWorkingDayAfterGivenDays } from '../../../constants/constants';
+import { DATE_FORMATS, getDateForTour } from '../../../constants/constants';
 import { useTourContext } from '../../../contexts/TourProvider';
 import { useGetSession } from '../../../hooks/useGetSession';
 import { splitString } from '../../TaskBoard/Taskboard_Items/taskBoardHelpers';
@@ -69,12 +69,12 @@ const ModalEditDelete = ({
     if (stepIndex === 21) {
       formik.setValues({
         title: '#EDIT TEST# ' + title,
-        start: getFirstWorkingDayAfterGivenDays(
+        start: getDateForTour(
           new Date(),
           DATE_FORMATS.forNextContactDateInput,
           7,
         ),
-        end: getFirstWorkingDayAfterGivenDays(
+        end: getDateForTour(
           new Date(),
           DATE_FORMATS.forNextContactDateInput,
           7,

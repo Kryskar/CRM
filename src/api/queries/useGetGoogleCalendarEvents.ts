@@ -36,7 +36,11 @@ const getEvents = async (
       await fetchEvents();
       return allEvents;
     } else {
-      const { data, error } = await supabase.from('presentation').select('*');
+      const { data, error } = await supabase
+        .from('presentation')
+        .select('*')
+        .gte('start', timeMin)
+        .lte('end', timeMax);
 
       if (error) {
         console.error('Error fetching events:', error); //eslint-disable-line

@@ -1,19 +1,12 @@
 import { Event } from 'react-big-calendar';
 import { useNavigate } from 'react-router-dom';
-import { CalendarIcon } from '@chakra-ui/icons';
-import { chakra, Flex, Spinner } from '@chakra-ui/react';
-import { differenceInHours } from 'date-fns';
+import { Flex, Spinner } from '@chakra-ui/react';
 
-import {
-  DATE_FORMATS,
-  extractPhoneNumber,
-  formattedDate,
-  INDEX_OF_FIRST_ITEM,
-} from '../../../constants/constants';
+import { DATE_FORMATS, extractPhoneNumber, formattedDate } from '../../../constants/constants';
 import { SCROLLBAR } from '../../../constants/custom_styles';
 import { useOpeationsContext } from '../../../contexts/OperationsProvider';
 
-import { splitString } from './taskBoardHelpers';
+import TaskBoard_Event from './TaskBoard_Event';
 
 interface TaskBoard_Body_Props {
   data: {
@@ -27,14 +20,20 @@ interface TaskBoard_Body_Props {
 const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_Props) => {
   const navigate = useNavigate();
   const { setIsTaskboardClientClicked, setTaskboardClientPhoneNumber } = useOpeationsContext();
-  const handleEventClick = (event: any) => { //eslint-disable-line
+  const handleEventClick = (event: Event) => {
     if (event && event.title) {
-      const phoneNumber = extractPhoneNumber(event.title);
-      setTaskboardClientPhoneNumber(phoneNumber
+      const phoneNumber = extractPhoneNumber(typeof event.title === 'string'
+? event.title
+: '');
+      if (phoneNumber) {
+        setTaskboardClientPhoneNumber(phoneNumber
 ? phoneNumber
 : '');
-      setIsTaskboardClientClicked(true);
-      navigate('/clients');
+        setIsTaskboardClientClicked(true);
+        navigate('/clients');
+      } else {
+        navigate('/calendar');
+      }
     }
   };
   if (!data || isLoading)
@@ -46,18 +45,6 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
   const { events } = data;
   const isLastEvent = (index: number) => index === events.length - 1;
 
-  const getFormat = (event: Event) => {
-    if (event.start && event.end) {
-      const hoursDifference = differenceInHours(event.end, event.start);
-      const ALMOST_WHOLE_DAY = 23;
-      if (hoursDifference >= ALMOST_WHOLE_DAY)
-        return formattedDate(event.start.toISOString(), DATE_FORMATS.dayMonthShort);
-      else if (hoursDifference < ALMOST_WHOLE_DAY)
-        return formattedDate(event.start.toISOString(), DATE_FORMATS.forTask);
-    }
-    return '';
-  };
-
   return (
     <>
       <Flex
@@ -68,61 +55,13 @@ const TaskBoard_Body = ({ data, endDate, isLoading, startDate }: TaskBoard_Body_
       <Flex flexDirection={'column'} h='300px'>
         <Flex flexDirection={'column'} overflow='auto' sx={SCROLLBAR}>
           {events.map((event, index) => (
-            <Flex
-               key={event.id}
-              cursor={'pointer'}
-              flexDirection={'column'}
-              fontSize={'12px'}
-              gap='10px'
-              justifyContent={'space-between'}
-              p='5px'
-              _hover={{
-                color: 'secondaryColor',
-                backgroundColor: 'fontColor',
-                '& > .date': {
-                  color: 'secondaryColor',
-                },
-              }}
-              borderBottom={isLastEvent(index)
-? ''
-: '1px solid'}
-              borderBottomLeftRadius={isLastEvent(index)
-? '5px'
-: ''}
-              borderTop={index === INDEX_OF_FIRST_ITEM
-? '1px solid'
-: ''}
-              onClick={() => handleEventClick(event)}
-            >
-              <Flex justifyContent={'space-between'}>
-                <chakra.span>
-                  <CalendarIcon /> event{' '}
-                </chakra.span>
-                <chakra.span className='date' color='linkColor' fontSize={'9px'}>
-                  {getFormat(event)}
-                </chakra.span>
-              </Flex>
-              <Flex flexDirection={'column'}>
-                {event.title
-? (
-                  <>
-                    <Flex fontWeight={'600'}>
-                      {typeof event.title === 'string'
-? splitString(event.title).title
-: ''}
-                    </Flex>
-                    <Flex>
-                      {typeof event.title === 'string'
-? splitString(event.title).rest 
-: ''}
-                    </Flex>
-                  </>
-                )
-: (
-                  ''
-                )}
-              </Flex>
-            </Flex>
+            <TaskBoard_Event
+              key={event.id}
+              event={event}
+              handleEventClick={handleEventClick}
+              index={index}
+              isLastEvent={isLastEvent}
+            />
           ))}
         </Flex>
       </Flex>
